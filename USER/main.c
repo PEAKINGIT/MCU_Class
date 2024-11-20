@@ -1,6 +1,7 @@
 #include "stm32f10x.h"
+#include "bottom.h" //2024/11/10 hzy
+#include "usart.h"//2024/11/10 hzy
 
- 
 /************************************************
  ALIENTEK 精英STM32F103开发板实验0
  工程模板
@@ -13,6 +14,7 @@
 ************************************************/
 
 
+
  void Delay(u32 count)
  {
    u32 i=0;
@@ -20,6 +22,11 @@
  }
  int main(void)
  {	
+	 
+	   KEY_Init();//2024/11/10 hzy
+	 uart_init(115200);
+	 SysTick_Config(SystemCoreClock / 1000);//初始化SysTick每1ms触发一次
+	  
   GPIO_InitTypeDef  GPIO_InitStructure;
 	 
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB|
