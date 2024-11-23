@@ -1,6 +1,6 @@
 #ifndef __KEY_H
 #define __KEY_H
-#include "sys.h"
+#include "stm32f10x.h"
 
 //定义按键引脚
 #define KEY0_PIN        GPIO_Pin_4

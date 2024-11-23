@@ -1,3 +1,8 @@
 {
-	"files.encoding": "gb2312"
+	"files.encoding": "gb2312",
+	"files.associations": {
+		"led.h": "c",
+		"usart.h": "c",
+		"bottom.h": "c"
+	}
 }

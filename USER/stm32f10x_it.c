@@ -23,7 +23,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h" 
- volatile uint32_t time_counter = 0; //全局时间计数器
+volatile uint32_t time_counter = 0; //全局时间计数器
 
  
 void NMI_Handler(void)
@@ -77,7 +77,7 @@ void PendSV_Handler(void)
  
 void SysTick_Handler(void)
 {
-	time_counter++; 
+	time_counter++; 	//1ms增1
 }
 
 /******************************************************************************/

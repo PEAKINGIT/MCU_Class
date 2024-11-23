@@ -3,17 +3,19 @@
         {
             "name": "F103ZE",
             "includePath": [
-                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\Template工程模板_修改\\USER",
-                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\Template工程模板_修改\\USER\\EXTRA",
-                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\Template工程模板_修改\\LIB\\inc",
-                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\Template工程模板_修改\\CORE",
+                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\BigProject\\MCU_Class\\USER",
+                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\BigProject\\MCU_Class\\USER\\EXTRA",
+                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\BigProject\\MCU_Class\\LIB\\inc",
+                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\BigProject\\MCU_Class\\CORE",
+                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\BigProject\\MCU_Class\\USER\\EXTRA\\dev_hzy",
+                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\BigProject\\MCU_Class\\USER\\EXTRA\\delay",
+                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\BigProject\\MCU_Class\\USER\\EXTRA\\sys",
+                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\BigProject\\MCU_Class\\USER\\EXTRA\\usart",
+                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\BigProject\\MCU_Class\\USER\\EXTRA\\dev_xyj",
                 "D:\\Keil5\\Core\\ARM\\ARMCC\\include",
                 "D:\\Keil5\\Core\\ARM\\ARMCC\\include\\rw",
-                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\Template工程模板_修改\\USER\\EXTRA\\delay",
-                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\Template工程模板_修改\\USER\\EXTRA\\sys",
-                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\Template工程模板_修改\\USER\\EXTRA\\usart",
-                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\Template工程模板_修改\\LIB\\src",
-                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\Template工程模板_修改\\DOC"
+                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\BigProject\\MCU_Class\\LIB\\src",
+                "e:\\Proj_STM32\\KeilProj\\For微控制器课_库函数_寄存器_汇编\\BigProject\\MCU_Class\\DOC"
             ],
             "defines": [
                 "STM32F10X_HD",
