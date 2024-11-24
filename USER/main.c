@@ -208,7 +208,7 @@ int main(void)
 		LCD_Clear(WHITE);
 		ai_load_picfile(pname,0,0,lcddev.width,lcddev.height,1);//ÏÔÊ¾Í¼Æ¬    
 		Show_Str(2,2,240,16,pname,16,1); 				//ÏÔÊ¾Í¼Æ¬Ãû×Ö		
-	
+		draw_clock(calendar.hour,calendar.min);
 		while(1)
 		{
 			former_hour=hour;
