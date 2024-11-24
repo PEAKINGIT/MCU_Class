@@ -17,6 +17,7 @@
 *.hex
 *.bin
 *.Bak
+*.log
 
 #Keil Project screen layout file
 *.uvguix.*
