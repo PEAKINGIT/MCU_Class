@@ -314,16 +314,25 @@ u8 SkyTra_Cfg_Prt(u8 baud_id) {
 u8 SkyTra_Cfg_Tp(u32 width) {
     u32 temp = width;
     SkyTra_pps_width *cfg_tp = (SkyTra_pps_width *)USART2_TX_BUF;
-    temp = (width >> 24) | ((width >> 8) & 0X0000FF00) | ((width << 8) & 0X00FF0000) | ((width << 24) & 0XFF000000);                                                           // 小端模式
-    cfg_tp->sos = 0XA1A0;                                                                                                                                                      // cfg header(小端模式)
-    cfg_tp->PL = 0X0700;                                                                                                                                                       // 有效数据长度(小端模式)
-    cfg_tp->id = 0X65;                                                                                                                                                         // cfg tp id
-    cfg_tp->Sub_ID = 0X01;                                                                                                                                                     // 数据区长度为20个字节.
-    cfg_tp->width = temp;                                                                                                                                                      // 脉冲宽度,us
-    cfg_tp->Attributes = 0X01;                                                                                                                                                 // 保存到SRAM&FLASH
-    cfg_tp->CS = cfg_tp->id ^ cfg_tp->Sub_ID ^ (cfg_tp->width >> 24) ^ (cfg_tp->width >> 16) & 0XFF ^ (cfg_tp->width >> 8) & 0XFF ^ cfg_tp->width & 0XFF ^ cfg_tp->Attributes; // 用户延时为0ns
-    cfg_tp->end = 0X0A0D;                                                                                                                                                      // 发送结束符(小端模式)
-    SkyTra_Send_Date((u8 *)cfg_tp, sizeof(SkyTra_pps_width));                                                                                                                  // 发送数据给NEO-6M
+    temp = (width >> 24) |
+           ((width >> 8) & 0X0000FF00) |
+           ((width << 8) & 0X00FF0000) |
+           ((width << 24) & 0XFF000000); // 小端模式
+    cfg_tp->sos = 0XA1A0;                // cfg header(小端模式)
+    cfg_tp->PL = 0X0700;                 // 有效数据长度(小端模式)
+    cfg_tp->id = 0X65;                   // cfg tp id
+    cfg_tp->Sub_ID = 0X01;               // 数据区长度为20个字节.
+    cfg_tp->width = temp;                // 脉冲宽度,us
+    cfg_tp->Attributes = 0X01;           // 到SRAM&FLASH
+    cfg_tp->CS = cfg_tp->id ^
+                 cfg_tp->Sub_ID ^
+                 (cfg_tp->width >> 24) ^
+                 (cfg_tp->width >> 16) & 0XFF ^
+                 (cfg_tp->width >> 8) & 0XFF ^
+                 cfg_tp->width & 0XFF ^
+                 cfg_tp->Attributes;                          // 用户延时为0ns
+    cfg_tp->end = 0X0A0D;                                     // 发送结束符(小端模式)
+    SkyTra_Send_Date((u8 *)cfg_tp, sizeof(SkyTra_pps_width)); // 发送数据给NEO-6M
     return SkyTra_Cfg_Ack_Check();
 }
 // 配置SkyTraF8-BD的更新速率
@@ -365,12 +374,12 @@ void Gps_Msg_Print(void) {
     printf("Altitude:%.1fm\r\n", tp /= 10); // 得到高度字符串
     tp = gpsData.speed;
     printf("Speed:%.3fkm/h\r\n", tp /= 1000); // 得到速度字符串
-    if (gpsData.fixmode <= 3) {                // 定位状态
+    if (gpsData.fixmode <= 3) {               // 定位状态
         printf("Fix Mode:%s\r\n", fixmode_tbl[gpsData.fixmode]);
     }
-    printf("GPS+BD Valid satellite:%02d\r\n", gpsData.posslnum);                                     // 用于定位的GPS卫星数
-    printf("GPS Visible satellite:%02d\r\n", gpsData.svnum % 100);                                   // 可见GPS卫星数
-    printf("BD Visible satellite:%02d\r\n", gpsData.beidou_svnum % 100);                             // 可见北斗卫星数
+    printf("GPS+BD Valid satellite:%02d\r\n", gpsData.posslnum);                                  // 用于定位的GPS卫星数
+    printf("GPS Visible satellite:%02d\r\n", gpsData.svnum % 100);                                // 可见GPS卫星数
+    printf("BD Visible satellite:%02d\r\n", gpsData.beidou_svnum % 100);                          // 可见北斗卫星数
     printf("UTC Date:%04d/%02d/%02d\r\n", gpsData.utc.year, gpsData.utc.month, gpsData.utc.date); // 显示UTC日期
     printf("UTC Time:%02d:%02d:%02d\r\n", gpsData.utc.hour, gpsData.utc.min, gpsData.utc.sec);    // 显示UTC时间
 }

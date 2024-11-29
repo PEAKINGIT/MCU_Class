@@ -22,3 +22,4 @@
 *.uvguix.*
 *.uvgui.*
 
+.vscode/keil-assistant.log

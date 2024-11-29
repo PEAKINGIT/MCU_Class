@@ -1,7 +1,6 @@
 #ifndef __GPS_H
 #define __GPS_H
 
-#include "sys.h"
 #include "delay.h" 	
 
 #include "./gps/usart2.h" 
