@@ -582,6 +582,26 @@
               <FileType>1</FileType>
               <FilePath>.\USER\EXTRA\dev_xyj\led.c</FilePath>
             </File>
+            <File>
+              <FileName>gps.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\gps\gps.c</FilePath>
+            </File>
+            <File>
+              <FileName>wifi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi\wifi.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi\usart3.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\gps\usart2.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
