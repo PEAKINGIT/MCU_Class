@@ -6,6 +6,7 @@
 #include "rtc.h"
 #include "led.h"
 #include "delay.h"
+#include "math.h"
 
 // ÷∏’Î≥§∂»
 #define HOUR_HAND_LENGTH 50

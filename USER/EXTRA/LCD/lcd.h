@@ -194,9 +194,4 @@ void LCD_Set_Window(u16 sx,u16 sy,u16 width,u16 height);	//…Ë÷√¥∞ø⁄
 #define SSD_VT 	(SSD_VER_PULSE_WIDTH+SSD_VER_BACK_PORCH+SSD_VER_FRONT_PORCH+SSD_VER_RESOLUTION)
 #define SSD_VSP (SSD_VER_PULSE_WIDTH+SSD_VER_BACK_PORCH)
 
-#endif  
-	 
-	 
-
-
-
+#endif

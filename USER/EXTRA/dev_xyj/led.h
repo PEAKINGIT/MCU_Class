@@ -8,4 +8,6 @@
 #define LED0_Toggle GPIO_WriteBit(GPIOB, GPIO_Pin_5,(BitAction)!(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_5)))
 #define LED1_Toggle GPIO_WriteBit(GPIOE, GPIO_Pin_5,(BitAction)!(GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_5)))
 
+void led_init(void);
+
 #endif

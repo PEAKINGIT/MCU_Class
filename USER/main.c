@@ -25,6 +25,7 @@
  * @brief state for functions [called in main()] & [defined in main.c]
  */
 void Delay(u32 count);
+void SD_Init_Check(void);
 void Font_Init_Check(void);
 
 //得到path路径下,目标文件的总个数
@@ -78,14 +79,13 @@ int main(void)
 	KEY_Init();
 	LCD_Init();			 	//初始化LCD	
 	RTC_Init();	  			//RTC初始化
-	SD_Init();	
+	SD_Init_Check();
 	W25QXX_Init();				//初始化W25Q128 外部flash
  	my_mem_init(SRAMIN);		//初始化内部内存池
 	exfuns_init();				//为fatfs相关变量申请内存  
  	f_mount(fs[0],"0:",1); 		//挂载SD卡 
  	f_mount(fs[1],"1:",1); 		//挂载FLASH.
-	
-	Font_Init_Check();
+	Font_Init_Check();			//检查字库初始化
 
 	while(f_opendir(&picdir,"0:/PICTURE"))//打开图片文件夹
  	{	    
@@ -95,8 +95,8 @@ int main(void)
 		delay_ms(200);				  
 	} 
 	totpicnum=pic_get_tnum("0:/PICTURE"); //得到总有效文件数
-  	while(totpicnum==NULL)//图片文件为0		
- 	{	    
+  	while(totpicnum==NULL)	{
+		//图片文件为0		    
 		Show_Str(30,170,240,16,"没有图片文件!",16,0);
 		delay_ms(200);				  
 		LCD_Fill(30,170,240,186,WHITE);//清除显示	     
@@ -106,8 +106,8 @@ int main(void)
 	picfileinfo.lfname=mymalloc(SRAMIN,picfileinfo.lfsize);	//为长文件缓存区分配内存
  	pname=mymalloc(SRAMIN,picfileinfo.lfsize);				//为带路径的文件名分配内存
  	picindextbl=mymalloc(SRAMIN,2*totpicnum);				//申请2*totpicnum个字节的内存,用于存放图片索引
- 	while(picfileinfo.lfname==NULL||pname==NULL||picindextbl==NULL)//内存分配出错
- 	{	    
+ 	while(picfileinfo.lfname==NULL||pname==NULL||picindextbl==NULL){
+		//内存分配出错	    
 		Show_Str(30,170,240,16,"内存分配失败!",16,0);
 		delay_ms(200);				  
 		LCD_Fill(30,170,240,186,WHITE);//清除显示	     
@@ -136,7 +136,6 @@ int main(void)
 	curindex=0;											//从0开始显示
    	res=f_opendir(&picdir,(const TCHAR*)"0:/PICTURE"); 	//打开目录	
 	
-	
 	while(res==FR_OK)
 	{
 		dir_sdi(&picdir,picindextbl[curindex]);			//改变当前目录索引	   
@@ -162,6 +161,17 @@ int main(void)
 void Delay(u32 count) {
     u32 i = 0;
     for (; i < count; i++);
+}
+
+void SD_Init_Check(void){
+	POINT_COLOR=RED;//设置字体为红色 
+	while(SD_Init()) 		//检查字库
+	{	    
+		LCD_ShowString(30,50,200,16,16,"SD Card Error!");
+		delay_ms(200);				  
+		LCD_Fill(30,50,240,66,WHITE);//清除显示	     
+		delay_ms(200);				  
+	}
 }
 
 void Font_Init_Check(void){

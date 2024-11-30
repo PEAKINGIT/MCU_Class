@@ -9,6 +9,14 @@
 		"sys.h": "c",
 		"malloc.h": "c",
 		"lcd_display.h": "c",
-		"main_interface.h": "c"
-	}
+		"main_interface.h": "c",
+		"ff.h": "c",
+		"w25qxx.h": "c",
+		"integer.h": "c",
+		"key.h": "c",
+		"lcd.h": "c"
+	},
+	"C_Cpp.default.browse.path": [
+		"${workspaceFolder}/**"
+	],
 }

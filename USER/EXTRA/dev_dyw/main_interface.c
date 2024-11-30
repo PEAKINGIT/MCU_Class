@@ -10,7 +10,7 @@ void draw_clock() {
     uint16_t hour_x, hour_y, minute_x, minute_y;
     // 计算时针和分针的角度
     float angle_hour = (calendar.hour % 12 + calendar.min / 60.0) * 30.0;
-    float angle_minute = minute * 6.0;
+    float angle_minute = calendar.min * 6.0;
     // 计算时针和分针终点坐标
     CalculatePointerCoordinates(CENTER_X, CENTER_Y, angle_hour, HOUR_HAND_LENGTH, &hour_x, &hour_y);
     CalculatePointerCoordinates(CENTER_X, CENTER_Y, angle_minute, MINUTE_HAND_LENGTH, &minute_x, &minute_y);

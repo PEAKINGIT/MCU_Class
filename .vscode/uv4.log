@@ -1,11 +1,31 @@
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil5\Core\ARM\ARMCC\Bin'
 Build target 'F103ZE'
+compiling key.c...
+USER\EXTRA\dev_hzy\key.c(81): warning:  #223-D: function "printf" declared implicitly
+                  printf("KEY0 Long Press\r\n"); // 长按事件
+USER\EXTRA\dev_hzy\key.c(83): warning:  #223-D: function "printf" declared implicitly
+                  printf("KEY0 Short Press\r\n"); // 短按事件
+USER\EXTRA\dev_hzy\key.c(100): warning:  #223-D: function "printf" declared implicitly
+                  printf("KEY1 Long Press\r\n");
+USER\EXTRA\dev_hzy\key.c(102): warning:  #223-D: function "printf" declared implicitly
+                  printf("KEY1 Short Press\r\n");
+USER\EXTRA\dev_hzy\key.c(119): warning:  #223-D: function "printf" declared implicitly
+                  printf("WK_UP Long Press\r\n");
+USER\EXTRA\dev_hzy\key.c(121): warning:  #223-D: function "printf" declared implicitly
+                  printf("WK_UP Short Press\r\n");
+USER\EXTRA\dev_hzy\key.c: 6 warnings, 0 errors
+compiling lcd_display.c...
+compiling main_interface.c...
 compiling main.c...
-.\USER\EXTRA\dev_xyj\led.h(11): warning:  #1-D: last line of file ends without a newline
-  #endif
-USER\main.c: 1 warning, 0 errors
+USER\main.c(154): warning:  #111-D: statement is unreachable
+  		res=0;
+USER\main.c(69): warning:  #177-D: variable "key"  was declared but never referenced
+  	u8 key;				//键值
+USER\main.c(70): warning:  #177-D: variable "pause"  was declared but never referenced
+  	u8 pause=0;			//暂停标记
+USER\main.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=3248 RO-data=336 RW-data=64 ZI-data=1832  
+Program Size: Code=61978 RO-data=9482 RW-data=192 ZI-data=50308  
 FromELF: creating hex file...
-".\Objects\BigProject.axf" - 0 Error(s), 1 Warning(s).
+".\Objects\BigProject.axf" - 0 Error(s), 9 Warning(s).
 Build Time Elapsed:  00:00:01
