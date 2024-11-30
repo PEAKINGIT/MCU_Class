@@ -3,6 +3,12 @@
 	"files.associations": {
 		"led.h": "c",
 		"usart.h": "c",
-		"bottom.h": "c"
+		"bottom.h": "c",
+		"stm32f10x.h": "c",
+		"delay.h": "c",
+		"sys.h": "c",
+		"malloc.h": "c",
+		"lcd_display.h": "c",
+		"main_interface.h": "c"
 	}
 }

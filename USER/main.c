@@ -1,37 +1,14 @@
 #include "stm32f10x.h"
-#include "usart.h"
-#include "led.h"
 
-void Delay(u32 count);
-
-// HZY
-#include "key.h" //2024/11/10 hzy
-//
-
-int main(void) {
-
-    uart_init(115200);
-    SysTick_Config(SystemCoreClock / 1000); // 初始化SysTick每1ms触发一次
-
-    // HZY
-    KEY_Init(); // 2024/11/10 hzy
-    //
-
-    while (1) {
-    }
-}
-
-void Delay(u32 count) {
-    u32 i = 0;
-    for (; i < count; i++);
-}
 #include "led.h"
 #include "delay.h"
 #include "key.h"
+#include "main_interface.h"
+#include "lcd_display.h"
+
 #include "sys.h"
-#include "lcd.h"
-#include "usart.h"	
-#include "usmart.h"	 
+#include "usart.h"
+#include "lcd.h"	 
 #include "rtc.h" 
 #include "malloc.h"
 #include "sdio_sdcard.h"  
@@ -40,20 +17,15 @@ void Delay(u32 count) {
 #include "exfuns.h"   
 #include "text.h"
 #include "piclib.h"	
+
 #include "string.h"		
 #include "math.h"
- 
-// 屏幕中心坐标
-#define CENTER_X 120
-#define CENTER_Y 160
 
-// 指针长度
-#define HOUR_HAND_LENGTH 50
-#define MINUTE_HAND_LENGTH 70
-
-// 将角度转换为弧度
-#define DEG_TO_RAD(angle)((angle) * 3.1415 / 180.0)
-
+/**
+ * @brief state for functions [called in main()] & [defined in main.c]
+ */
+void Delay(u32 count);
+void Font_Init_Check(void);
 
 //得到path路径下,目标文件的总个数
 //path:路径		    
@@ -85,56 +57,8 @@ u16 pic_get_tnum(u8 *path)
 	return rval;
 }
 
-// 计算指针终点坐标
-void CalculatePointerCoordinates(uint16_t centerX, uint16_t centerY, float angle, uint16_t length, uint16_t *x, uint16_t *y) {
-    *x = centerX + length * cos(DEG_TO_RAD(angle - 90));
-    *y = centerY + length * sin(DEG_TO_RAD(angle - 90));
-}
-
-// 绘制表针
-void draw_clock(uint16_t hour, uint16_t minute) {
-    uint16_t hour_x, hour_y, minute_x, minute_y;
-    
-    // 计算时针和分针的角度
-    float angle_hour = (hour % 12 + minute / 60.0) * 30.0;
-    float angle_minute = minute * 6.0;
-    
-    // 计算时针和分针终点坐标
-    CalculatePointerCoordinates(CENTER_X, CENTER_Y, angle_hour, HOUR_HAND_LENGTH, &hour_x, &hour_y);
-    CalculatePointerCoordinates(CENTER_X, CENTER_Y, angle_minute, MINUTE_HAND_LENGTH, &minute_x, &minute_y);
-
-    // 绘制时针
-	POINT_COLOR=RED; 
-    LCD_DrawLine(CENTER_X, CENTER_Y, hour_x, hour_y);
-    
-    // 绘制分针
-	POINT_COLOR=BLUE;
-    LCD_DrawLine(CENTER_X, CENTER_Y, minute_x, minute_y);
-}
-// 擦除表针
-void earse_clock(uint16_t hour, uint16_t minute) {
-	uint16_t hour_x, hour_y, minute_x, minute_y;
-    
-    // 计算时针和分针的角度
-    float angle_hour = (hour % 12 + minute / 60.0) * 30.0;
-    float angle_minute = minute * 6.0;
-    
-    // 计算时针和分针终点坐标
-    CalculatePointerCoordinates(CENTER_X, CENTER_Y, angle_hour, HOUR_HAND_LENGTH, &hour_x, &hour_y);
-    CalculatePointerCoordinates(CENTER_X, CENTER_Y, angle_minute, MINUTE_HAND_LENGTH, &minute_x, &minute_y);
-	
-	POINT_COLOR=WHITE;
-    // 绘制时针
-	LCD_DrawLine(CENTER_X, CENTER_Y, hour_x, hour_y);
-    
-    // 绘制分针
-	LCD_DrawLine(CENTER_X, CENTER_Y, minute_x, minute_y);
-}
-
-
 int main(void)
  {	 
- 	u8 t=0;
 	u8 res;
  	DIR picdir;	 		//图片目录
 	FILINFO picfileinfo;//文件信息
@@ -146,34 +70,23 @@ int main(void)
 	u8 pause=0;			//暂停标记
 	u16 temp;
 	u16 *picindextbl;	//图片索引表
-	
-	u16 hour;
-	u16 minute;
-	u16 former_hour;
-	u16 former_minute;
-	
-	delay_init();	    	 //延时函数初始化	  
+		  
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置中断优先级分组为组2：2位抢占优先级，2位响应优先级
+	delay_init();	    	 //延时函数初始化
 	uart_init(115200);	 	//串口初始化为115200
- 	LED_Init();			    //LED端口初始化
-	LCD_Init();			 	//初始化LCD
-	usmart_dev.init(SystemCoreClock/1000000);	//初始化USMART	
+ 	led_init();			    //LED端口初始化
+	KEY_Init();
+	LCD_Init();			 	//初始化LCD	
 	RTC_Init();	  			//RTC初始化
 	SD_Init();	
-	W25QXX_Init();				//初始化W25Q128
+	W25QXX_Init();				//初始化W25Q128 外部flash
  	my_mem_init(SRAMIN);		//初始化内部内存池
 	exfuns_init();				//为fatfs相关变量申请内存  
  	f_mount(fs[0],"0:",1); 		//挂载SD卡 
  	f_mount(fs[1],"1:",1); 		//挂载FLASH.
 	
-	POINT_COLOR=RED;//设置字体为红色 
-	while(font_init()) 		//检查字库
-	{	    
-		LCD_ShowString(30,50,200,16,16,"Font Error!");
-		delay_ms(200);				  
-		LCD_Fill(30,50,240,66,WHITE);//清除显示	     
-		delay_ms(200);				  
-	}
+	Font_Init_Check();
+
 	while(f_opendir(&picdir,"0:/PICTURE"))//打开图片文件夹
  	{	    
 		Show_Str(30,170,240,16,"PICTURE文件夹错误!",16,0);
@@ -234,60 +147,10 @@ int main(void)
 		strcat((char*)pname,(const char*)fn);  			//将文件名接在后面
 		LCD_Clear(WHITE);
 		ai_load_picfile(pname,0,0,lcddev.width,lcddev.height,1);//显示图片    
-		Show_Str(2,2,240,16,pname,16,1); 				//显示图片名字		
-		draw_clock(calendar.hour,calendar.min);
-		while(1)
-		{
-			former_hour=hour;
-			former_minute=minute;
-			hour=calendar.hour;
-			minute=calendar.min;
-			key=KEY_Scan(0);		//扫描按键
-			if(t!=calendar.sec)
-			{
-				t=calendar.sec;
-				//显示时间
-				POINT_COLOR=BLUE;//设置字体为蓝色	 
-				switch(calendar.week)
-				{
-					case 0:
-						LCD_ShowString(145,280,200,16,16,"Sunday   ");
-						break;
-					case 1:
-						LCD_ShowString(145,280,200,16,16,"Monday   ");
-						break;
-					case 2:
-						LCD_ShowString(145,280,200,16,16,"Tuesday  ");
-						break;
-					case 3:
-						LCD_ShowString(145,280,200,16,16,"Wednesday");
-						break;
-					case 4:
-						LCD_ShowString(145,280,200,16,16,"Thursday ");
-						break;
-					case 5:
-						LCD_ShowString(145,280,200,16,16,"Friday   ");
-						break;
-					case 6:
-						LCD_ShowString(145,280,200,16,16,"Saturday ");
-						break;  
-				}
-				LCD_ShowString(60,280,200,16,16,"    -  -  ");
-				LCD_ShowNum(60,280,calendar.w_year,4,16);									  
-				LCD_ShowNum(100,280,calendar.w_month,2,16);									  
-				LCD_ShowNum(124,280,calendar.w_date,2,16);
-				LCD_ShowString(60,300,200,16,16,"  :  :  ");
-				LCD_ShowNum(60,300,calendar.hour,2,16);									  
-				LCD_ShowNum(84,300,calendar.min,2,16);									  
-				LCD_ShowNum(108,300,calendar.sec,2,16);
-				LED0=!LED0;
-			}
-			if(hour!=former_hour||minute!=former_minute)
-			{
-				earse_clock(former_hour, former_minute);
-				draw_clock(hour, minute);
-			}				
-			delay_ms(10);
+		Show_Str(2,2,240,16,pname,16,1); 				//显示图片名字
+		draw_clock();
+		while(1) {
+			draw_mainInterface();
 		}
 		res=0;
 	}
@@ -296,3 +159,18 @@ int main(void)
 	myfree(SRAMIN,picindextbl);			//释放内存		
  }
 
+void Delay(u32 count) {
+    u32 i = 0;
+    for (; i < count; i++);
+}
+
+void Font_Init_Check(void){
+	POINT_COLOR=RED;//设置字体为红色 
+	while(font_init()) 		//检查字库
+	{	    
+		LCD_ShowString(30,50,200,16,16,"Font Error!");
+		delay_ms(200);				  
+		LCD_Fill(30,50,240,66,WHITE);//清除显示	     
+		delay_ms(200);				  
+	}
+}
