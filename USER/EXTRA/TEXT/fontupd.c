@@ -223,6 +223,18 @@ u8 font_init(void)
 	return 0;		    
 }
 
+//在主函数里调用的含检查的字库初始化
+void Font_Init_Check(void) {
+    POINT_COLOR = RED;  // 设置字体为红色
+    while (font_init()) // 检查字库
+    {
+        LCD_ShowString(30, 50, 200, 16, 16, "Font Error!");
+        delay_ms(200);
+        LCD_Fill(30, 50, 240, 66, WHITE); // 清除显示
+        delay_ms(200);
+    }
+}
+
 
 
 

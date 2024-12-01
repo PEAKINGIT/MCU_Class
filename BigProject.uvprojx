@@ -383,9 +383,14 @@
           <GroupName>DOC</GroupName>
           <Files>
             <File>
+              <FileName>README_ProjDoc.md</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\DOC\README_ProjDoc.md</FilePath>
+            </File>
+            <File>
               <FileName>README.md</FileName>
               <FileType>5</FileType>
-              <FilePath>.\DOC\README.md</FilePath>
+              <FilePath>.\README.md</FilePath>
             </File>
           </Files>
         </Group>
@@ -490,7 +495,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>PICTURE</GroupName>
+          <GroupName>USER_EXTRA/PICTURE</GroupName>
           <Files>
             <File>
               <FileName>bmp.c</FileName>
@@ -515,7 +520,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>TEXT</GroupName>
+          <GroupName>USER_EXTRA/TEXT</GroupName>
           <Files>
             <File>
               <FileName>fontupd.c</FileName>
@@ -530,7 +535,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>FATFS</GroupName>
+          <GroupName>USER_EXTRA/FATFS</GroupName>
           <Files>
             <File>
               <FileName>diskio.c</FileName>
@@ -560,7 +565,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>MALLOC</GroupName>
+          <GroupName>USER_EXTRA/MALLOC</GroupName>
           <Files>
             <File>
               <FileName>malloc.c</FileName>
@@ -570,7 +575,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>CORE</GroupName>
+          <GroupName>USER_EXTRA/CORE</GroupName>
           <Files>
             <File>
               <FileName>core_cm3.c</FileName>
@@ -585,7 +590,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>LIB</GroupName>
+          <GroupName>USER_EXTRA/LIB</GroupName>
           <Files>
             <File>
               <FileName>misc.c</FileName>

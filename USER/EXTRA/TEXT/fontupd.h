@@ -39,6 +39,8 @@ u32 fupd_prog(u16 x,u16 y,u8 size,u32 fsize,u32 pos);	//显示更新进度
 u8 updata_fontx(u16 x,u16 y,u8 size,u8 *fxpath,u8 fx);	//更新指定字库
 u8 update_font(u16 x,u16 y,u8 size,u8* src);			//更新全部字库
 u8 font_init(void);										//初始化字库
+
+void Font_Init_Check(void);
 #endif
 
 

@@ -26,6 +26,7 @@
                 "D:\\Keil5\\Core\\ARM\\ARMCC\\include",
                 "D:\\Keil5\\Core\\ARM\\ARMCC\\include\\rw",
                 "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class\\DOC",
+                "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class",
                 "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class\\LIB\\src"
             ],
             "defines": [

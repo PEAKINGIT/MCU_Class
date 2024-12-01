@@ -1,186 +1,88 @@
 #include "stm32f10x.h"
 
-#include "led.h"
 #include "delay.h"
 #include "key.h"
-#include "main_interface.h"
 #include "lcd_display.h"
+#include "led.h"
+#include "main_interface.h"
 
+#include "exfuns.h"	//extra Funcs for Fatfs
+#include "ff.h"		//Fatfs 
+#include "lcd.h"	//LCD TFT Screen Drive
+#include "malloc.h"	//hand-made malloc
+#include "piclib.h"	//lib for picture display
+#include "rtc.h"	//realtime clk drive
+#include "sdio_sdcard.h"	//as its name told
 #include "sys.h"
+#include "text.h"	//CN text display
 #include "usart.h"
-#include "lcd.h"	 
-#include "rtc.h" 
-#include "malloc.h"
-#include "sdio_sdcard.h"  
-#include "w25qxx.h"    
-#include "ff.h"  
-#include "exfuns.h"   
-#include "text.h"
-#include "piclib.h"	
+#include "w25qxx.h"	//Flash on board drive
 
-#include "string.h"		
+// arm C libs
 #include "math.h"
+#include "string.h"
 
 /**
  * @brief state for functions [called in main()] & [defined in main.c]
  */
 void Delay(u32 count);
-void SD_Init_Check(void);
-void Font_Init_Check(void);
 
-//得到path路径下,目标文件的总个数
-//path:路径		    
-//返回值:总有效文件数
-u16 pic_get_tnum(u8 *path)
-{	  
-	u8 res;
-	u16 rval=0;
- 	DIR tdir;	 		//临时目录
-	FILINFO tfileinfo;	//临时文件信息	
-	u8 *fn;	 			 			   			     
-    res=f_opendir(&tdir,(const TCHAR*)path); 	//打开目录
-  	tfileinfo.lfsize=_MAX_LFN*2+1;				//长文件名最大长度
-	tfileinfo.lfname=mymalloc(SRAMIN,tfileinfo.lfsize);//为长文件缓存区分配内存
-	if(res==FR_OK&&tfileinfo.lfname!=NULL)
-	{
-		while(1)//查询总的有效文件数
-		{
-	        res=f_readdir(&tdir,&tfileinfo);       		//读取目录下的一个文件
-	        if(res!=FR_OK||tfileinfo.fname[0]==0)break;	//错误了/到末尾了,退出		  
-     		fn=(u8*)(*tfileinfo.lfname?tfileinfo.lfname:tfileinfo.fname);			 
-			res=f_typetell(fn);	
-			if((res&0XF0)==0X50)//取高四位,看看是不是图片文件	
-			{
-				rval++;//有效文件数增加1
-			}	    
-		}  
-	} 
-	return rval;
-}
-
-int main(void)
- {	 
-	u8 res;
- 	DIR picdir;	 		//图片目录
-	FILINFO picfileinfo;//文件信息
-	u8 *fn;   			//长文件名
-	u8 *pname;			//带路径的文件名
-	u16 totpicnum; 		//图片文件总数
-	u16 curindex;		//图片当前索引
-	u8 key;				//键值
-	u8 pause=0;			//暂停标记
-	u16 temp;
-	u16 *picindextbl;	//图片索引表
-		  
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置中断优先级分组为组2：2位抢占优先级，2位响应优先级
-	delay_init();	    	 //延时函数初始化
-	uart_init(115200);	 	//串口初始化为115200
- 	led_init();			    //LED端口初始化
-	KEY_Init();
-	LCD_Init();			 	//初始化LCD	
-	RTC_Init();	  			//RTC初始化
-	SD_Init_Check();
-	W25QXX_Init();				//初始化W25Q128 外部flash
- 	my_mem_init(SRAMIN);		//初始化内部内存池
-	exfuns_init();				//为fatfs相关变量申请内存  
- 	f_mount(fs[0],"0:",1); 		//挂载SD卡 
- 	f_mount(fs[1],"1:",1); 		//挂载FLASH.
-	Font_Init_Check();			//检查字库初始化
-
-	while(f_opendir(&picdir,"0:/PICTURE"))//打开图片文件夹
- 	{	    
-		Show_Str(30,170,240,16,"PICTURE文件夹错误!",16,0);
-		delay_ms(200);				  
-		LCD_Fill(30,170,240,186,WHITE);//清除显示	     
-		delay_ms(200);				  
-	} 
-	totpicnum=pic_get_tnum("0:/PICTURE"); //得到总有效文件数
-  	while(totpicnum==NULL)	{
-		//图片文件为0		    
-		Show_Str(30,170,240,16,"没有图片文件!",16,0);
-		delay_ms(200);				  
-		LCD_Fill(30,170,240,186,WHITE);//清除显示	     
-		delay_ms(200);				  
-	}
-  	picfileinfo.lfsize=_MAX_LFN*2+1;						//长文件名最大长度
-	picfileinfo.lfname=mymalloc(SRAMIN,picfileinfo.lfsize);	//为长文件缓存区分配内存
- 	pname=mymalloc(SRAMIN,picfileinfo.lfsize);				//为带路径的文件名分配内存
- 	picindextbl=mymalloc(SRAMIN,2*totpicnum);				//申请2*totpicnum个字节的内存,用于存放图片索引
- 	while(picfileinfo.lfname==NULL||pname==NULL||picindextbl==NULL){
-		//内存分配出错	    
-		Show_Str(30,170,240,16,"内存分配失败!",16,0);
-		delay_ms(200);				  
-		LCD_Fill(30,170,240,186,WHITE);//清除显示	     
-		delay_ms(200);				  
-	}  	
-	//记录索引
-    res=f_opendir(&picdir,"0:/PICTURE"); //打开目录
-	if(res==FR_OK)
-	{
-		curindex=0;//当前索引为0
-		while(1)//全部查询一遍
-		{
-			temp=picdir.index;								//记录当前index
-	        res=f_readdir(&picdir,&picfileinfo);       		//读取目录下的一个文件
-	        if(res!=FR_OK||picfileinfo.fname[0]==0)break;	//错误了/到末尾了,退出		  
-     		fn=(u8*)(*picfileinfo.lfname?picfileinfo.lfname:picfileinfo.fname);			 
-			res=f_typetell(fn);	
-			if((res&0XF0)==0X50)//取高四位,看看是不是图片文件	
-			{
-				picindextbl[curindex]=temp;//记录索引
-				curindex++;
-			}	    
-		} 
-	}
-	piclib_init();										//初始化画图	   	   
-	curindex=0;											//从0开始显示
-   	res=f_opendir(&picdir,(const TCHAR*)"0:/PICTURE"); 	//打开目录	
+int main(void) {
+	u8 res;				//临时返回值
+    u8 key;              // 键值
+    u8 pause = 0;        // 暂停标记
 	
-	while(res==FR_OK)
-	{
-		dir_sdi(&picdir,picindextbl[curindex]);			//改变当前目录索引	   
-        res=f_readdir(&picdir,&picfileinfo);       		//读取目录下的一个文件
-        if(res!=FR_OK||picfileinfo.fname[0]==0)break;	//错误了/到末尾了,退出
-     	fn=(u8*)(*picfileinfo.lfname?picfileinfo.lfname:picfileinfo.fname);			 
-		strcpy((char*)pname,"0:/PICTURE/");				//复制路径(目录)
-		strcat((char*)pname,(const char*)fn);  			//将文件名接在后面
-		LCD_Clear(WHITE);
-		ai_load_picfile(pname,0,0,lcddev.width,lcddev.height,1);//显示图片    
-		Show_Str(2,2,240,16,pname,16,1); 				//显示图片名字
-		draw_clock();
-		while(1) {
-			draw_mainInterface();
-		}
-		res=0;
-	}
-	myfree(SRAMIN,picfileinfo.lfname);	//释放内存			    
-	myfree(SRAMIN,pname);				//释放内存			    
-	myfree(SRAMIN,picindextbl);			//释放内存		
- }
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); // 设置中断优先级分组为组2：2位抢占优先级，2位响应优先级
+    delay_init();                                   // 延时函数初始化
+    uart_init(115200);                              // 串口初始化为115200
+    led_init();                                     // LED端口初始化
+    KEY_Init();                                     // 按键初始化
+    LCD_Init();                                     // 初始化LCD
+    RTC_Init();                                     // RTC初始化
+
+    // 下面两个存储器的初始化为什么要注释掉见下方 --note (Ctrl+F to find)
+    // SD_Init();
+    // W25QXX_Init();				//初始化W25Q128 外部flash
+
+    // 手动实现malloc的函数
+    my_mem_init(SRAMIN); // 初始化内部内存池
+
+    exfuns_init(); // 为fatfs相关变量申请内存
+
+    f_mount(fs[0], "0:", 1); // 挂载SD卡
+    f_mount(fs[1], "1:", 1); // 挂载FLASH.
+    // --note
+    // 挂载的时候fat系统会通过用户定义的diskio里的函数对存储设备(SD,FLASH)进行初始化
+    // 不用再手动调用SD_Init()
+
+    Font_Init_Check(); // 检查字库初始化
+	
+    Picture_Init_Check();	//检查图片文件初始化
+	Draw_Picture_Init();
+
+    while (1) {
+		res = Draw_Picture(0);
+		if(res != PIC_OK) break;
+        draw_clock();
+        while (1) {
+            draw_mainInterface();
+			delay_ms(100);
+			LED1_Toggle;
+        }
+    }
+	Picture_Free();
+	
+	draw_clock();
+	while (1) {
+		draw_mainInterface();
+		delay_ms(100);
+		LED0_Toggle;
+    }
+}
 
 void Delay(u32 count) {
     u32 i = 0;
-    for (; i < count; i++);
+    for (; i < count; i++)
+        ;
 }
 
-void SD_Init_Check(void){
-	POINT_COLOR=RED;//设置字体为红色 
-	while(SD_Init()) 		//检查字库
-	{	    
-		LCD_ShowString(30,50,200,16,16,"SD Card Error!");
-		delay_ms(200);				  
-		LCD_Fill(30,50,240,66,WHITE);//清除显示	     
-		delay_ms(200);				  
-	}
-}
-
-void Font_Init_Check(void){
-	POINT_COLOR=RED;//设置字体为红色 
-	while(font_init()) 		//检查字库
-	{	    
-		LCD_ShowString(30,50,200,16,16,"Font Error!");
-		delay_ms(200);				  
-		LCD_Fill(30,50,240,66,WHITE);//清除显示	     
-		delay_ms(200);				  
-	}
-}
