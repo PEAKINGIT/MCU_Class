@@ -42,38 +42,36 @@ int main(void) {
     KEY_Init();                                     // 按键初始化
     LCD_Init();                                     // 初始化LCD
     RTC_Init();                                     // RTC初始化
-	Gps_Init();
+	Gps_Init();										//GPS Initialize
+
     // 下面两个存储器的初始化为什么要注释掉见下方 --note (Ctrl+F to find)
     // SD_Init();
     // W25QXX_Init();				//初始化W25Q128 外部flash
-
-    // 手动实现malloc的函数
+    // 手动实现malloc函数的初始化
     my_mem_init(SRAMIN); // 初始化内部内存池
-
     exfuns_init(); // 为fatfs相关变量申请内存
-
     f_mount(fs[0], "0:", 1); // 挂载SD卡
     f_mount(fs[1], "1:", 1); // 挂载FLASH.
     // --note
-    // 挂载的时候fat系统会通过用户定义的diskio里的函数对存储设备(SD,FLASH)进行初始化
+    // f_mount()挂载的时候fat系统会通过用户定义的diskio里的函数对存储设备(SD,FLASH)进行初始化
     // 不用再手动调用SD_Init()
 
     Font_Init_Check(); // 检查字库初始化
-	
     Picture_Init_Check();	//检查图片文件初始化
-	Draw_Picture_Init();
+	Draw_Picture_Init();	//图片绘制初始化 可以改进成显示指定图片
 
     while (1) {
 		res = Draw_Picture(0);
 		if(res != PIC_OK) break;
         draw_clock();
         while (1) {
+			Gps_Receive_Handle();
             draw_mainInterface();
 			delay_ms(100);
 			LED1_Toggle;
         }
     }
-	Picture_Free();
+	Picture_Free();	//释放绘图有关的申请的内存
 	
 	draw_clock();
 	while (1) {

@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\USER\EXTRA\dev_hzy;.\USER\EXTRA\dev_dyw;.\USER\EXTRA\dev_xyj;.\USER;.\USER\EXTRA;.\LIB\inc;.\CORE;.\USER\EXTRA\delay;.\USER\EXTRA\sys;.\USER\EXTRA\usart;.\USER\EXTRA\RTC;.\USER\EXTRA\LCD;.\USER\EXTRA\FATFS\src;.\USER\EXTRA\FATFS\exfuns;.\USER\EXTRA\MALLOC;.\USER\EXTRA\PICTURE;.\USER\EXTRA\SDIO;.\USER\EXTRA\SPI;.\USER\EXTRA\TEXT;.\USER\EXTRA\W25QXX</IncludePath>
+              <IncludePath>.\USER\EXTRA\dev_hzy;.\USER\EXTRA\dev_xyj;.\USER\EXTRA\dev_dyw;.\USER;.\USER\EXTRA;.\LIB\inc;.\CORE;.\USER\EXTRA\delay;.\USER\EXTRA\sys;.\USER\EXTRA\usart;.\USER\EXTRA\RTC;.\USER\EXTRA\LCD;.\USER\EXTRA\FATFS\src;.\USER\EXTRA\FATFS\exfuns;.\USER\EXTRA\MALLOC;.\USER\EXTRA\PICTURE;.\USER\EXTRA\SDIO;.\USER\EXTRA\SPI;.\USER\EXTRA\TEXT;.\USER\EXTRA\W25QXX;.\USER\EXTRA\TOUCH;.\USER\EXTRA\IIC;.\USER\EXTRA\24CXX</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -457,6 +457,21 @@
               <FileType>1</FileType>
               <FilePath>.\USER\EXTRA\SDIO\sdio_sdcard.c</FilePath>
             </File>
+            <File>
+              <FileName>myiic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\IIC\myiic.c</FilePath>
+            </File>
+            <File>
+              <FileName>24cxx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\24CXX\24cxx.c</FilePath>
+            </File>
+            <File>
+              <FileName>touch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\TOUCH\touch.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -476,6 +491,51 @@
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\USER\EXTRA\dev_xyj\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>gps.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\gps\gps.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi\usart3.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\gps\usart2.c</FilePath>
+            </File>
+            <File>
+              <FileName>wifi_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi\wifi_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>gps_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\gps\gps_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>apsta.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi\apsta.c</FilePath>
+            </File>
+            <File>
+              <FileName>common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi\common.c</FilePath>
+            </File>
+            <File>
+              <FileName>wifiap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi\wifiap.c</FilePath>
+            </File>
+            <File>
+              <FileName>wifista.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi\wifista.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -575,22 +635,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>USER_EXTRA/CORE</GroupName>
-          <Files>
-            <File>
-              <FileName>core_cm3.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\CORE\core_cm3.c</FilePath>
-            </File>
-            <File>
-              <FileName>startup_stm32f10x_hd.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\CORE\startup_stm32f10x_hd.s</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>USER_EXTRA/LIB</GroupName>
+          <GroupName>LIB</GroupName>
           <Files>
             <File>
               <FileName>misc.c</FileName>
@@ -721,81 +766,6 @@
               <FileName>startup_stm32f10x_hd.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\CORE\startup_stm32f10x_hd.s</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>DOC</GroupName>
-          <Files>
-            <File>
-              <FileName>README.TXT</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\DOC\README.TXT</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>USER_EXTRA/hzy</GroupName>
-          <Files>
-            <File>
-              <FileName>key.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_hzy\key.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>USER_EXTRA/xyj</GroupName>
-          <Files>
-            <File>
-              <FileName>led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\led.c</FilePath>
-            </File>
-            <File>
-              <FileName>gps.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\gps\gps.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart3.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\wifi\usart3.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\gps\usart2.c</FilePath>
-            </File>
-            <File>
-              <FileName>wifi_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\wifi\wifi_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>gps_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\gps\gps_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>apsta.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\wifi\apsta.c</FilePath>
-            </File>
-            <File>
-              <FileName>common.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\wifi\common.c</FilePath>
-            </File>
-            <File>
-              <FileName>wifiap.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\wifi\wifiap.c</FilePath>
-            </File>
-            <File>
-              <FileName>wifista.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\wifi\wifista.c</FilePath>
             </File>
           </Files>
         </Group>

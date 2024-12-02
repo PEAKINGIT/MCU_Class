@@ -1,31 +1,43 @@
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil5\Core\ARM\ARMCC\Bin'
 Build target 'F103ZE'
-compiling key.c...
-USER\EXTRA\dev_hzy\key.c(81): warning:  #223-D: function "printf" declared implicitly
-                  printf("KEY0 Long Press\r\n"); // ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
-USER\EXTRA\dev_hzy\key.c(83): warning:  #223-D: function "printf" declared implicitly
-                  printf("KEY0 Short Press\r\n"); // ï¿½Ì°ï¿½ï¿½Â¼ï¿½
-USER\EXTRA\dev_hzy\key.c(100): warning:  #223-D: function "printf" declared implicitly
-                  printf("KEY1 Long Press\r\n");
-USER\EXTRA\dev_hzy\key.c(102): warning:  #223-D: function "printf" declared implicitly
-                  printf("KEY1 Short Press\r\n");
-USER\EXTRA\dev_hzy\key.c(119): warning:  #223-D: function "printf" declared implicitly
-                  printf("WK_UP Long Press\r\n");
-USER\EXTRA\dev_hzy\key.c(121): warning:  #223-D: function "printf" declared implicitly
-                  printf("WK_UP Short Press\r\n");
-USER\EXTRA\dev_hzy\key.c: 6 warnings, 0 errors
-compiling lcd_display.c...
-compiling main_interface.c...
-compiling main.c...
-USER\main.c(154): warning:  #111-D: statement is unreachable
-  		res=0;
-USER\main.c(69): warning:  #177-D: variable "key"  was declared but never referenced
-  	u8 key;				//ï¿½ï¿½Öµ
-USER\main.c(70): warning:  #177-D: variable "pause"  was declared but never referenced
-  	u8 pause=0;			//ï¿½ï¿½Í£ï¿½ï¿½ï¿½
-USER\main.c: 3 warnings, 0 errors
+compiling wifista.c...
+USER\EXTRA\dev_xyj\wifi\wifista.c(75): warning:  #223-D: function "KEY_Scan" declared implicitly
+  					key=KEY_Scan(0);
+USER\EXTRA\dev_xyj\wifi\wifista.c(111): warning:  #223-D: function "KEY_Scan" declared implicitly
+  				key=KEY_Scan(0);
+USER\EXTRA\dev_xyj\wifi\wifista.c: 2 warnings, 0 errors
+compiling usart3.c...
+compiling apsta.c...
+USER\EXTRA\dev_xyj\wifi\apsta.c(88): warning:  #223-D: function "KEY_Scan" declared implicitly
+  				key=KEY_Scan(0);
+USER\EXTRA\dev_xyj\wifi\apsta.c(120): warning:  #223-D: function "KEY_Scan" declared implicitly
+  		key=KEY_Scan(0);
+USER\EXTRA\dev_xyj\wifi\apsta.c: 2 warnings, 0 errors
+compiling wifiap.c...
+USER\EXTRA\dev_xyj\wifi\wifiap.c(65): warning:  #223-D: function "KEY_Scan" declared implicitly
+  				key=KEY_Scan(0);
+USER\EXTRA\dev_xyj\wifi\wifiap.c(103): warning:  #223-D: function "KEY_Scan" declared implicitly
+  				key=KEY_Scan(0);
+USER\EXTRA\dev_xyj\wifi\wifiap.c: 2 warnings, 0 errors
+compiling wifi_app.c...
+.\USER\EXTRA\dev_xyj\./wifi/wifi_app.h(8): warning:  #1-D: last line of file ends without a newline
+  #endif
+USER\EXTRA\dev_xyj\wifi\wifi_app.c(3): warning:  #1-D: last line of file ends without a newline
+  //WIFIÓ¦ÓÃ²ã´úÂë
+USER\EXTRA\dev_xyj\wifi\wifi_app.c: 2 warnings, 0 errors
+compiling common.c...
+USER\EXTRA\dev_xyj\wifi\common.c(387): warning:  #223-D: function "KEY_Scan" declared implicitly
+  		key=KEY_Scan(0); 
+USER\EXTRA\dev_xyj\wifi\common.c(447): warning:  #223-D: function "KEY_Scan" declared implicitly
+  				key=KEY_Scan(0);
+USER\EXTRA\dev_xyj\wifi\common.c(552): warning:  #223-D: function "KEY_Scan" declared implicitly
+  		key=KEY_Scan(0); 
+USER\EXTRA\dev_xyj\wifi\common.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=61978 RO-data=9482 RW-data=192 ZI-data=50308  
-FromELF: creating hex file...
-".\Objects\BigProject.axf" - 0 Error(s), 9 Warning(s).
+.\Objects\BigProject.axf: Error: L6218E: Undefined symbol KEY_Scan (referred from apsta.o).
+Not enough information to list image symbols.
+Not enough information to list load addresses in the image map.
+Finished: 2 information, 0 warning and 1 error messages.
+".\Objects\BigProject.axf" - 1 Error(s), 11 Warning(s).
+Target not created.
 Build Time Elapsed:  00:00:01

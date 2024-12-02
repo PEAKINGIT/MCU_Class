@@ -403,7 +403,7 @@ u8 atk_8266_netpro_sel(u16 x,u16 y,u8* name)
 		} 
 		delay_ms(10);
 		atk_8266_at_response(1);
-		if((t++)==20){t=0;LED0=!LED0;}//LED闪烁
+		if((t++)==20){t=0; LED0_Toggle;}//LED闪烁
 	} 
 	myfree(SRAMIN,p);
 	return netpro;//返回网络模式选择值 
@@ -507,7 +507,7 @@ u8 atk_8266_ip_set(u8* title,u8* mode,u8* port,u8* ip)
 		if(timex==20)
 		{
 			timex=0;
-			LED0=!LED0;
+			LED0_Toggle;
 		}
 		delay_ms(10);
 		atk_8266_at_response(1);//WIFI模块发过来的数据,及时上传给电脑
@@ -573,7 +573,7 @@ void atk_8266_test(void)
 			atk_8266_mtest_ui(32,30);
 			timex=0;
 		} 	 
-		if((timex%20)==0)LED0=!LED0;//200ms闪烁 
+		if((timex%20)==0)LED0_Toggle;//200ms闪烁 
 		timex++;	 
 	} 
 }

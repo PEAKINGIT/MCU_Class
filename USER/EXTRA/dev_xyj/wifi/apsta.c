@@ -171,7 +171,7 @@ PRESTA:
 		else Show_Str(15+54,95,200,12,"连接失败",12,0); 	 
 		t=0;
 	}
-	if((t%20)==0)LED0=!LED0;
+	if((t%20)==0) LED0_Toggle;
 	atk_8266_at_response(1);
 }
 	myfree(SRAMIN,p);		//释放内存 

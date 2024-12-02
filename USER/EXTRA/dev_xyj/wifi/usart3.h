@@ -17,6 +17,7 @@ extern vu16 USART3_RX_STA;   						//接收数据状态
 
 void usart3_init(u32 bound);				//串口2初始化 
 void u3_printf(char* fmt,...);
+void TIM7_Int_Init(u16 arr, u16 psc);
 #endif
 
 
