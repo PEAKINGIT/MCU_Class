@@ -26,6 +26,7 @@ void USART2_IRQHandler(void) {
                 TIM_SetCounter(TIM5, 0); // 计数器清空          				//计数器清空
                 if (USART2_RX_STA == 0)  // 使能定时器5的中断
                 {
+					TIM_ClearITPendingBit(TIM5,TIM_IT_Update);
                     TIM_Cmd(TIM5, ENABLE); // 使能定时器5
                 }
                 USART2_RX_BUF[USART2_RX_STA++] = res; // 记录接收到的值
@@ -36,7 +37,7 @@ void USART2_IRQHandler(void) {
     }
 }
 
-// 初始化IO 串口2
+// 初始化IO 串口2及用于判断超时的TIM5
 // pclk1:PCLK1时钟频率(Mhz)
 // bound:波特率
 void USART2_init(u32 bound) {
@@ -83,9 +84,48 @@ void USART2_init(u32 bound) {
     NVIC_Init(&NVIC_InitStructure);                           // 根据指定的参数初始化VIC寄存器
 
     TIM5_Int_Init(100 - 1, 7200 - 1); // TIM5 10ms中断初始化
+	//TIM5_Int_Init(10000 - 1, 7200 - 1); // TIM5 10ms中断初始化 1ms for debug
     USART2_RX_STA = 0;                 // 清零
-    TIM_Cmd(TIM5, DISABLE);            // 关闭定时器7
 }
+
+//TIM5 Init
+//On APB1 36Mhz
+//for TIMx clk = APB1*2 = 72MHz
+void TIM5_Int_Init(u16 arr,u16 psc)
+{	
+	NVIC_InitTypeDef NVIC_InitStructure;
+	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);//TIM5时钟使能
+
+	TIM_TimeBaseStructure.TIM_Period = arr;
+	TIM_TimeBaseStructure.TIM_Prescaler =psc;
+	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+
+	TIM_TimeBaseInit(TIM5, &TIM_TimeBaseStructure);
+	TIM_ITConfig(TIM5,TIM_IT_Update,ENABLE ); //使能指定的TIM5中断,允许更新中断
+	TIM_Cmd(TIM5,DISABLE);//shut down定时器5
+
+	NVIC_InitStructure.NVIC_IRQChannel = TIM5_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0 ;//抢占优先级0
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;		//子优先级2
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQ通道使能
+	
+	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化NVIC寄存器
+}
+//TIM5 用于给串口2提供超时判断
+//定时器5中断服务程序		    
+void TIM5_IRQHandler(void)
+{ 	
+	if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET)//是更新中断
+	{	 			   
+		USART2_RX_STA|=1<<15;	//标记接收完成
+		TIM_ClearITPendingBit(TIM5, TIM_IT_Update);  //清除TIM5更新中断标志
+		//LED0(0);   //for Debug
+		TIM_Cmd(TIM5, DISABLE);  //关闭TIM5
+	}	    
+}
+
 
 // 串口2,printf 函数
 //blocking 
@@ -103,46 +143,4 @@ void u2_printf(char *fmt, ...) {
             ; // 循环发送,直到发送完毕
         USART_SendData(USART2, USART2_TX_BUF[j]);
     }
-}
-
-//TIM5 用于给串口2提供超时判断
-
-//定时器5中断服务程序		    
-void TIM5_IRQHandler(void)
-{ 	
-	if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET)//是更新中断
-	{	 			   
-		USART2_RX_STA|=1<<15;	//标记接收完成
-		TIM_ClearITPendingBit(TIM5, TIM_IT_Update  );  //清除TIM5更新中断标志
-		LED0(0);   
-		TIM_Cmd(TIM5, DISABLE);  //关闭TIM5
-	}	    
-}
-
-//TIM5 
-//On APB1 36Mhz
-//for TIMx clk = APB1*2 = 72MHz
-void TIM5_Int_Init(u16 arr,u16 psc)
-{	
-	NVIC_InitTypeDef NVIC_InitStructure;
-	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);//TIM5时钟使能    
-	
-	TIM_TimeBaseStructure.TIM_Period = arr;
-	TIM_TimeBaseStructure.TIM_Prescaler =psc;
-	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	TIM_TimeBaseInit(TIM5, &TIM_TimeBaseStructure);
- 
-	TIM_ITConfig(TIM5,TIM_IT_Update,ENABLE ); //使能指定的TIM5中断,允许更新中断
-	
-	TIM_Cmd(TIM5,ENABLE);//开启定时器7
-	
-	NVIC_InitStructure.NVIC_IRQChannel = TIM5_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0 ;//抢占优先级0
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;		//子优先级2
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQ通道使能
-	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器
-	
 }

@@ -8,7 +8,7 @@ static u32 fac_us=0;							//us延时倍乘数
 //SYSTICK的时钟固定为AHB时钟
 //SYSCLK:系统时钟频率 Hz
 //如 168 000 000
-void delay_init()
+void delay_init(void)
 {
 	SysTick_Config(SystemCoreClock/(1000));
     SysTick_CLKSourceConfig(SysTick_CLKSource_HCLK); //SysTick频率为HCLK

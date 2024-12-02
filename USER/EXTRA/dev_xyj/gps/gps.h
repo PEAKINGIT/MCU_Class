@@ -143,6 +143,7 @@ __packed typedef struct
 }SkyTra_NACK;
 
 extern nmea_msg gpsData; //GPSÐÅÏ¢
+extern const u8 *fixmode_tbl[4]; // fix mode×Ö·û´®
 
 int NMEA_Str2num(u8 *buf,u8*dx);
 void GPS_Analysis(nmea_msg *gpsx,u8 *buf);
@@ -161,5 +162,4 @@ u8 SkyTra_Cfg_Rate(u8 Frep);
 void SkyTra_Send_Date(u8* dbuf,u16 len);
 u8* data_Little_endian(u8* data,u16 len);
 
-void Gps_Msg_Print(void);
 #endif

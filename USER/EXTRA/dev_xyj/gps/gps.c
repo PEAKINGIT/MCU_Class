@@ -1,11 +1,12 @@
 #include "./gps.h"
-// ATK-S1216F8 GPS模块驱动代码
 
+// ATK-S1216F8 GPS模块驱动代码
 nmea_msg gpsData; // GPS信息
 
 const u32 BAUD_id[9] = {4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600}; // 模块支持波特率数组
 
 const u8 *fixmode_tbl[4] = {"Fail", "Fail", " 2D ", " 3D "}; // fix mode字符串
+
 // 从buf里面得到第cx个逗号所在的位置
 // 返回值:0~0XFE,代表逗号所在位置的偏移.
 //        0XFF,代表不存在第cx个逗号
@@ -363,23 +364,3 @@ void SkyTra_Send_Date(u8 *dbuf, u16 len) {
     }
 }
 
-// usart1显示GPS定位信息
-void Gps_Msg_Print(void) {
-    float tp;
-    tp = gpsData.longitude;
-    printf("Longitude:%.5f %1c\r\n", tp /= 100000, gpsData.ewhemi); // 得到经度字符串
-    tp = gpsData.latitude;
-    printf("Latitude:%.5f %1c\r\n", tp /= 100000, gpsData.nshemi); // 得到纬度字符串
-    tp = gpsData.altitude;
-    printf("Altitude:%.1fm\r\n", tp /= 10); // 得到高度字符串
-    tp = gpsData.speed;
-    printf("Speed:%.3fkm/h\r\n", tp /= 1000); // 得到速度字符串
-    if (gpsData.fixmode <= 3) {               // 定位状态
-        printf("Fix Mode:%s\r\n", fixmode_tbl[gpsData.fixmode]);
-    }
-    printf("GPS+BD Valid satellite:%02d\r\n", gpsData.posslnum);                                  // 用于定位的GPS卫星数
-    printf("GPS Visible satellite:%02d\r\n", gpsData.svnum % 100);                                // 可见GPS卫星数
-    printf("BD Visible satellite:%02d\r\n", gpsData.beidou_svnum % 100);                          // 可见北斗卫星数
-    printf("UTC Date:%04d/%02d/%02d\r\n", gpsData.utc.year, gpsData.utc.month, gpsData.utc.date); // 显示UTC日期
-    printf("UTC Time:%02d:%02d:%02d\r\n", gpsData.utc.hour, gpsData.utc.min, gpsData.utc.sec);    // 显示UTC时间
-}

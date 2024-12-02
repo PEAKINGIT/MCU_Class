@@ -588,11 +588,6 @@
               <FilePath>.\USER\EXTRA\dev_xyj\gps\gps.c</FilePath>
             </File>
             <File>
-              <FileName>wifi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\wifi\wifi.c</FilePath>
-            </File>
-            <File>
               <FileName>usart3.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\USER\EXTRA\dev_xyj\wifi\usart3.c</FilePath>
@@ -601,6 +596,36 @@
               <FileName>usart2.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\USER\EXTRA\dev_xyj\gps\usart2.c</FilePath>
+            </File>
+            <File>
+              <FileName>wifi_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi\wifi_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>gps_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\gps\gps_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>apsta.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi\apsta.c</FilePath>
+            </File>
+            <File>
+              <FileName>common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi\common.c</FilePath>
+            </File>
+            <File>
+              <FileName>wifiap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi\wifiap.c</FilePath>
+            </File>
+            <File>
+              <FileName>wifista.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi\wifista.c</FilePath>
             </File>
           </Files>
         </Group>
