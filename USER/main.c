@@ -22,6 +22,9 @@
 #include "math.h"
 #include "string.h"
 
+#include "./gps/usart2.h"
+#include "./gps/gps.h"
+#include "./gps/gps_app.h"
 /**
  * @brief state for functions [called in main()] & [defined in main.c]
  */
@@ -39,7 +42,7 @@ int main(void) {
     KEY_Init();                                     // 按键初始化
     LCD_Init();                                     // 初始化LCD
     RTC_Init();                                     // RTC初始化
-
+	Gps_Init();
     // 下面两个存储器的初始化为什么要注释掉见下方 --note (Ctrl+F to find)
     // SD_Init();
     // W25QXX_Init();				//初始化W25Q128 外部flash
@@ -74,6 +77,7 @@ int main(void) {
 	
 	draw_clock();
 	while (1) {
+		Gps_Receive_Handle();
 		draw_mainInterface();
 		delay_ms(100);
 		LED0_Toggle;
@@ -82,6 +86,8 @@ int main(void) {
 
 void Delay(u32 count) {
     u32 i = 0;
+    for (; i < count; i++)
+        ;
     for (; i < count; i++)
         ;
 }

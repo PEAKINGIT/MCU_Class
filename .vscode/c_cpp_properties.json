@@ -23,11 +23,15 @@
                 "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class\\USER\\EXTRA\\SPI",
                 "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class\\USER\\EXTRA\\TEXT",
                 "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class\\USER\\EXTRA\\W25QXX",
+                "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class\\LIB\\inc",
+                "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class\\CORE",
                 "D:\\Keil5\\Core\\ARM\\ARMCC\\include",
                 "D:\\Keil5\\Core\\ARM\\ARMCC\\include\\rw",
                 "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class\\DOC",
                 "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class",
-                "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class\\LIB\\src"
+                "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class\\LIB\\src",
+                "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class\\USER\\EXTRA\\dev_xyj\\gps",
+                "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class\\USER\\EXTRA\\dev_xyj\\wifi"
             ],
             "defines": [
                 "STM32F10X_HD",

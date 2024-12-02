@@ -2,9 +2,9 @@
 Build target 'F103ZE'
 compiling key.c...
 USER\EXTRA\dev_hzy\key.c(81): warning:  #223-D: function "printf" declared implicitly
-                  printf("KEY0 Long Press\r\n"); // ³¤°´ÊÂ¼þ
+                  printf("KEY0 Long Press\r\n"); // ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 USER\EXTRA\dev_hzy\key.c(83): warning:  #223-D: function "printf" declared implicitly
-                  printf("KEY0 Short Press\r\n"); // ¶Ì°´ÊÂ¼þ
+                  printf("KEY0 Short Press\r\n"); // ï¿½Ì°ï¿½ï¿½Â¼ï¿½
 USER\EXTRA\dev_hzy\key.c(100): warning:  #223-D: function "printf" declared implicitly
                   printf("KEY1 Long Press\r\n");
 USER\EXTRA\dev_hzy\key.c(102): warning:  #223-D: function "printf" declared implicitly
@@ -20,9 +20,9 @@ compiling main.c...
 USER\main.c(154): warning:  #111-D: statement is unreachable
   		res=0;
 USER\main.c(69): warning:  #177-D: variable "key"  was declared but never referenced
-  	u8 key;				//¼üÖµ
+  	u8 key;				//ï¿½ï¿½Öµ
 USER\main.c(70): warning:  #177-D: variable "pause"  was declared but never referenced
-  	u8 pause=0;			//ÔÝÍ£±ê¼Ç
+  	u8 pause=0;			//ï¿½ï¿½Í£ï¿½ï¿½ï¿½
 USER\main.c: 3 warnings, 0 errors
 linking...
 Program Size: Code=61978 RO-data=9482 RW-data=192 ZI-data=50308  

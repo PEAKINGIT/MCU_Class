@@ -4,9 +4,18 @@
 		"led.h": "c",
 		"usart.h": "c",
 		"bottom.h": "c",
-		"stm32f10x.h": "c",
+		"wifi.h": "c",
+		"gps.h": "c",
 		"delay.h": "c",
 		"sys.h": "c",
+		"usart2.h": "c",
+		"stm32f10x.h": "c",
+		"stm32f10x_it.h": "c",
+		"gps_app.h": "c",
+		"timer.h": "c",
+		"usart3.h": "c",
+		"wifi_app.h": "c",
+		"common.h": "c",
 		"malloc.h": "c",
 		"lcd_display.h": "c",
 		"main_interface.h": "c",
@@ -19,4 +28,5 @@
 	"C_Cpp.default.browse.path": [
 		"${workspaceFolder}/**"
 	],
+	"C_Cpp.clang_format_style": "{ BasedOnStyle: LLVM, UseTab: Never, IndentWidth: 4, TabWidth: 4, BreakBeforeBraces: Attach, AllowShortIfStatementsOnASingleLine: true, IndentCaseLabels: false, ColumnLimit: 0, AccessModifierOffset: -4, NamespaceIndentation: All, FixNamespaceComments: false, AlignTrailingComments: true }"
 }
