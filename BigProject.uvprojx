@@ -485,6 +485,11 @@
               <FileType>1</FileType>
               <FilePath>.\USER\EXTRA\dev_hzy\dht11.c</FilePath>
             </File>
+            <File>
+              <FileName>other_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_hzy\other_interface.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

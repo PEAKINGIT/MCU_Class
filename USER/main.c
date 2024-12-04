@@ -5,6 +5,7 @@
 #include "dht11.h"
 #include "led.h"
 #include "main_interface.h"
+#include "other_interface.h"
 #include "picture_app.h"
 
 #include "gps_app.h"
@@ -45,7 +46,7 @@ int main(void) {
     KEY_Init();          // 按键初始化
     LCD_Init();          // 初始化LCD
     RTC_Init();          // RTC初始化
-	  DHT11_Init_Wrapper();;        // DHT11初始化
+	  DHT11_Init_Wrapper();     // DHT11初始化
     //Gps_Init();          // GPS Initialize
 
     // f_mount()挂载的时候fat系统会通过用户定义的diskio里的函数对存储设备(SD,FLASH)进行初始化
@@ -70,19 +71,23 @@ int main(void) {
         }
     } else {
         draw_clock();
+			 // 初始化界面模块
+       interface_init();
         while (1) {
             // Gps_Receive_Handle();
-            draw_mainInterface();
-            delay_ms(100);
-            LED1_Toggle;
+           // 按键事件处理
+        handle_key_event();
+
+        // 显示当前界面
+        interface_functions[current_state]();
 					
-					 DHT11_Update_Data_If_Expired();// 周期性更新 DHT11 数据
-					
-					// 打印温湿度数据，每秒一次
-		         static uint32_t last_print_tick = 0;
-            if (tick_expired(&last_print_tick, 1000)) {
-            printf("Temperature: %d°C, Humidity: %d%%\n\r", DHT11_Get_Temperature(), DHT11_Get_Humidity());
-        }
+//					 DHT11_Update_Data_If_Expired();// 周期性更新 DHT11 数据
+//					
+//					// 打印温湿度数据，每秒一次
+//		         static uint32_t last_print_tick = 0;
+//            if (tick_expired(&last_print_tick, 1000)) {
+//            printf("Temperature: %d°C, Humidity: %d%%\n\r", DHT11_Get_Temperature(), DHT11_Get_Humidity());
+//        }
         }
   
 }
