@@ -34,15 +34,15 @@ PRESTA:
 	netpro=atk_8266_netpro_sel(50,30,(u8*)ATK_ESP8266_CWMODE_TBL[1]);	//选择网络模式
 	if(netpro&0X02)   //UDP
 	{
-				LCD_Clear(WHITE);
-				POINT_COLOR=RED;
-				Show_Str_Mid(0,30,"ATK-ESP WIFI-AP 测试",16,240); 
-				Show_Str(30,50,200,16,"正在配置ATK-ESP模块,请稍等...",12,0);
-				if(atk_8266_ip_set("WIFI-AP 远端UDP IP设置",(u8*)ATK_ESP8266_WORKMODE_TBL[netpro],(u8*)portnum,ipbuf))goto PRESTA;	//IP输入
-				sprintf((char*)p,"AT+CIPSTART=\"UDP\",\"%s\",%s",ipbuf,(u8*)portnum);    //配置目标UDP服务器
-				atk_8266_send_cmd("AT+CIPMUX=0","OK",100);  //单链接模式
-				LCD_Clear(WHITE);
-				while(atk_8266_send_cmd(p,"OK",500));
+		LCD_Clear(WHITE);
+		POINT_COLOR=RED;
+		Show_Str_Mid(0,30,"ATK-ESP WIFI-AP 测试",16,240); 
+		Show_Str(30,50,200,16,"正在配置ATK-ESP模块,请稍等...",12,0);
+		if(atk_8266_ip_set("WIFI-AP 远端UDP IP设置",(u8*)ATK_ESP8266_WORKMODE_TBL[netpro],(u8*)portnum,ipbuf))goto PRESTA;	//IP输入
+		sprintf((char*)p,"AT+CIPSTART=\"UDP\",\"%s\",%s",ipbuf,(u8*)portnum);    //配置目标UDP服务器
+		atk_8266_send_cmd("AT+CIPMUX=0","OK",100);  //单链接模式
+		LCD_Clear(WHITE);
+		while(atk_8266_send_cmd(p,"OK",500));
 			
 	}
 	else     //TCP

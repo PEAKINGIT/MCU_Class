@@ -1,5 +1,5 @@
-#ifndef __LCD_DISPLAY
-#define	__LCD_DISPLAY
+#ifndef __PICTURE_APP_H
+#define	__PICTURE_APP_H
 
 #include "stm32f10x.h"
 #include "lcd.h"
@@ -10,10 +10,6 @@
 #include "delay.h"
 #include "string.h"
 
-// ÆÁÄ»ÖÐÐÄ×ø±ê
-#define CENTER_X 120
-#define CENTER_Y 160
-
 typedef enum{
 	PIC_OK = 0,
 	PIC_ERR = 1
@@ -23,6 +19,8 @@ u16 pic_get_tnum(u8 *path);
 void Picture_Init_Check(void);
 void Draw_Picture_Init(void);
 PicDrawState Draw_Picture(u16 picIndex);
+void PicDebug_ListPics(void);
+
 void Picture_Free(void);
 
 #endif

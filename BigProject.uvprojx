@@ -10,7 +10,7 @@
       <TargetName>F103ZE</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\USER\EXTRA\dev_hzy;.\USER\EXTRA\dev_xyj;.\USER\EXTRA\dev_dyw;.\USER;.\USER\EXTRA;.\LIB\inc;.\CORE;.\USER\EXTRA\delay;.\USER\EXTRA\sys;.\USER\EXTRA\usart;.\USER\EXTRA\RTC;.\USER\EXTRA\LCD;.\USER\EXTRA\FATFS\src;.\USER\EXTRA\FATFS\exfuns;.\USER\EXTRA\MALLOC;.\USER\EXTRA\PICTURE;.\USER\EXTRA\SDIO;.\USER\EXTRA\SPI;.\USER\EXTRA\TEXT;.\USER\EXTRA\W25QXX;.\USER\EXTRA\TOUCH;.\USER\EXTRA\IIC;.\USER\EXTRA\24CXX</IncludePath>
+              <IncludePath>.\USER\EXTRA\dev_hzy;.\USER\EXTRA\dev_xyj;.\USER\EXTRA\dev_dyw;.\USER;.\USER\EXTRA;.\LIB\inc;.\CORE;.\USER\EXTRA\delay;.\USER\EXTRA\sys;.\USER\EXTRA\usart;.\USER\EXTRA\RTC;.\USER\EXTRA\LCD;.\USER\EXTRA\FATFS\src;.\USER\EXTRA\FATFS\exfuns;.\USER\EXTRA\MALLOC;.\USER\EXTRA\PICTURE;.\USER\EXTRA\SDIO;.\USER\EXTRA\SPI;.\USER\EXTRA\TEXT;.\USER\EXTRA\W25QXX;.\USER\EXTRA\TOUCH;.\USER\EXTRA\IIC;.\USER\EXTRA\24CXX;.\USER\EXTRA\GPS;.\USER\EXTRA\WIFI;.\USER\EXTRA\GUI_Group9</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -493,49 +493,19 @@
               <FilePath>.\USER\EXTRA\dev_xyj\led.c</FilePath>
             </File>
             <File>
-              <FileName>gps.c</FileName>
+              <FileName>gps_app.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\gps\gps.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart3.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\wifi\usart3.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\gps\usart2.c</FilePath>
+              <FilePath>.\USER\EXTRA\dev_xyj\gps_app.c</FilePath>
             </File>
             <File>
               <FileName>wifi_app.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\wifi\wifi_app.c</FilePath>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi_app.c</FilePath>
             </File>
             <File>
-              <FileName>gps_app.c</FileName>
+              <FileName>touch_app.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\gps\gps_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>apsta.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\wifi\apsta.c</FilePath>
-            </File>
-            <File>
-              <FileName>common.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\wifi\common.c</FilePath>
-            </File>
-            <File>
-              <FileName>wifiap.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\wifi\wifiap.c</FilePath>
-            </File>
-            <File>
-              <FileName>wifista.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_xyj\wifi\wifista.c</FilePath>
+              <FilePath>.\USER\EXTRA\dev_xyj\touch_app.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -543,14 +513,59 @@
           <GroupName>USER_EXTRA/dyw</GroupName>
           <Files>
             <File>
-              <FileName>lcd_display.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\dev_dyw\lcd_display.c</FilePath>
-            </File>
-            <File>
               <FileName>main_interface.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\USER\EXTRA\dev_dyw\main_interface.c</FilePath>
+            </File>
+            <File>
+              <FileName>picture_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_dyw\picture_app.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>USER_EXTRA/WIFI</GroupName>
+          <Files>
+            <File>
+              <FileName>common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\WIFI\common.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\WIFI\usart3.c</FilePath>
+            </File>
+            <File>
+              <FileName>wifiap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\WIFI\wifiap.c</FilePath>
+            </File>
+            <File>
+              <FileName>wifista.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\WIFI\wifista.c</FilePath>
+            </File>
+            <File>
+              <FileName>apsta.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\WIFI\apsta.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>USER_EXTRA/GPS</GroupName>
+          <Files>
+            <File>
+              <FileName>gps.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\GPS\gps.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\GPS\usart2.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -631,6 +646,26 @@
               <FileName>malloc.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\USER\EXTRA\MALLOC\malloc.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>USER_EXTRA/GUI_Group9</GroupName>
+          <Files>
+            <File>
+              <FileName>gui_g9.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\GUI_Group9\gui_g9.c</FilePath>
+            </File>
+            <File>
+              <FileName>button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\GUI_Group9\button.c</FilePath>
+            </File>
+            <File>
+              <FileName>interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\GUI_Group9\interface.c</FilePath>
             </File>
           </Files>
         </Group>

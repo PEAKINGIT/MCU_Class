@@ -1,7 +1,7 @@
-#include "lcd_display.h"
+#include "picture_app.h"
 
-//LCD显示应用层代码
-//含封装过的一些绘图
+//Picture显示应用层代码
+
 //以及图片文件显示
 //驱动层为正点原子例程lcd.c/h
 
@@ -121,6 +121,24 @@ PicDrawState Draw_Picture(u16 picIndex){
 	}
 }
 
+//list all picture files in usart
+void PicDebug_ListPics(void){
+	u16 i ;
+	for(i = 0;i<totPicNum;i++){
+		dir_sdi(&picdir, picIndexTbl[i]);              // 改变当前目录索引
+		res = f_readdir(&picdir, &picfileinfo);               // 读取目录下的一个文件
+		if (res != FR_OK || picfileinfo.fname[0] == 0) {
+			// 错误了/到末尾了
+			printf("File ERROR\r\n");
+		} else {
+			fn = (u8 *)(*picfileinfo.lfname ? picfileinfo.lfname : picfileinfo.fname);
+			strcpy((char *)pname, "0:/PICTURE/");    // 复制路径(目录)
+			strcat((char *)pname, (const char *)fn); // 将文件名接在后面
+			printf("%s\r\n",pname);	
+		}
+	}
+}
+
 //		画图片原始代码
 //        dir_sdi(&picdir, picindextbl[curindex]);              // 改变当前目录索引
 //        res = f_readdir(&picdir, &picfileinfo);               // 读取目录下的一个文件
@@ -134,6 +152,7 @@ PicDrawState Draw_Picture(u16 picIndex){
 
 
 //释放所有图片有关的申请的内存 后续不用图片了再调用 一般用不到
+//和Picture_Init_Check()对应
 void Picture_Free(void){
 	myfree(SRAMIN, picfileinfo.lfname); // 释放内存
     myfree(SRAMIN, pname);              // 释放内存

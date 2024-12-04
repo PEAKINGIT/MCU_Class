@@ -75,13 +75,14 @@ void draw_mainInterface(void) {
             break;
         }
         LCD_ShowString(60, 280, 200, 16, 16, "    -  -  ");
-        LCD_ShowNum(60, 280, calendar.w_year, 4, 16);
-        LCD_ShowNum(100, 280, calendar.w_month, 2, 16);
-        LCD_ShowNum(124, 280, calendar.w_date, 2, 16);
+		//LCD_ShowxNum(u16 x,u16 y,u32 num,u8 len,u8 size,u8 mode)
+        LCD_ShowxNum(60, 280, calendar.w_year, 4, 16,0x80);
+        LCD_ShowxNum(100, 280, calendar.w_month, 2, 16,0x80);
+        LCD_ShowxNum(124, 280, calendar.w_date, 2, 16,0x80);
         LCD_ShowString(60, 300, 200, 16, 16, "  :  :  ");
-        LCD_ShowNum(60, 300, calendar.hour, 2, 16);
-        LCD_ShowNum(84, 300, calendar.min, 2, 16);
-        LCD_ShowNum(108, 300, calendar.sec, 2, 16);
+        LCD_ShowxNum(60, 300, calendar.hour, 2, 16,0x80);
+		LCD_ShowxNum(84, 300, calendar.min, 2, 16,0x80);
+        LCD_ShowxNum(108, 300, calendar.sec, 2, 16,0x80);
         LED0_Toggle;
     }
     if (hour != former_hour || minute != former_minute) {

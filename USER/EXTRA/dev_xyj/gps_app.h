@@ -3,8 +3,9 @@
 
 #include "delay.h" 	
 
-#include "./gps/usart2.h" 
-#include "./gps/gps.h" 
+#include "gps.h"
+#include "gps.h" 
+#include "lcd.h"
 
 #include "stdio.h"	 
 #include "stdarg.h"	 

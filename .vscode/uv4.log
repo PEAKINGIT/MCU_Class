@@ -1,43 +1,9 @@
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil5\Core\ARM\ARMCC\Bin'
 Build target 'F103ZE'
-compiling wifista.c...
-USER\EXTRA\dev_xyj\wifi\wifista.c(75): warning:  #223-D: function "KEY_Scan" declared implicitly
-  					key=KEY_Scan(0);
-USER\EXTRA\dev_xyj\wifi\wifista.c(111): warning:  #223-D: function "KEY_Scan" declared implicitly
-  				key=KEY_Scan(0);
-USER\EXTRA\dev_xyj\wifi\wifista.c: 2 warnings, 0 errors
-compiling usart3.c...
-compiling apsta.c...
-USER\EXTRA\dev_xyj\wifi\apsta.c(88): warning:  #223-D: function "KEY_Scan" declared implicitly
-  				key=KEY_Scan(0);
-USER\EXTRA\dev_xyj\wifi\apsta.c(120): warning:  #223-D: function "KEY_Scan" declared implicitly
-  		key=KEY_Scan(0);
-USER\EXTRA\dev_xyj\wifi\apsta.c: 2 warnings, 0 errors
-compiling wifiap.c...
-USER\EXTRA\dev_xyj\wifi\wifiap.c(65): warning:  #223-D: function "KEY_Scan" declared implicitly
-  				key=KEY_Scan(0);
-USER\EXTRA\dev_xyj\wifi\wifiap.c(103): warning:  #223-D: function "KEY_Scan" declared implicitly
-  				key=KEY_Scan(0);
-USER\EXTRA\dev_xyj\wifi\wifiap.c: 2 warnings, 0 errors
 compiling wifi_app.c...
-.\USER\EXTRA\dev_xyj\./wifi/wifi_app.h(8): warning:  #1-D: last line of file ends without a newline
-  #endif
-USER\EXTRA\dev_xyj\wifi\wifi_app.c(3): warning:  #1-D: last line of file ends without a newline
-  //WIFIÓ¦ÓÃ²ã´úÂë
-USER\EXTRA\dev_xyj\wifi\wifi_app.c: 2 warnings, 0 errors
-compiling common.c...
-USER\EXTRA\dev_xyj\wifi\common.c(387): warning:  #223-D: function "KEY_Scan" declared implicitly
-  		key=KEY_Scan(0); 
-USER\EXTRA\dev_xyj\wifi\common.c(447): warning:  #223-D: function "KEY_Scan" declared implicitly
-  				key=KEY_Scan(0);
-USER\EXTRA\dev_xyj\wifi\common.c(552): warning:  #223-D: function "KEY_Scan" declared implicitly
-  		key=KEY_Scan(0); 
-USER\EXTRA\dev_xyj\wifi\common.c: 3 warnings, 0 errors
+compiling main.c...
 linking...
-.\Objects\BigProject.axf: Error: L6218E: Undefined symbol KEY_Scan (referred from apsta.o).
-Not enough information to list image symbols.
-Not enough information to list load addresses in the image map.
-Finished: 2 information, 0 warning and 1 error messages.
-".\Objects\BigProject.axf" - 1 Error(s), 11 Warning(s).
-Target not created.
-Build Time Elapsed:  00:00:01
+Program Size: Code=82450 RO-data=10422 RW-data=436 ZI-data=53552  
+FromELF: creating hex file...
+".\Objects\BigProject.axf" - 0 Error(s), 0 Warning(s).
+Build Time Elapsed:  00:00:02

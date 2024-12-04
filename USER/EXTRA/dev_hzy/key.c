@@ -9,6 +9,12 @@ volatile uint32_t press_start_time_key0 = 0;
 volatile uint32_t press_start_time_key1 = 0;
 volatile uint32_t press_start_time_wkup = 0;
 
+u8 key_state = 0;
+//key_state
+//bit 7:6 WKUP:WKUP_Long
+//bit 5:4 KEY0:KEY0_Long
+//bit 3:2 KEY1:KEY1_Long
+
 // 初始化按键并配置为外部中断模式
 void KEY_Init(void) {
     GPIO_InitTypeDef GPIO_InitStructure;
@@ -78,9 +84,11 @@ void EXTI4_IRQHandler(void) // KEY0 按键的中断
             // printf("按键释放\r\n");
             uint32_t press_duration = globalTick - press_start_time_key0;
             if (press_duration >= long_press_duration) {
-                printf("KEY0 Long Press\r\n"); // 长按事件
+                key_state = KEY0_Long_Msk;
+				//printf("KEY0 Long Press\r\n"); // 长按事件
             } else if (press_duration >= debounce_interval) {
-                printf("KEY0 Short Press\r\n"); // 短按事件
+                key_state = KEY0_Msk;
+				//printf("KEY0 Short Press\r\n"); // 短按事件
             }
         }
         EXTI_ClearITPendingBit(EXTI_Line4); // 清楚中断标志
@@ -97,9 +105,11 @@ void EXTI3_IRQHandler(void) // KEY1
         } else {
             uint32_t press_duration = globalTick - press_start_time_key1;
             if (press_duration >= long_press_duration) {
-                printf("KEY1 Long Press\r\n");
+                key_state = KEY1_Long_Msk;
+				//printf("KEY1 Long Press\r\n");
             } else if (press_duration >= debounce_interval) {
-                printf("KEY1 Short Press\r\n");
+                key_state = KEY1_Msk;
+				//printf("KEY1 Short Press\r\n");
             }
         }
         EXTI_ClearITPendingBit(EXTI_Line3);
@@ -116,11 +126,47 @@ void EXTI0_IRQHandler(void) // WK_UP
         } else {
             uint32_t press_duration = globalTick - press_start_time_wkup;
             if (press_duration >= long_press_duration) {
-                printf("WK_UP Long Press\r\n");
+                key_state = WKUP_Long_Msk;
+				//printf("WK_UP Long Press\r\n");
             } else if (press_duration >= debounce_interval) {
-                printf("WK_UP Short Press\r\n");
+                key_state = WKUP_Msk;
+				//printf("WK_UP Short Press\r\n");
             }
         }
         EXTI_ClearITPendingBit(EXTI_Line0);
     }
+}
+
+//主循环调用 获取之前中断取得的键值
+//priority:
+//short>long 
+//wkup>key0>key1
+u8 KEY_Scan(u8 mode){
+	//Short
+	if(key_state&WKUP_Msk){ 
+		key_state = 0;
+		return WKUP_PRES;
+	}
+	if(key_state&KEY0_Msk){
+		key_state = 0;
+		return KEY0_PRES;
+	} 
+	if(key_state&KEY1_Msk){
+		key_state = 0;
+		return KEY1_PRES;
+	}
+	//Long
+	if(key_state&WKUP_Long_Msk){ 
+		key_state = 0;
+		return WKUP_PRES;
+	}
+	if(key_state&KEY0_Long_Msk){
+		key_state = 0;
+		return KEY0_PRES;
+	} 
+	if(key_state&KEY1_Long_Msk){
+		key_state = 0;
+		return KEY1_PRES;
+	} 
+	return 0;
 }

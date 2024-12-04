@@ -2,12 +2,14 @@
 #define	__MAIN_INTERFACE
 #include "stm32f10x.h"
 #include "lcd.h"
-#include "lcd_display.h"
 #include "rtc.h"
 #include "led.h"
 #include "delay.h"
 #include "math.h"
 
+// 屏幕中心坐标
+#define CENTER_X 120
+#define CENTER_Y 160
 // 指针长度
 #define HOUR_HAND_LENGTH 50
 #define MINUTE_HAND_LENGTH 70

@@ -28,7 +28,7 @@
 	
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////// 
-void atk_8266_init(void);
+void atk_8266_hw_init(void);	//模块硬件部分初始化
 
 u8 atk_8266_mode_cofig(u8 netpro);
 void atk_8266_at_response(u8 mode);
@@ -49,9 +49,8 @@ u8 atk_8266_netpro_sel(u16 x,u16 y,u8* name);
 void atk_8266_mtest_ui(u16 x,u16 y);
 
 u8 atk_8266_ip_set(u8* title,u8* mode,u8* port,u8* ip);
+
 void atk_8266_test(void);
-
-
 
 u8 atk_8266_apsta_test(void);	//WIFI AP+STA模式测试
 u8 atk_8266_wifista_test(void);	//WIFI STA测试
