@@ -2,6 +2,7 @@
 
 #include "delay.h"
 #include "key.h"
+#include "dht11.h"
 #include "led.h"
 #include "main_interface.h"
 #include "picture_app.h"
@@ -35,9 +36,8 @@ int main(void) {
     u8 res; // 临时返回值
     // u8 key;              // 键值
     // u8 pause = 0;        // 暂停标记
-
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); // 设置中断优先级分组为组2：2位抢占优先级，2位响应优先级
-
+   
     delay_init();        // 延时函数初始化
     uart_init(115200);   // 串口初始化为115200
     my_mem_init(SRAMIN); // 初始化内部内存池
@@ -45,7 +45,8 @@ int main(void) {
     KEY_Init();          // 按键初始化
     LCD_Init();          // 初始化LCD
     RTC_Init();          // RTC初始化
-    Gps_Init();          // GPS Initialize
+	  DHT11_Init_Wrapper();;        // DHT11初始化
+    //Gps_Init();          // GPS Initialize
 
     // f_mount()挂载的时候fat系统会通过用户定义的diskio里的函数对存储设备(SD,FLASH)进行初始化
     // 不用再手动调用SD_Init(); W25QXX_Init();
@@ -74,10 +75,18 @@ int main(void) {
             draw_mainInterface();
             delay_ms(100);
             LED1_Toggle;
+					
+					 DHT11_Update_Data_If_Expired();// 周期性更新 DHT11 数据
+					
+					// 打印温湿度数据，每秒一次
+		         static uint32_t last_print_tick = 0;
+            if (tick_expired(&last_print_tick, 1000)) {
+            printf("Temperature: %d°C, Humidity: %d%%\n\r", DHT11_Get_Temperature(), DHT11_Get_Humidity());
         }
-    }
+        }
+  
 }
-
+}
 void Delay(u32 count) {
     u32 i = 0;
     for (; i < count; i++)
