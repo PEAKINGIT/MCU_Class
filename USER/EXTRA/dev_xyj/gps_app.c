@@ -10,17 +10,28 @@ __align(4) u8 dtbuf[50];   								//打印缓存器
 
 void Gps_Init(void) {
     //
-    if (SkyTra_Cfg_Rate(5) != 0) // 设置定位信息更新速度为5Hz,顺便判断GPS模块是否在位.
-    {
-        printf("SkyTraF8-BD Setting...\r\n");
+	u8 time_out=0;	//超时判断
+    if (SkyTra_Cfg_Rate(5) != 0) {
+		// 设置定位信息更新速度为5Hz,顺便判断GPS模块是否在位.
+        LCD_ShowString(30,120,200,16,16,"SkyTraF8-BD Setting...");
         do {
+			delay_ms(10);
+			time_out++;
+			if(time_out>GPS_INIT_TIMEOUT){
+				//超时返回(2s)
+				LCD_ShowString(30,120,200,16,16,"SkyTraF8-BD Set TimeOut!");
+				LCD_ShowString(30,140,200,16,16,"Check Connection!");
+				delay_ms(500);
+				return;
+			}
             USART2_init(9600);           // 初始化串口2波特率为9600
             SkyTra_Cfg_Prt(3);           // 重新设置模块的波特率为38400
             USART2_init(38400);          // 初始化串口2波特率为38400
             rtn = SkyTra_Cfg_Tp(100000); // 脉冲宽度为100ms
         } while (SkyTra_Cfg_Rate(5) != 0 && rtn != 0); // 配置SkyTraF8-BD的更新速率为5Hz
-        printf("SkyTraF8-BD Set Done!!\r\n");
-        delay_ms(500);
+        LCD_ShowString(30,120,200,16,16,"SkyTraF8-BD Set Done!!");
+		delay_ms(500);
+		return;
     }
 }
 

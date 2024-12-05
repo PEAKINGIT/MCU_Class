@@ -20,6 +20,7 @@ extern vu16 USART2_RX_STA;   						//接收数据状态
 
 void USART2_init(u32 bound);				//串口2初始化 
 void u2_printf(char* fmt,...);
+void Usart2_DeInit(void);
 
 void TIM5_Int_Init(u16 arr,u16 psc);	//TIM5及其定时中断初始化
 #endif

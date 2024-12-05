@@ -1,4 +1,4 @@
-#include "./gps/usart2.h"
+#include "usart2.h"
 
 // 串口接收缓存区
 u8 USART2_RX_BUF[USART2_MAX_RECV_LEN]; // 接收缓冲,最大USART2_MAX_RECV_LEN个字节.
@@ -86,6 +86,12 @@ void USART2_init(u32 bound) {
     TIM5_Int_Init(100 - 1, 7200 - 1); // TIM5 10ms中断初始化
 	//TIM5_Int_Init(10000 - 1, 7200 - 1); // TIM5 10ms中断初始化 1ms for debug
     USART2_RX_STA = 0;                 // 清零
+}
+
+void Usart2_DeInit(void){
+	//去初始化 对应init
+	USART_DeInit(USART2);
+	TIM_DeInit(TIM5);
 }
 
 //TIM5 Init

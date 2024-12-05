@@ -31,6 +31,9 @@
  */
 void Delay(u32 count);
 
+/**
+ * @brief main Function
+ */
 int main(void) {
     u8 res; // 临时返回值
     // u8 key;              // 键值
@@ -45,7 +48,7 @@ int main(void) {
     KEY_Init();          // 按键初始化
     LCD_Init();          // 初始化LCD
     RTC_Init();          // RTC初始化
-    Gps_Init();          // GPS Initialize
+    //Gps_Init();          // GPS Initialize
 
     // f_mount()挂载的时候fat系统会通过用户定义的diskio里的函数对存储设备(SD,FLASH)进行初始化
     // 不用再手动调用SD_Init(); W25QXX_Init();
@@ -78,6 +81,9 @@ int main(void) {
     }
 }
 
+/**
+ * @brief Function Defines
+ */
 void Delay(u32 count) {
     u32 i = 0;
     for (; i < count; i++)

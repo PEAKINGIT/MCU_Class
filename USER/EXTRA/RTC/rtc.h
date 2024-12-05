@@ -28,7 +28,9 @@ u8 Is_Leap_Year(u16 year);//平年,闰年判断
 u8 RTC_Alarm_Set(u16 syear,u8 smon,u8 sday,u8 hour,u8 min,u8 sec);
 u8 RTC_Get(void);         //更新时间   
 u8 RTC_Get_Week(u16 year,u8 month,u8 day);
-u8 RTC_Set(u16 syear,u8 smon,u8 sday,u8 hour,u8 min,u8 sec);//设置时间			 
+u8 RTC_Set(u16 syear,u8 smon,u8 sday,u8 hour,u8 min,u8 sec);//设置时间	
+
+u8 RTC_Force_Init(u16 syear, u8 smon, u8 sday, u8 hour, u8 min, u8 sec);
 #endif
 
 
