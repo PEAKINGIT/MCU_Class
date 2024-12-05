@@ -81,13 +81,6 @@ int main(void) {
         // 显示当前界面
         interface_functions[current_state]();
 					
-//					 DHT11_Update_Data_If_Expired();// 周期性更新 DHT11 数据
-//					
-//					// 打印温湿度数据，每秒一次
-//		         static uint32_t last_print_tick = 0;
-//            if (tick_expired(&last_print_tick, 1000)) {
-//            printf("Temperature: %d°C, Humidity: %d%%\n\r", DHT11_Get_Temperature(), DHT11_Get_Humidity());
-//        }
         }
   
 }

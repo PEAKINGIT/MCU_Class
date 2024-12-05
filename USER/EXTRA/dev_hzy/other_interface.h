@@ -20,5 +20,6 @@ void display_main_interface(void);
 void display_sub_interface_1(void);
 void display_sub_interface_2(void);
 void handle_key_event(void); // 按键事件处理函数
-
+void display_sub_interface_1_init(void); //分界面1初始化函数
+void display_sub_interface_2_init(void); //分界面2初始化函数
 #endif // __OTHER_INTERFACE_H
