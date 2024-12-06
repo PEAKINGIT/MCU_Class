@@ -36,13 +36,13 @@ void gpsGui_Init(InterFaceObj *obj_ptr) {
     t_last1 = p->page_tick;
     t_last2 = p->page_tick;
     LCD_Clear(WHITE);
-	LCD_SetPointColor(BLACK);
+	POINT_COLOR = BLACK;
 	LCD_ShowString(150,120,150,20,16,str);
 	DrawArrow(100,100,130,100,5);
 	LCD_ShowChar(130,100,'E',12,0);
 	DrawArrow(100,100,100,130,5);
 	LCD_ShowChar(100,130,'N',12,0);
-    LCD_SetPointColor(GRAY);
+    POINT_COLOR = GRAY;
     LCD_Draw_Circle(G_WIDTH / 2, G_HEIGHT / 2, 100); // Middle of gui
 }
 
@@ -56,9 +56,9 @@ void gpsGui_Refresh(InterFaceObj *obj_ptr) {
     if ((globalTick_Get() - t_last2) > 50) {
         //LCD_Clear(WHITE);
 		LCD_Fill(140,140,361,361,WHITE);	//¾Ö²¿Çå¿Õ
-        LCD_SetPointColor(GRAY);
+        POINT_COLOR=(GRAY);
         LCD_Draw_Circle(G_WIDTH / 2, G_HEIGHT / 2, 100); // Middle of gui
-        LCD_SetPointColor(RED);
+        POINT_COLOR=(RED);
         cxy = draw_Direct(G_WIDTH / 2, G_HEIGHT / 2,
                     G_WIDTH / 2 + dlon/(SCALING),
                     G_HEIGHT / 2 + dlat/(SCALING), 100);
