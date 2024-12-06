@@ -158,15 +158,15 @@ u8 KEY_Scan(u8 mode){
 	//Long
 	if(key_state&WKUP_Long_Msk){ 
 		key_state = 0;
-		return WKUP_PRES;
+		return WKUP_LONGP;
 	}
 	if(key_state&KEY0_Long_Msk){
 		key_state = 0;
-		return KEY0_PRES;
+		return KEY0_LONGP;
 	} 
 	if(key_state&KEY1_Long_Msk){
 		key_state = 0;
-		return KEY1_PRES;
+		return KEY1_LONGP;
 	} 
 	return 0;
 }

@@ -29,7 +29,9 @@
 		"touch_app.h": "c",
 		"picture_app.h": "c",
 		"limits": "c",
-		"rtc.h": "c"
+		"rtc.h": "c",
+		"gui_g9.h": "c",
+		"gps_interface.h": "c"
 	},
 	"C_Cpp.clang_format_style": "{ BasedOnStyle: LLVM, UseTab: Never, IndentWidth: 4, TabWidth: 4, BreakBeforeBraces: Attach, AllowShortIfStatementsOnASingleLine: true, IndentCaseLabels: false, ColumnLimit: 0, AccessModifierOffset: -4, NamespaceIndentation: All, FixNamespaceComments: false, AlignTrailingComments: true }"
 }
