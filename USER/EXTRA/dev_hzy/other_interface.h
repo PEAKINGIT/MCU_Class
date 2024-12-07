@@ -22,4 +22,6 @@ void display_sub_interface_2(void);
 void handle_key_event(void); // 按键事件处理函数
 void display_sub_interface_1_init(void); //分界面1初始化函数
 void display_sub_interface_2_init(void); //分界面2初始化函数
+
+int linear_predict(int x0, int y0, int x1, int y1, int x);
 #endif // __OTHER_INTERFACE_H
