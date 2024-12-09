@@ -6,6 +6,9 @@
 #include "led.h"
 #include "delay.h"
 #include "math.h"
+#include "picture_app.h"
+#include "key.h"
+#include "menu.h"
 
 // ÆÁÄ»ÖÐÐÄ×ø±ê
 #define CENTER_X 120
@@ -21,5 +24,7 @@ void CalculatePointerCoordinates(uint16_t centerX, uint16_t centerY, float angle
 void draw_clock(void);
 void earse_clock(uint16_t hour, uint16_t minute);
 void draw_mainInterface(void);
+
+void Load_MainInterface(void);
 
 #endif

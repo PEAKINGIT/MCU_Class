@@ -5,7 +5,7 @@
 #include "key.h"
 #include "led.h"
 #include "main_interface.h"
-#include "other_interface.h"
+#include "menu.h"
 #include "picture_app.h"
 
 #include "gps_app.h"
@@ -37,8 +37,8 @@ void Delay(u32 count);
  * @brief main Function
  */
 int main(void) {
-    u8 res; // 临时返回值
-    // u8 key;              // 键值
+    //u8 res; // 临时返回值
+    //u8 key;              // 键值
     // u8 pause = 0;        // 暂停标记
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); // 设置中断优先级分组为组2：2位抢占优先级，2位响应优先级
 
@@ -60,30 +60,38 @@ int main(void) {
 
     Font_Init_Check();    // 检查字库初始化
     Picture_Init_Check(); // 检查图片文件初始化
+    PicDebug_ListPics();  // 串口打印出图片列表
     Draw_Picture_Init();  // 图片绘制初始化
 
-    if (Draw_Picture(0) != PIC_OK) {
-        // 画图失败
-        Picture_Free(); // 释放绘图有关的申请的内存
-        draw_clock();
-        while (1) {
-            // Gps_Receive_Handle();
-            draw_mainInterface();
-            delay_ms(100);
-            LED0_Toggle;
-        }
-    } else {
-        draw_clock();
-        // 初始化界面模块
-        interface_init();
-        while (1) {
-            // Gps_Receive_Handle();
-            // 按键事件处理
-            handle_key_event();
+RE_START:	//重新初始化界面标志
 
-            // 显示当前界面
-            interface_functions[current_state]();
+	// 主循环
+    while (1) {
+		//界面显示 正常是在函数里面进行循环
+		interface_functions[current_page]();
+
+		// 非界面循环里任意键返回主界面
+		if(KEY_Scan(0)!=0){
+			current_page = MAIN_INTERFACE;
+		}
+		LED1_Toggle;
+		delay_ms(500);
+	}
+	
+	LED0(1);
+	LED1(1);
+    // Error_Hold
+	// 加载页面卡出循环后的会进这里
+    while (1) {
+        u8 key;
+        key = KEY_Scan(0);
+        if (key == WKUP_PRES) {
+            // 复位到界面加载位置前
+            goto RE_START;
         }
+		LED1_Toggle;
+		LED0_Toggle;
+        delay_ms(500);
     }
 }
 

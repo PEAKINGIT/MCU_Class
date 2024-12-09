@@ -8,8 +8,10 @@
 #include "delay.h"
 #include "lcd.h"
 
-#define SCALING (1) // 0.00001degree/(SCALING):1 Pixel
+#define SCALING (2) // 0.00001degree/(SCALING):1 Pixel
 #define PI_S (3.14) // short pi
+
+#define G_RAD 80 //´óÔ²°ë¾¶
 
 /**
  * @brief data that might be used by others

@@ -142,6 +142,7 @@ void EXTI0_IRQHandler(void) // WK_UP
 //short>long 
 //wkup>key0>key1
 u8 KEY_Scan(u8 mode){
+	globalKeyEvent();	// 先处理全局按键事件
 	//Short
 	if(key_state&WKUP_Msk){ 
 		key_state = 0;
@@ -169,4 +170,11 @@ u8 KEY_Scan(u8 mode){
 		return KEY1_LONGP;
 	} 
 	return 0;
+}
+
+//全局的按键事件 比如息屏等等
+void globalKeyEvent(void){
+	if(key_state&WKUP_Long_Msk){ 
+		//...
+	}
 }

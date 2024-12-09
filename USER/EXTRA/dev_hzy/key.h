@@ -39,5 +39,6 @@ void EXTI4_IRQHandler(void);   // KEY0
 void EXTI0_IRQHandler(void);   // WK_UP
 
 u8 KEY_Scan(u8 mode);
+void globalKeyEvent(void);
 
 #endif

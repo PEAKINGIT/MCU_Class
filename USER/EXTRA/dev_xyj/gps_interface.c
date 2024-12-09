@@ -9,7 +9,7 @@ GpsInterFaceData gpsIfData = {
     .ns_set = 'N',
     .lon_set = (12011965),
     .ew_set = 'E',
-	.lat_cen = 3026434,	//中心点经纬度
+	.lat_cen = 3026434,	//中心点经纬度 默认设在教学楼 后期可更改
 	.lon_cen = 12011965,
 };
 
@@ -37,13 +37,13 @@ void gpsGui_Init(InterFaceObj *obj_ptr) {
     t_last2 = p->page_tick;
     LCD_Clear(WHITE);
 	POINT_COLOR = BLACK;
-	LCD_ShowString(150,120,150,20,16,str);
-	DrawArrow(100,100,130,100,5);
-	LCD_ShowChar(130,100,'E',12,0);
-	DrawArrow(100,100,100,130,5);
-	LCD_ShowChar(100,130,'N',12,0);
+	LCD_ShowString(10,10,150,20,12,str);
+	DrawArrow(10,30,40,30,5);//向东箭头	
+	LCD_ShowChar(40,30,'E',12,0);
+	DrawArrow(10,30,10,60,5);
+	LCD_ShowChar(10,50,'N',12,0);
     POINT_COLOR = GRAY;
-    LCD_Draw_Circle(G_WIDTH / 2, G_HEIGHT / 2, 100); // Middle of gui
+    LCD_Draw_Circle(G_WIDTH / 2, G_HEIGHT / 2, G_RAD); // Middle of gui
 }
 
 void gpsGui_Refresh(InterFaceObj *obj_ptr) {
@@ -55,13 +55,13 @@ void gpsGui_Refresh(InterFaceObj *obj_ptr) {
     /* use t_last2 as time cnt*/
     if ((globalTick_Get() - t_last2) > 50) {
         //LCD_Clear(WHITE);
-		LCD_Fill(140,140,361,361,WHITE);	//局部清空
+		LCD_Fill(1,70,240,260,WHITE);	//局部清空
         POINT_COLOR=(GRAY);
-        LCD_Draw_Circle(G_WIDTH / 2, G_HEIGHT / 2, 100); // Middle of gui
+        LCD_Draw_Circle(G_WIDTH / 2, G_HEIGHT / 2, G_RAD); // Middle of gui
         POINT_COLOR=(RED);
         cxy = draw_Direct(G_WIDTH / 2, G_HEIGHT / 2,
                     G_WIDTH / 2 + dlon/(SCALING),
-                    G_HEIGHT / 2 + dlat/(SCALING), 100);
+                    G_HEIGHT / 2 + dlat/(SCALING), G_RAD);
 
         t_last2 = globalTick_Get();
     }
@@ -136,7 +136,7 @@ uint32_t draw_Direct(uint16_t x1, uint16_t y1,
     for (t = 0; t <= distance + 1; t++) {
         tx = uRow;
         ty = uCol;
-        if ((my_pow(tx - x1, 2) + my_pow(ty - y1, 2)) >= my_pow(r, 2)) {
+        if ((my_pow(tx - x1, 2) + my_pow(ty - y1, 2)) >= my_pow(r*9/10, 2)) {
             LCD_Draw_Circle(tx, ty, 10);
            return (tx << 16) + ty; 
         }
