@@ -6,7 +6,6 @@
 
 #include "stm32f10x.h"
 #include "lcd.h"
-#include "gui_g9.h"
 
 #include "main_interface.h"
 #include "gps_interface.h"
@@ -28,21 +27,14 @@ typedef struct _select_opt{
 	void (*select_event)(void);
 }Select;
 
-typedef struct _menu_data{
-	uint8_t *title;		//页面标题
-	Select *selects;	//选项
-}MenuData;
+#define SELECT_NUM (MAX_INTERFACE+1)	//最大页面数 加其它选项
 
 extern InterfaceState current_page; // 当前界面状态
-extern InterFaceObj Menu_Obj;
+extern void (*interface_functions[MAX_INTERFACE])(void); // 声明界面函数指针数组
 
-void interface_init(void);           // 界面模块初始化
-// 声明界面函数指针数组
-extern void (*interface_functions[MAX_INTERFACE])(void); // 使用 extern 声明
+void Menu_Init(void);
+void Menu_Load(void);
 
-void display_sub_interface_2(void);
-void handle_key_event(void); // 按键事件处理函数
-void display_sub_interface_2_init(void); //分界面2初始化函数
 void display_empty(void);
 
 #endif

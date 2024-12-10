@@ -527,6 +527,11 @@
               <FileType>1</FileType>
               <FilePath>.\USER\EXTRA\dev_xyj\menu.c</FilePath>
             </File>
+            <File>
+              <FileName>wifi_interf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\EXTRA\dev_xyj\wifi_interf.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -666,26 +671,6 @@
               <FileName>malloc.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\USER\EXTRA\MALLOC\malloc.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>USER_EXTRA/GUI_Group9</GroupName>
-          <Files>
-            <File>
-              <FileName>gui_g9.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\GUI_Group9\gui_g9.c</FilePath>
-            </File>
-            <File>
-              <FileName>button.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\GUI_Group9\button.c</FilePath>
-            </File>
-            <File>
-              <FileName>draw_extend.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\GUI_Group9\draw_extend.c</FilePath>
             </File>
           </Files>
         </Group>

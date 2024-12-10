@@ -63,9 +63,9 @@ int main(void) {
     PicDebug_ListPics();  // 串口打印出图片列表
     Draw_Picture_Init();  // 图片绘制初始化
 
-RE_START:	//重新初始化界面标志
-
-	// 主循环
+	/**
+	 * @brief 主循环在这里!!!
+	 */
     while (1) {
 		//界面显示 正常是在函数里面进行循环
 		interface_functions[current_page]();
@@ -77,22 +77,6 @@ RE_START:	//重新初始化界面标志
 		LED1_Toggle;
 		delay_ms(500);
 	}
-	
-	LED0(1);
-	LED1(1);
-    // Error_Hold
-	// 加载页面卡出循环后的会进这里
-    while (1) {
-        u8 key;
-        key = KEY_Scan(0);
-        if (key == WKUP_PRES) {
-            // 复位到界面加载位置前
-            goto RE_START;
-        }
-		LED1_Toggle;
-		LED0_Toggle;
-        delay_ms(500);
-    }
 }
 
 /**

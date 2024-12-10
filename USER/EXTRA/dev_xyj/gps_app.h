@@ -4,7 +4,6 @@
 #include "delay.h" 	
 
 #include "gps.h"
-#include "gps.h" 
 #include "lcd.h"
 
 #include "stdio.h"	 
