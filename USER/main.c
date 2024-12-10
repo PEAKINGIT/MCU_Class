@@ -67,6 +67,7 @@ RE_START:	//重新初始化界面标志
 
 	// 主循环
     while (1) {
+
 		//界面显示 正常是在函数里面进行循环
 		interface_functions[current_page]();
 
@@ -76,6 +77,7 @@ RE_START:	//重新初始化界面标志
 		}
 		LED1_Toggle;
 		delay_ms(500);
+
 	}
 	
 	LED0(1);
