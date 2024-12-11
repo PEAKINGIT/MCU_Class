@@ -67,6 +67,7 @@ int main(void) {
 	 * @brief 主循环在这里!!!
 	 */
     while (1) {
+
 		//界面显示 正常是在函数里面进行循环
 		interface_functions[current_page]();
 
@@ -76,6 +77,7 @@ int main(void) {
 		}
 		LED1_Toggle;
 		delay_ms(500);
+
 	}
 }
 

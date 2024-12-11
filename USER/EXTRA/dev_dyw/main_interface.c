@@ -96,11 +96,13 @@ void Load_MainInterface(void) {
     u16 former_hour = calendar.hour;
     u16 former_minute = calendar.min;
     u8 key;
-
+	
     LCD_Clear(WHITE);
-    if (Draw_Picture(0) != PIC_OK) {
-        // 画图片失败 做某些处理...
-    }
+	//绘制边界
+	POINT_COLOR = RED;
+	LCD_DrawRectangle(15, 55, 224, 264);
+	//绘制手表
+	ai_load_picfile("0:/PICTURE/1-watch.jpg", 16, 56, 208, 208, 1);
     draw_clock();
     while (1) {
         key = KEY_Scan(0);

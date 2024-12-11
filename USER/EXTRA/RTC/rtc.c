@@ -48,7 +48,7 @@ u8 RTC_Init(void) {
         RTC_EnterConfigMode();                    /// 允许配置
         RTC_SetPrescaler(32767);                  // 设置RTC预分频的值
         RTC_WaitForLastTask();                    // 等待最近一次对RTC寄存器的写操作完成
-        RTC_Set(2024, 12, 3, 22, 9, 0);           // 设置时间
+        RTC_Set(2024, 12, 11, 10, 0, 0);           // 设置时间
         RTC_ExitConfigMode();                     // 退出配置模式
         BKP_WriteBackupRegister(BKP_DR1, 0X5050); // 向指定的后备寄存器中写入用户程序数据
     } else {
