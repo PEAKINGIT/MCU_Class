@@ -6,10 +6,12 @@
 
 #include "stm32f10x.h"
 #include "lcd.h"
+#include "lcd_defines.h"
 
 #include "main_interface.h"
 #include "gps_interface.h"
 #include "dht11_interface.h"
+#include "calendar_interface.h"
 
 //interfaces
 // 界面状态枚举
@@ -17,7 +19,8 @@ typedef enum {
 	EMPTY_INTREFACE = 0,	//空界面
     MAIN_INTERFACE,  // 主界面
     SUB_INTERFACE_1, // 分界面1
-    SUB_INTERFACE_2, // 分界面2
+    GPS_GUI, // 分界面2
+	CALENDAR,
 	MENU,
     MAX_INTERFACE,    // 界面数量
 } InterfaceState;

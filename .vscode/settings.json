@@ -36,7 +36,9 @@
 		"other_interface.h": "c",
 		"menu.h": "c",
 		"dht11_interface.h": "c",
-		"wifi_interf.h": "c"
+		"wifi_interf.h": "c",
+		"calendar_interface.h": "c",
+		"lcd_defines.h": "c"
 	},
 	"C_Cpp.clang_format_style": "{ BasedOnStyle: LLVM, UseTab: Never, IndentWidth: 4, TabWidth: 4, BreakBeforeBraces: Attach, AllowShortIfStatementsOnASingleLine: true, IndentCaseLabels: false, ColumnLimit: 0, AccessModifierOffset: -4, NamespaceIndentation: All, FixNamespaceComments: false, AlignTrailingComments: true }"
 }

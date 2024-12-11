@@ -61,6 +61,7 @@ u8 RTC_Init(void) {
     RTC_Get();         // 更新时间
     return 0;          // ok
 }
+
 u8 RTC_Force_Init(u16 syear, u8 smon, u8 sday, u8 hour, u8 min, u8 sec) {
 	// 换电池后调用
     // 强制初始化 手动校正时间

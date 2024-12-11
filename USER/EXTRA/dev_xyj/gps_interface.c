@@ -147,6 +147,15 @@ uint32_t draw_Direct(uint16_t x1, uint16_t y1,
     return 0xFFFFFFFF;
 }
 
+int32_t my_pow(int32_t x,uint32_t n){
+	uint32_t i = 0;
+	int32_t ret = 1;
+	for(i=0;i<n;i++){
+		ret*=x;
+	}
+	return ret;
+}
+
 // 画箭头函数，箭头的起点 (x1, y1)，终点 (x2, y2)，箭头头部大小 arrow_size
 void DrawArrow(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t arrow_size) {
     LCD_DrawLine(x1, y1, x2, y2);

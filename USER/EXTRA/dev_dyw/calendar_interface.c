@@ -1,6 +1,16 @@
 #include "calendar_interface.h"
 
-int isBetween(int month, int day, int startMonth, int startDay, int endMonth, int endDay) {
+// 定义节气数据，并按日期顺序排序
+const SolarTerm solarTerms[24] = {
+    {"小寒", 1, 5}, {"大寒", 1, 20}, {"立春", 2, 4}, {"雨水", 2, 19},
+    {"惊蛰", 3, 6}, {"春分", 3, 21}, {"清明", 4, 5}, {"谷雨", 4, 20},
+    {"立夏", 5, 6}, {"小满", 5, 21}, {"芒种", 6, 6}, {"夏至", 6, 21},
+    {"小暑", 7, 7}, {"大暑", 7, 23}, {"立秋", 8, 8}, {"处暑", 8, 23},
+    {"白露", 9, 8}, {"秋分", 9, 23}, {"寒露", 10, 8}, {"霜降", 10, 23},
+    {"立冬", 11, 7}, {"小雪", 11, 22}, {"大雪", 12, 6}, {"冬至", 12, 21}
+};
+
+u32 isBetween(u32 month, u32 day, u32 startMonth, u32 startDay, u32 endMonth, u32 endDay) {
     if (startMonth == endMonth) return (month == startMonth && day >= startDay && day < endDay);
     if (month == startMonth && day >= startDay) return 1;
     if (month == endMonth && day < endDay) return 1;
@@ -9,9 +19,9 @@ int isBetween(int month, int day, int startMonth, int startDay, int endMonth, in
     return 0;
 }
 
-int getSolarTerm(int year, int month, int day) {
-    for (int i = 0; i < sizeof(solarTerms) / sizeof(SolarTerm); i++) {
-        int nextIndex = (i + 1) % (sizeof(solarTerms) / sizeof(SolarTerm));
+u32 getSolarTerm(u32 year, u32 month, u32 day) {
+    for (u32 i = 0; i < sizeof(solarTerms) / sizeof(SolarTerm); i++) {
+        u32 nextIndex = (i + 1) % (sizeof(solarTerms) / sizeof(SolarTerm));
         if (isBetween(month, day, solarTerms[i].month, solarTerms[i].day, solarTerms[nextIndex].month, solarTerms[nextIndex].day)) {
             return nextIndex;//(u8*)solarTerms[nextIndex].name
         }
@@ -20,12 +30,12 @@ int getSolarTerm(int year, int month, int day) {
 }
 
 void draw_calendarInterface(){
-	int year = calendar.w_year;
-	int month = calendar.w_month;
-	int date = calendar.w_date;
-	int solarTerm;
-	int day, day1;
-	int i, j ,x ,y;
+	u32 year = calendar.w_year;
+	u32 month = calendar.w_month;
+	u32 date = calendar.w_date;
+	u32 solarTerm;
+	u32 day, day1;
+	u32 i, j ,x ,y;
 	//显示日期
 	POINT_COLOR = BLUE;
 	switch (calendar.week) {
@@ -61,9 +71,9 @@ void draw_calendarInterface(){
 	solarTerm = getSolarTerm(year, month, date);
 	Show_Str(80, 224, 200, 16, "上一节气:" ,16,0);
 	LCD_ShowString(150, 224, 200, 16, 16, "  -  ");
-	LCD_ShowxNum(150, 224, solarTerms[(solarTerm-1)>=0? solarTerm-1:23].month, 2, 16, 0x80);
-	LCD_ShowxNum(174, 224, solarTerms[(solarTerm-1)>=0? solarTerm-1:23].day, 2, 16, 0x80);
-	Show_Str(190, 224, 200, 16, (u8*)solarTerms[(solarTerm-1)>=0? solarTerm-1:23].name ,16,0);
+	LCD_ShowxNum(150, 224, solarTerms[(solarTerm)>=1? solarTerm-1:23].month, 2, 16, 0x80);
+	LCD_ShowxNum(174, 224, solarTerms[(solarTerm)>=1? solarTerm-1:23].day, 2, 16, 0x80);
+	Show_Str(190, 224, 200, 16, (u8*)solarTerms[(solarTerm)>=1? solarTerm-1:23].name ,16,0);
 	Show_Str(80, 244, 200, 16, "下一节气:" ,16,0);
 	LCD_ShowString(150, 244, 200, 16, 16, "  -  ");
 	LCD_ShowxNum(150, 244, solarTerms[solarTerm].month, 2, 16, 0x80);

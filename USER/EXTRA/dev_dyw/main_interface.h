@@ -7,8 +7,11 @@
 #include "math.h"
 #include "menu.h"
 #include "picture_app.h"
+#include "wifi_app.h"
 #include "rtc.h"
 #include "stm32f10x.h"
+#include "string.h"
+#include "lcd_defines.h"
 
 // ÆÁÄ»ÖÐÐÄ×ø±ê
 #define CENTER_X 120

@@ -5,6 +5,7 @@
 #include "common.h"
 #include "usart3.h"
 #include "string.h"
+#include "lcd_defines.h"
 
 //WIFI状态位量
 // u8 WIFI_state
@@ -19,8 +20,8 @@
 #define WIFIDEV_OFF (0x02)
 
 //服务器连接状态
-#define NO_CNNCT (0x00)	//未建立服务器连接
-#define GET_CNNCT (0x80)	// 1000 0000
+#define NO_CNNCT (0x80)	//未建立服务器连接
+#define GET_CNNCT (0x00)	// 1000 0000
 
 #define WIFI_MODE_AP (0x01)
 #define WIFI_MODE_STA (0x02)
@@ -34,7 +35,7 @@ extern u8 *default_ip;
 
 u8 WIFI_App_Init(void);
 u8 WIFI_STA_Set(void);
-void WIFI_RcvHandle(void);
+void WIFI_RcvHandle(u8 wifi_isok);
 
 void WIFI_StartSendtoSever(void);
 uint8_t WIFI_ConnectCheck(void);

@@ -24,6 +24,7 @@ void location_Get(void);
 void gpsGui_Init(void);
 void gpsGui_Load(void);
 
+int32_t my_pow(int32_t x,uint32_t n);
 uint32_t draw_Direct(uint16_t x1, uint16_t y1,
                      uint16_t x2, uint16_t y2,
                      uint8_t r);

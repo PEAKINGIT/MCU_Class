@@ -19,7 +19,7 @@
 const u8 *portnum = "8080";
 
 // WIFI STA模式,设置要去连接的路由器无线参数,请根据你自己的路由器设置,自行修改.
-const u8 *wifista_ssid = "rdm4004";          // 路由器SSID号
+const u8 *wifista_ssid = "rdm4004";           // 路由器SSID号
 const u8 *wifista_encryption = "wpawpa2_aes"; // wpa/wpa2 aes加密方式
 const u8 *wifista_password = "12345678hot";   // 连接密码
 
@@ -514,9 +514,9 @@ void atk_8266_mtest_ui(u16 x, u16 y) {
     atk_8266_msg_show(x, y + 125, 0);
 }
 
-//模块硬件部分初始化
+// 模块硬件部分初始化
 void atk_8266_hw_init(void) {
-	usart3_init(115200);		//初始化串口3
+    usart3_init(115200); // 初始化串口3
 }
 // ATK-ESP8266模块测试主函数
 void atk_8266_test(void) {
