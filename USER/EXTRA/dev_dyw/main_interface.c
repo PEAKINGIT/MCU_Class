@@ -99,18 +99,19 @@ void Load_MainInterface(void) {
 	//绘制手表
 	ai_load_picfile("0:/PICTURE/1-watch.jpg", 16, 56, 208, 208, 1);
     draw_clock();
+	draw_mainInterface();
     while (1) {
 		if (USART3_RX_STA & 0X8000) {
 			no_input_last = globalTick_Get();
     	}else{
 			if((globalTick_Get()-no_input_last)>=10000){
 				//长时间无数据接收检查
-				wifi_isok = WIFI_ConnectCheck();
+				//wifi_isok = WIFI_ConnectCheck();	//测试时先注释了
 				no_input_last = globalTick_Get();
 			}
 		}
         key = KEY_Scan(0);
-		WIFI_RcvHandle(wifi_isok);	//WIFI转发
+		//WIFI_RcvHandle(wifi_isok);	//WIFI转发 测试时先注释了
         if (key == KEY0_PRES) {
 			current_page = EMPTY_INTREFACE; // 主界面退出回到menu
 			break;

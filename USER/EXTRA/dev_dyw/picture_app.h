@@ -9,6 +9,7 @@
 #include "piclib.h"
 #include "delay.h"
 #include "string.h"
+#include "stdio.h"
 
 typedef enum{
 	PIC_OK = 0,

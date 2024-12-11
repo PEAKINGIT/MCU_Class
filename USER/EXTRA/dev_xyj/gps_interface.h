@@ -8,6 +8,8 @@
 #include "lcd.h"
 #include "gps.h"
 #include "gps_app.h"
+#include "key.h"
+#include "menu.h"
 
 #define SCALING (2) // 0.00001degree/(SCALING):1 Pixel
 #define PI_S (3.14) // short pi

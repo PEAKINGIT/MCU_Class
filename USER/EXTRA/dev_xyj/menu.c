@@ -26,9 +26,12 @@ void add_Select(uint16_t index, uint8_t *text, void (*select_event)(void)) {
 void Menu_Init(void) {
     LCD_Clear(WHITE);
     POINT_COLOR = RED;
+	LCD_DrawRectangle(LCD_XSTART-1, LCD_YSTART-1, LCD_XEND+1, LCD_YEND+1);
+	POINT_COLOR = BLUE;
     Show_Str_Mid(LCD_XSTART, LCD_YSTART + 20, menu_title, 16, 208);
     Show_Str_Mid(LCD_XSTART, LCD_YSTART + 40, "Press Key0 to return", 16, 208);
     Show_Str_Mid(LCD_XSTART, LCD_YSTART + 60, "Press Key1 to GPS", 16, 208);
+	LCD_Draw_Circle(LCD_XSTART,LCD_YSTART,50);
 }
 
 void Menu_Load(void) {

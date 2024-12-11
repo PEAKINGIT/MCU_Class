@@ -1,6 +1,6 @@
 #include "gps_interface.h"
 
-uint8_t ns_set = 'N';	//半球设置
+uint8_t ns_set = 'N'; // 半球设置
 uint8_t ew_set = 'E';
 
 uint32_t lat_set = (DFT_LAT); // 目标点的坐标
@@ -13,20 +13,20 @@ uint32_t t_last1, t_last2;
 // 测试经纬 人的坐标
 uint32_t test_lat = DFT_LAT, test_lon = DFT_LON, test_i = 0;
 int x_last = 30, y_last = 30;
-uint32_t cur_lat,cur_lon;
+uint32_t cur_lat, cur_lon;
 static uint8_t *title = (uint8_t *)"GPS Locating Map";
 
-//复位当前位置
-void location_Rst(void){
-	cur_lat = lat_cen;
-	cur_lon = lon_cen;
+// 复位当前位置
+void location_Rst(void) {
+    cur_lat = lat_cen;
+    cur_lon = lon_cen;
 }
 
 // 通过GPS模块数据更新当前位置
 // GPS本身数据的更新需要在界面主循环里调用gps_app.c/Gps_Receive_Handle()
-void location_Get(void){
-	cur_lat = gpsData.latitude;
-	cur_lon = gpsData.longitude;
+void location_Get(void) {
+    cur_lat = gpsData.latitude;
+    cur_lon = gpsData.longitude;
 }
 
 void gpsGui_Init(void) {
@@ -34,30 +34,37 @@ void gpsGui_Init(void) {
     t_last1 = page_tick;
     t_last2 = page_tick;
     LCD_Clear(WHITE);
+    POINT_COLOR = RED;
+    LCD_DrawRectangle(LCD_XSTART - 1, LCD_YSTART - 1, LCD_XEND + 1, LCD_YEND + 1);
     POINT_COLOR = BLACK;
-    LCD_ShowString(10, 10, 150, 20, 12, title);
-    DrawArrow(10, 30, 40, 30, 5); // 向东箭头
-    LCD_ShowChar(40, 30, 'E', 12, 0);
-    DrawArrow(10, 30, 10, 60, 5);
-    LCD_ShowChar(10, 50, 'N', 12, 0);
+    LCD_ShowString(LCD_XSTART, LCD_YSTART + 12, 150, 20, 12, title);
+    DrawArrow(LCD_XSTART, LCD_YSTART + 24, LCD_XSTART + 20, LCD_YSTART + 24, 5); // 向东箭头
+    LCD_ShowChar(LCD_XSTART + 20, LCD_YSTART + 24, 'E', 12, 0);
+    DrawArrow(LCD_XSTART, LCD_YSTART + 24, LCD_XSTART, LCD_YSTART + 44, 5);
+    LCD_ShowChar(LCD_XSTART, LCD_YSTART + 44, 'N', 12, 0);
     POINT_COLOR = GRAY;
     LCD_Draw_Circle(G_WIDTH / 2, G_HEIGHT / 2, G_RAD); // Middle of gui
 }
 
 void gpsGui_Load(void) {
-	int32_t dlat, dlon;
+    int32_t dlat, dlon;
     uint32_t cxy; // cross xy
-	dlat = test_lat - lat_cen;
-    dlon = test_lon - lon_cen;
-	gpsGui_Init();
+    u8 key;
+    gpsGui_Init();
     while (1) {
         /* use t_last2 as time cnt*/
-        if ((globalTick_Get() - t_last2) > 50) {
+        key = KEY_Scan(0);
+        if (key == KEY0_PRES) break;
+        if ((globalTick_Get() - t_last2) > 20) {
             // LCD_Clear(WHITE);
-            LCD_Fill(1, 70, 240, 260, WHITE); // 局部清空
-            POINT_COLOR = (GRAY);
-            LCD_Draw_Circle(G_WIDTH / 2, G_HEIGHT / 2, G_RAD); // Middle of gui
+            LCD_Fill(G_WIDTH / 2 - G_RAD, G_HEIGHT / 2 - G_RAD, G_WIDTH / 2 + G_RAD, G_HEIGHT / 2 + G_RAD, WHITE); // 局部清空
+            POINT_COLOR = (BLACK);
+            LCD_Draw_Circle(G_WIDTH / 2, G_HEIGHT / 2, G_RAD + 2);  // Middle of gui
+            LCD_Draw_Circle(G_WIDTH / 2, G_HEIGHT / 2, G_RAD);      // Middle of gui
+            LCD_Draw_Circle(G_WIDTH / 2, G_HEIGHT / 2, G_RAD / 20); // Middle of gui
             POINT_COLOR = (RED);
+            dlat = test_lat - lat_cen;
+            dlon = test_lon - lon_cen;
             cxy = draw_Direct(G_WIDTH / 2, G_HEIGHT / 2,
                               G_WIDTH / 2 + dlon / (SCALING),
                               G_HEIGHT / 2 + dlat / (SCALING), G_RAD);
@@ -81,8 +88,10 @@ void gpsGui_Load(void) {
             }
             t_last1 = globalTick_Get();
         }
-        delay_ms(100);
+        // delay_ms(100);
     }
+    current_page = MENU;
+    LCD_Clear(WHITE);
 }
 
 /**
@@ -128,6 +137,7 @@ uint32_t draw_Direct(uint16_t x1, uint16_t y1,
     for (t = 0; t <= distance + 1; t++) {
         tx = uRow;
         ty = uCol;
+        POINT_COLOR = RED;
         if ((my_pow(tx - x1, 2) + my_pow(ty - y1, 2)) >= my_pow(r * 9 / 10, 2)) {
             LCD_Draw_Circle(tx, ty, 10);
             return (tx << 16) + ty;
@@ -144,16 +154,18 @@ uint32_t draw_Direct(uint16_t x1, uint16_t y1,
             uCol += incy;
         }
     }
+    POINT_COLOR = MAGENTA;
+    LCD_Draw_Circle(tx, ty, 5);
     return 0xFFFFFFFF;
 }
 
-int32_t my_pow(int32_t x,uint32_t n){
-	uint32_t i = 0;
-	int32_t ret = 1;
-	for(i=0;i<n;i++){
-		ret*=x;
-	}
-	return ret;
+int32_t my_pow(int32_t x, uint32_t n) {
+    uint32_t i = 0;
+    int32_t ret = 1;
+    for (i = 0; i < n; i++) {
+        ret *= x;
+    }
+    return ret;
 }
 
 // 画箭头函数，箭头的起点 (x1, y1)，终点 (x2, y2)，箭头头部大小 arrow_size
