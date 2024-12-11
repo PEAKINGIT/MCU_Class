@@ -6,6 +6,6 @@ u8 *test_text = (u8 *)"test send text";
 void WIFI_TEST_Load(void){
 	
 	while(1){
-
+		
 	}
 }
