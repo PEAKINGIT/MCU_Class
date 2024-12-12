@@ -31,6 +31,7 @@ void Menu_Init(void) {
     Show_Str_Mid(LCD_XSTART, LCD_YSTART + 20, menu_title, 16, 208);
     Show_Str_Mid(LCD_XSTART, LCD_YSTART + 40, "Press Key0 to return", 16, 208);
     Show_Str_Mid(LCD_XSTART, LCD_YSTART + 60, "Press Key1 to GPS", 16, 208);
+	  Show_Str_Mid(LCD_XSTART, LCD_YSTART + 80, "Press Key_UP to T&H", 16, 208);
 	LCD_Draw_Circle(LCD_XSTART,LCD_YSTART,50);
 }
 
@@ -47,6 +48,10 @@ void Menu_Load(void) {
         }
         if (key == KEY1_PRES) {
             current_page = GPS_GUI;
+            break;
+        }
+				   if (key == WKUP_PRES) {
+            current_page = SUB_INTERFACE_1;
             break;
         }
     }
