@@ -13,7 +13,7 @@
 #define X_AXIS_STEP 5      // X轴每隔几个点显示一个坐标
 #define Y_AXIS_MAX 100     // Y轴最大值，100表示最大温湿度值
 
-void display_sub_interface_1(void);
+void DHT_interface(void);
 void display_sub_interface_1_init(void); //分界面1初始化函数
 int linear_predict(int x0, int y0, int x1, int y1, int x);
 

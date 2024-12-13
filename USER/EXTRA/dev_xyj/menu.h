@@ -18,7 +18,7 @@
 typedef enum {
 	EMPTY_INTREFACE = 0,	//空界面
     MAIN_INTERFACE,  // 主界面
-    SUB_INTERFACE_1, // 分界面1
+    DHT_INTREFACE, // 分界面1
     GPS_GUI, // 分界面2
 	CALENDAR,
 	MENU,
@@ -27,17 +27,38 @@ typedef enum {
 
 typedef struct _select_opt{
 	uint8_t *text;
+	uint8_t type;	// 选项类型 功能型还是页面切换
 	void (*select_event)(void);
 }Select;
 
-#define SELECT_NUM (MAX_INTERFACE+1)	//最大页面数 加其它选项
+#define EMPTY	(0x00)	//默认 无功能选项
+#define INTERF_S (0x01)	//页面切换
+#define FUNC (0x02)		//菜单界面小功能
+
+#define SELECT_NUM (9)	//
+#define PAGE_INUM	(3)	//页面项目数
+#define M_PAGE1 (1)
+#define M_PAGE2 (2)
+#define M_PAGE3 (3)
 
 extern InterfaceState current_page; // 当前界面状态
 extern void (*interface_functions[MAX_INTERFACE])(void); // 声明界面函数指针数组
 
+
+
 void Menu_Init(void);
 void Menu_Load(void);
+void add_Select(uint16_t index, uint8_t *text, void (*select_event)(void),uint8_t type) ;
+void disp_selects(u16 index1, u16 index2) ;
+void disp_MenuPage(uint16_t page) ;
+
 
 void display_empty(void);
+
+// 选项函数
+void s2Main(void);
+void s2DHT(void);
+void s2GPS(void);
+void s2Calendar(void);
 
 #endif

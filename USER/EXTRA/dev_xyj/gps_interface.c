@@ -92,6 +92,7 @@ void gpsGui_Load(void) {
     }
     current_page = MENU;
     LCD_Clear(WHITE);
+	
 }
 
 /**

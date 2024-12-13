@@ -37,7 +37,7 @@ void display_sub_interface_1_init(void) {
 }
 
 // 分界面1显示函数（温湿度显示）
-void display_sub_interface_1(void) {
+void DHT_interface(void) {
     DHT11_Update_Data_If_Expired(); // 周期性更新 DHT11 数据
 
     static uint32_t last_print_tick = 0;
