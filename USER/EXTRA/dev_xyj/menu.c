@@ -59,6 +59,8 @@ void Menu_Init(void) {
     effect_index_num++;
     add_Select(4, "Calendar", s2Calendar, INTERF_S);
     effect_index_num++;
+	add_Select(5, "WIFI Reset", rstWIFI, FUNC);
+    effect_index_num++;
 
     cur_index = 1;
 
@@ -87,6 +89,7 @@ void Menu_Load(void) {
                 // 如果为界面切换型选项 退出循环
                 if (selects[cur_index].type == INTERF_S) break_flag = 1;
             }
+			disp_MenuPage(page);
             break;
         case KEY0_PRES:
             // change cur index
@@ -144,4 +147,12 @@ void s2GPS(void) {
 
 void s2Calendar(void) {
     current_page = CALENDAR;
+}
+
+//FUNC
+void rstWIFI(void){
+	atk_8266_send_cmd("AT+CIPCLOSE", "OK", 100);	//关闭连接
+    atk_8266_quit_trans();                        // 退出透传
+    atk_8266_send_cmd("AT+CIPMODE=0", "OK", 200); // 关闭透传模式
+	WIFI_STA_Set();
 }

@@ -18,7 +18,6 @@ void USART2_IRQHandler(void) {
     if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET) // 接收到数据
     {
         res = USART_ReceiveData(USART2);
-		LED0(1);
         if ((USART2_RX_STA & (1 << 15)) == 0) // 接收完的一批数据,还没有被处理,则不再接收其他数据
         {
             if (USART2_RX_STA < USART2_MAX_RECV_LEN) // 还可以接收数据

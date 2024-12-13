@@ -12,6 +12,7 @@
 #include "gps_interface.h"
 #include "dht11_interface.h"
 #include "calendar_interface.h"
+#include "wifi_app.h"
 
 //interfaces
 // ½çÃæ×´Ì¬Ã¶¾Ù
@@ -61,5 +62,6 @@ void s2Main(void);
 void s2DHT(void);
 void s2GPS(void);
 void s2Calendar(void);
+void rstWIFI(void);
 
 #endif

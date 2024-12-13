@@ -37,7 +37,7 @@ u8 Gps_Init(void) {
         return GPS_InitOK;
     } else {
         LCD_ShowString(30, 120, 200, 16, 16, "SkyTraF8-BD Set Done!!");
-        delay_ms(500);
+        delay_ms(1000);
         return GPS_InitOK;
     }
 }
@@ -54,7 +54,6 @@ void Gps_Receive_Handle(void) {
         USART2_RX_STA = 0;                               // 启动下一次接收
 
         GPS_Analysis(&gpsData, (u8 *)USART1_TX_BUF); // 分析字符串 从缓存中获取数据
-
         // Gps_Msg_Print();                                 // 显示信息
     }
 }

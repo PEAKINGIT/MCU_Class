@@ -1,13 +1,13 @@
 #include "main_interface.h"
 
-uint8_t *week_days[7]={
-	"Sunday   ",
-	"Monday   ",
-	"Tuesday  ",
-	"Wednesday",
-	"Thursday ",
-	"Friday   ",
-	"Saturday ",
+uint8_t *week_days[7] = {
+    "Sunday   ",
+    "Monday   ",
+    "Tuesday  ",
+    "Wednesday",
+    "Thursday ",
+    "Friday   ",
+    "Saturday ",
 };
 
 // u16 hour = 0;
@@ -54,25 +54,25 @@ void earse_clock(uint16_t hour, uint16_t minute) {
 }
 
 void draw_mainInterface(void) {
-	u16 x_base = 10+LCD_XSTART;
-	u16 y_base = 10+LCD_YSTART;
-	uint8_t str_temp[20];
+    u16 x_base = 10 + LCD_XSTART;
+    u16 y_base = 10 + LCD_YSTART;
+    uint8_t str_temp[20];
     if (t != calendar.sec) {
         t = calendar.sec;
         // 显示时间
         POINT_COLOR = BLUE; // 设置字体为蓝色
-		strcpy((char *)str_temp,(char *)week_days[calendar.week]);
-		LCD_ShowString(10+LCD_XSTART, 10+LCD_YSTART, 100, 16, 16, str_temp);	//星期
-        LCD_ShowString(10+LCD_XSTART, 30+LCD_YSTART, 200, 16, 16, "    -  -  ");
+        strcpy((char *)str_temp, (char *)week_days[calendar.week]);
+        LCD_ShowString(10 + LCD_XSTART, 10 + LCD_YSTART, 100, 16, 16, str_temp); // 星期
+        LCD_ShowString(10 + LCD_XSTART, 30 + LCD_YSTART, 200, 16, 16, "    -  -  ");
         // // LCD_ShowxNum(u16 x,u16 y,u32 num,u8 len,u8 size,u8 mode)
-        LCD_ShowxNum(10+LCD_XSTART, 30+LCD_YSTART, calendar.w_year, 4, 16, 0x80);
-        LCD_ShowxNum(50+LCD_XSTART, 30+LCD_YSTART, calendar.w_month, 2, 16, 0x80);
-        LCD_ShowxNum(74+LCD_XSTART, 30+LCD_YSTART, calendar.w_date, 2, 16, 0x80);
-        LCD_ShowString(x_base, 46+y_base, 200, 16, 16, "  :  :  ");
-        LCD_ShowxNum(x_base, 46+y_base, calendar.hour, 2, 16, 0x80);
-        LCD_ShowxNum(x_base+24, 46+y_base, calendar.min, 2, 16, 0x80);
-        LCD_ShowxNum(x_base+48, 46+y_base, calendar.sec, 2, 16, 0x80);
-        LED0_Toggle;
+        LCD_ShowxNum(10 + LCD_XSTART, 30 + LCD_YSTART, calendar.w_year, 4, 16, 0x80);
+        LCD_ShowxNum(50 + LCD_XSTART, 30 + LCD_YSTART, calendar.w_month, 2, 16, 0x80);
+        LCD_ShowxNum(74 + LCD_XSTART, 30 + LCD_YSTART, calendar.w_date, 2, 16, 0x80);
+        LCD_ShowString(x_base, 46 + y_base, 200, 16, 16, "  :  :  ");
+        LCD_ShowxNum(x_base, 46 + y_base, calendar.hour, 2, 16, 0x80);
+        LCD_ShowxNum(x_base + 24, 46 + y_base, calendar.min, 2, 16, 0x80);
+        LCD_ShowxNum(x_base + 48, 46 + y_base, calendar.sec, 2, 16, 0x80);
+        // LED0_Toggle;
     }
     if (calendar.hour != former_hour || calendar.min != former_minute) {
         earse_clock(former_hour, former_minute);
@@ -88,42 +88,40 @@ void Load_MainInterface(void) {
     u16 former_hour = calendar.hour;
     u16 former_minute = calendar.min;
     u8 key;
-	u32 no_input_last = 0;
-	u8 wifi_isok = WIFI_OK;
+    u32 no_input_last = 0;
+    u8 wifi_isok = WIFI_OK;
 
-	
-
-	current_page = MAIN_INTERFACE;
+    current_page = MAIN_INTERFACE;
     LCD_Clear(WHITE);
-	//绘制边界
-	POINT_COLOR = RED;
-	LCD_DrawRectangle(15, 55, 224, 264);
-	//绘制手表
-	ai_load_picfile("0:/PICTURE/1-watch.jpg", 16, 56, 208, 208, 1);
+    // 绘制边界
+    POINT_COLOR = RED;
+    LCD_DrawRectangle(15, 55, 224, 264);
+    // 绘制手表
+    ai_load_picfile("0:/PICTURE/1-watch.jpg", 16, 56, 208, 208, 1);
     draw_clock();
-	draw_mainInterface();
+    draw_mainInterface();
     while (1) {
-		if (USART3_RX_STA & 0X8000) {
-			no_input_last = globalTick_Get();
-    	}else{
-			if((globalTick_Get()-no_input_last)>=10000){
-				//长时间无数据接收检查
-				wifi_isok = WIFI_ConnectCheck();	//测试时先注释了
-				no_input_last = globalTick_Get();
-			}
-		}
+        if (USART3_RX_STA & 0X8000) {
+            no_input_last = globalTick_Get();
+        } else {
+            if ((globalTick_Get() - no_input_last) >= 10000) {
+                // 长时间无数据接收检查
+                wifi_isok = WIFI_ConnectCheck(); // 测试时先注释了
+                no_input_last = globalTick_Get();
+            }
+        }
         key = KEY_Scan(0);
-		WIFI_RcvHandle(wifi_isok);	//WIFI服务器数据接收处理 测试时先注释了
+        WIFI_RcvHandle(wifi_isok); // WIFI服务器数据接收处理 测试时先注释了
         if (key == KEY0_PRES) {
-			current_page = EMPTY_INTREFACE; // 主界面退出回到menu
-			break;
-		}
+            current_page = EMPTY_INTREFACE; // 主界面退出回到menu
+            break;
+        }
         if (key == KEY1_PRES) {
-			current_page = MENU; // 主界面退出回到menu
+            current_page = MENU; // 主界面退出回到menu
             break;
         }
         delay_ms(100);
         draw_mainInterface();
     }
-	LCD_Clear(WHITE);
+    LCD_Clear(WHITE);
 }

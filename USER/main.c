@@ -71,6 +71,8 @@ int main(void) {
     }
 
     current_page = MAIN_INTERFACE;
+	LED0(1);
+	LED1(1);
     // RTC_Force_Init(2024, 12, 11, 16, 41, 0);	强制初始化RTC
     /**
      * @brief 主循环在这里!!!
@@ -78,11 +80,12 @@ int main(void) {
     while (1) {
         // 界面显示 正常是在函数里面进行循环
         interface_functions[current_page]();
-       
+
         // 非界面循环里任意键返回主界面
         if (KEY_Scan(0) != 0) {
             current_page = MAIN_INTERFACE;
         }
+		LED0_Toggle;
         LED1_Toggle;
         delay_ms(500);
     }

@@ -1,9 +1,18 @@
 #include "wifi_app.h"
 
-u8 *default_ip = "192.168.15.45"; // 默认IP 设为作为TCP服务器的热点设备的地址
+u8 *default_ip = "10.162.191.181"; // 默认IP 设为作为TCP服务器的热点设备的地址
 u8 net_mode = 1;                   // 网络模式 1:TCP Client
 static u8 p[40];                   // 用于输出字符串的指针
 u8 WIFI_state = 0;
+
+/**
+ * @brief 自定义通讯协议关键字
+ */
+u8 *cmd_head = "GP9++:";
+
+/**
+ * @endparblock
+ */
 
 // WIFI初始化应用及检查
 //  需要先初始化LCD
@@ -149,6 +158,7 @@ void WIFI_StateDisp(void) {
 //
 void WIFI_RcvHandle(u8 wifi_isok) {
     u16 rlen = 0;
+	u8 *sptr;
 	if(wifi_isok==WIFI_ERR){
 		printf("WIFI CONNECTION NEED RESET!!!\r\n");
 		return;
@@ -157,7 +167,21 @@ void WIFI_RcvHandle(u8 wifi_isok) {
         // 接收到一次数据
         rlen = USART3_RX_STA & 0X7FFF; // 得到本次接收到的数据长度
         USART3_RX_BUF[rlen] = 0;       // 添加结束符
-        printf("%s", USART3_RX_BUF);   // 发送到串口
-        USART3_RX_STA = 0;             // 清空接收状态
+
+		sptr = strstr((const char *)USART3_RX_BUF,(const char *)cmd_head);
+		sptr += 6;	//跳过cmd_head
+		if(sptr!=NULL){
+			printf("sptr:%s\r\n",sptr);
+		}
+        printf("%s\r\n", USART3_RX_BUF);   // 发送到串口
+		for(uint16_t i =0;i<rlen;i++){
+			USART3_RX_BUF[i] = 0;	//清空缓冲区
+		}
+		USART3_RX_STA = 0;             // 清空接收状态
     }
+}
+
+// 解析从上位机获取的命令并设置响应位
+void cmd_Analysis(u8 *cmd){
+
 }
