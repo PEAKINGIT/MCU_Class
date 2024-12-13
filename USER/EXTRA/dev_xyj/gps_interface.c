@@ -25,14 +25,25 @@ void location_Rst(void) {
 // 通过GPS模块数据更新当前位置
 // GPS本身数据的更新需要在界面主循环里调用gps_app.c/Gps_Receive_Handle()
 void location_Get(void) {
-    cur_lat = gpsData.latitude;
-    cur_lon = gpsData.longitude;
+    int32_t dlat, dlon;
+    dlat = gpsData.latitude - lat_cen;
+    dlon = gpsData.longitude - lon_cen;
+
+    // 错误数据排除
+    if (abs(dlat) > (1 << 15) || abs(dlon) > (1 << 15)) {
+        return;
+    } else {
+        cur_lat = gpsData.latitude;
+        cur_lon = gpsData.longitude;
+    }
 }
 
 void gpsGui_Init(void) {
     page_tick = globalTick_Get();
     t_last1 = page_tick;
     t_last2 = page_tick;
+    location_Rst();
+
     LCD_Clear(WHITE);
     POINT_COLOR = RED;
     LCD_DrawRectangle(LCD_XSTART - 1, LCD_YSTART - 1, LCD_XEND + 1, LCD_YEND + 1);
@@ -53,6 +64,16 @@ void gpsGui_Load(void) {
     gpsGui_Init();
     while (1) {
         /* use t_last2 as time cnt*/
+		Gps_Receive_Handle();
+        location_Get();
+		dlat = cur_lat - lat_cen;
+        dlon = cur_lon - lon_cen;
+		printf("dlat:%d dlon:%d \r\n",dlat,dlon);
+        // dlat = test_lat - lat_cen;
+        // dlon = test_lon - lon_cen;
+		/* use t_last1 as time cnt*/
+        // GPS_Test(&t_last1);
+
         key = KEY_Scan(0);
         if (key == KEY0_PRES) break;
         if ((globalTick_Get() - t_last2) > 20) {
@@ -63,38 +84,38 @@ void gpsGui_Load(void) {
             LCD_Draw_Circle(G_WIDTH / 2, G_HEIGHT / 2, G_RAD);      // Middle of gui
             LCD_Draw_Circle(G_WIDTH / 2, G_HEIGHT / 2, G_RAD / 20); // Middle of gui
             POINT_COLOR = (RED);
-            dlat = test_lat - lat_cen;
-            dlon = test_lon - lon_cen;
+
             cxy = draw_Direct(G_WIDTH / 2, G_HEIGHT / 2,
                               G_WIDTH / 2 + dlon / (SCALING),
                               G_HEIGHT / 2 + dlat / (SCALING), G_RAD);
 
             t_last2 = globalTick_Get();
         }
-        /* use t_last1 as time cnt*/
-        if ((globalTick_Get() - t_last1) > 100) {
-            test_i++;
-            if (test_i < 80) {
-                test_lon += 2;
-            } else if (test_i >= 80 && test_i < 160) {
-                test_lat += 2;
-            } else if (test_i >= 160 && test_i < 240) {
-                test_lon -= 2;
-            } else {
-                test_lat -= 2;
-                if (test_i == 320) {
-                    test_i = 0;
-                }
-            }
-            t_last1 = globalTick_Get();
-        }
+        
         // delay_ms(100);
     }
     current_page = MENU;
     LCD_Clear(WHITE);
-	
 }
 
+void GPS_Test(uint32_t *tp) {
+    if ((globalTick_Get() - *tp) > 100) {
+        test_i++;
+        if (test_i < 80) {
+            test_lon += 2;
+        } else if (test_i >= 80 && test_i < 160) {
+            test_lat += 2;
+        } else if (test_i >= 160 && test_i < 240) {
+            test_lon -= 2;
+        } else {
+            test_lat -= 2;
+            if (test_i == 320) {
+                test_i = 0;
+            }
+        }
+        *tp = globalTick_Get();
+    }
+}
 /**
  * @brief funcs assist the gui display
  */
@@ -110,7 +131,6 @@ uint32_t draw_Direct(uint16_t x1, uint16_t y1,
                      uint16_t x2, uint16_t y2,
                      uint8_t r) {
     uint16_t tx = x1, ty = y1;
-    uint32_t ret;
     uint16_t t;
     int xerr = 0, yerr = 0, delta_x, delta_y, distance;
     int incx, incy, uRow, uCol;

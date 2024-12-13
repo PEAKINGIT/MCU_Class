@@ -11,9 +11,9 @@ u8 WIFI_App_Init(void) {
     // u8 mode = WIFI_MODE_STA;
     u8 cnt = 0;
     atk_8266_hw_init();
-    LCD_Clear(WHITE);
+    LCD_Fill(LCD_XSTART,LCD_YSTART,LCD_XEND,LCD_YEND,WHITE);
     POINT_COLOR = RED;
-    Show_Str_Mid(LCD_XSTART, LCD_YSTART + 20, "WIFI模块初始化", 16, 240);
+    Show_Str_Mid(LCD_XSTART, LCD_YSTART + 20, "WIFI模块初始化", 16, LCD_WIDTH);
     WIFI_state = 0;
     while (atk_8266_send_cmd("AT", "OK", 20)) // 检查WIFI模块是否在线
     {
@@ -48,9 +48,9 @@ u8 WIFI_STA_Set(void) {
     u8 key;
     uint16_t timeout = 0;
     u8 ipbuf[16]; // IP缓存
-    LCD_Clear(WHITE);
+    LCD_Fill(LCD_XSTART,LCD_YSTART,LCD_XEND,LCD_YEND,WHITE);
     POINT_COLOR = RED;
-    Show_Str_Mid(LCD_XSTART, LCD_YSTART + 20, "设置中...", 12, 240); // 连接失败
+    Show_Str_Mid(LCD_XSTART, LCD_YSTART + 20, "设置中...", 12, LCD_WIDTH); // 连接失败
     atk_8266_send_cmd("AT+CWMODE=1", "OK", 50);                      // 设置WIFI STA模式
     atk_8266_send_cmd("AT+RST", "OK", 20);                           // DHCP服务器关闭(仅AP模式有效)
     delay_ms(1000);                                                  // 延时3S等待重启成功
@@ -60,17 +60,17 @@ u8 WIFI_STA_Set(void) {
     sprintf((char *)p, "AT+CWJAP=\"%s\",\"%s\"", wifista_ssid, wifista_password); // 设置无线参数:ssid,密码
     printf("cmd send:%s\r\n", p);
     timeout = 0;
-    LCD_Clear(WHITE);
+    LCD_Fill(LCD_XSTART,LCD_YSTART,LCD_XEND,LCD_YEND,WHITE);
     POINT_COLOR = RED;
-    Show_Str_Mid(LCD_XSTART, LCD_YSTART + 20, "开始连接网络", 12, 240);
+    Show_Str_Mid(LCD_XSTART, LCD_YSTART + 20, "开始连接网络", 12, LCD_WIDTH);
     while (atk_8266_send_cmd(p, "WIFI GOT IP", 300)) {
         // 连接目标路由器,并且获得IP
         timeout++;
         if (timeout >= 2) {
             // 超时退出连接
-            LCD_Clear(WHITE);
+			LCD_Fill(LCD_XSTART,LCD_YSTART,LCD_XEND,LCD_YEND,WHITE);
             POINT_COLOR = RED;
-            Show_Str_Mid(LCD_XSTART, LCD_YSTART + 20, "连接网络超时", 12, 240); // 连接失败
+            Show_Str_Mid(LCD_XSTART, LCD_YSTART + 20, "连接网络超时", 12, LCD_WIDTH); // 连接失败
             delay_ms(500);
             return NO_CNNCT;
         }
@@ -83,22 +83,22 @@ u8 WIFI_STA_Set(void) {
     sprintf((char *)p, "AT+CIPSTART=\"TCP\",\"%s\",%s", ipbuf, (u8 *)portnum); // 配置目标TCP服务器
     printf("cmd send:%s\r\n", p);
     timeout = 0;
-    LCD_Clear(WHITE);
+    LCD_Fill(LCD_XSTART,LCD_YSTART,LCD_XEND,LCD_YEND,WHITE);
     POINT_COLOR = RED;
-    Show_Str_Mid(LCD_XSTART, LCD_YSTART + 20, "WK_UP:暂停连接服务器", 16, 240);
+    Show_Str_Mid(LCD_XSTART, LCD_YSTART + 20, "WK_UP:暂停连接服务器", 16, LCD_WIDTH);
     while (atk_8266_send_cmd(p, "OK", 200)) {
         timeout++;
         if (timeout >= 2) {
             // 超时退出连接
             POINT_COLOR = RED;
-            Show_Str_Mid(LCD_XSTART, LCD_YSTART + 40, "连接服务器超时", 12, 240); // 连接失败
+            Show_Str_Mid(LCD_XSTART, LCD_YSTART + 40, "连接服务器超时", 12, LCD_WIDTH); // 连接失败
             delay_ms(500);
             return NO_CNNCT;
         }
         key = KEY_Scan(0);
         if (key == WKUP_PRES) {
             POINT_COLOR = RED;
-            Show_Str_Mid(LCD_XSTART, LCD_YSTART + 40, "暂停连接服务器", 12, 240); // 连接失败
+            Show_Str_Mid(LCD_XSTART, LCD_YSTART + 40, "暂停连接服务器", 12, LCD_WIDTH); // 连接失败
             delay_ms(500);
             return NO_CNNCT;
         }
@@ -109,6 +109,7 @@ u8 WIFI_STA_Set(void) {
 }
 
 // 封装的发送启动函数
+// 接收只要透传模式启动即可
 // 调用该函数后通过以下方式向服务器发送数据
 // u3_printf("%s", send);
 void WIFI_StartSendtoSever(void) {
@@ -134,7 +135,7 @@ void WIFI_StateDisp(void) {
     u8 ipbuf[16];              // IP缓存
     atk_8266_get_wanip(ipbuf); // 获取模块IP地址
     sprintf((char *)p, "IP地址:%s 端口:%s", ipbuf, (u8 *)portnum);
-    LCD_Clear(WHITE);
+    LCD_Fill(LCD_XSTART,LCD_YSTART,LCD_XEND,LCD_YEND,WHITE);
     POINT_COLOR = RED;
     Show_Str(30, 65, 200, 12, p, 12, 0);        // 显示IP地址和端口
     Show_Str(30, 80, 200, 12, "状态:", 12, 0);  // 连接状态

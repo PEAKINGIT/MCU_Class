@@ -2,42 +2,44 @@
 #include "gps_app.h"
 // 串口接收有关变量
 u16 i, rxlen;
-u16 lenx;
 u8 rtn = 0;
-u8 upload = 1;
+u8 upload = 0;
 u8 USART1_TX_BUF[USART2_MAX_RECV_LEN]; // 串口1,发送缓存区
-__align(4) u8 dtbuf[50];   								//打印缓存器
+__align(4) u8 dtbuf[50];               // 打印缓存器
 
 u8 Gps_Init(void) {
     //
-	u8 time_out=0;	//超时判断
+	POINT_COLOR = RED;
+    LCD_DrawRectangle(LCD_XSTART - 1, LCD_YSTART - 1, LCD_XEND + 1, LCD_YEND + 1);
+    USART2_init(38400); // 初始化串口2波特率为9600
+    u8 time_out = 0;    // 超时判断
     if (SkyTra_Cfg_Rate(5) != 0) {
-		// 设置定位信息更新速度为5Hz
-		//非0说明失败 重新配置顺便判断GPS模块是否在位.
-        LCD_ShowString(30,120,200,16,16,"SkyTraF8-BD Setting...");
+        // 设置定位信息更新速度为5Hz
+        // 非0说明失败 重新配置顺便判断GPS模块是否在位.
+        LCD_ShowString(30, 120, 200, 16, 16, "SkyTraF8-BD Setting...");
         do {
-			delay_ms(10);
-			time_out++;
-			if(time_out>GPS_INIT_TIMEOUT){
-				//超时返回(2s)
-				LCD_ShowString(30,120,200,16,16,"SkyTraF8-BD Set TimeOut!");
-				LCD_ShowString(30,140,200,16,16,"Check Connection!");
-				delay_ms(500);
-				return GPS_TimeOut;
-			}
+            delay_ms(10);
+            time_out++;
+            if (time_out > GPS_INIT_TIMEOUT) {
+                // 超时返回(2s)
+                LCD_ShowString(30, 120, 200, 16, 16, "SkyTraF8-BD Set TimeOut!");
+                LCD_ShowString(30, 140, 200, 16, 16, "Check Connection!");
+                delay_ms(500);
+                return GPS_TimeOut;
+            }
             USART2_init(9600);           // 初始化串口2波特率为9600
             SkyTra_Cfg_Prt(3);           // 重新设置模块的波特率为38400
             USART2_init(38400);          // 初始化串口2波特率为38400
             rtn = SkyTra_Cfg_Tp(100000); // 脉冲宽度为100ms
         } while (SkyTra_Cfg_Rate(5) != 0 && rtn != 0); // 配置SkyTraF8-BD的更新速率为5Hz
-        LCD_ShowString(30,120,200,16,16,"SkyTraF8-BD Set Done!!");
-		delay_ms(500);
-		return GPS_InitOK;
-    }else{
-		LCD_ShowString(30,120,200,16,16,"SkyTraF8-BD Set Done!!");
-		delay_ms(500);
-		return GPS_InitOK;
-	}
+        LCD_ShowString(30, 120, 200, 16, 16, "SkyTraF8-BD Set Done!!");
+        delay_ms(500);
+        return GPS_InitOK;
+    } else {
+        LCD_ShowString(30, 120, 200, 16, 16, "SkyTraF8-BD Set Done!!");
+        delay_ms(500);
+        return GPS_InitOK;
+    }
 }
 
 // 放在主循环中 处理串口接收到的数据
@@ -47,16 +49,14 @@ void Gps_Receive_Handle(void) {
         rxlen = USART2_RX_STA & 0X7FFF; // 得到数据长度
         for (i = 0; i < rxlen; i++)
             USART1_TX_BUF[i] = USART2_RX_BUF[i];
-        USART2_RX_STA = 0; // 启动下一次接收
-
-        GPS_Analysis(&gpsData, (u8 *)USART1_TX_BUF);     // 分析字符串 从缓存中获取数据
-        Gps_Msg_Print();                                 // 显示信息
         USART1_TX_BUF[i] = 0;                            // 自动添加结束符
         if (upload) printf("\r\n%s\r\n", USART1_TX_BUF); // 发送接收到的数据到串口1
+        USART2_RX_STA = 0;                               // 启动下一次接收
+
+        GPS_Analysis(&gpsData, (u8 *)USART1_TX_BUF); // 分析字符串 从缓存中获取数据
+
+        // Gps_Msg_Print();                                 // 显示信息
     }
-    if ((lenx % 500) == 0)
-        LED0_Toggle;
-    lenx++;
 }
 
 // 显示GPS定位信息 GUI or USART1
@@ -78,8 +78,8 @@ void Gps_Msg_Print(void) {
     tp = gpsData.speed;
     sprintf((char *)dtbuf, "Speed:%.3fkm/h     ", tp /= 1000); // 得到速度字符串
     LCD_ShowString(30, 180, 200, 16, 16, dtbuf);
-    if (gpsData.fixmode <= 3){
-		 // 定位状态
+    if (gpsData.fixmode <= 3) {
+        // 定位状态
         sprintf((char *)dtbuf, "Fix Mode:%s", fixmode_tbl[gpsData.fixmode]);
         LCD_ShowString(30, 200, 200, 16, 16, dtbuf);
     }

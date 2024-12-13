@@ -1,11 +1,3 @@
-*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil5\Core\ARM\ARMCC\Bin'
-Build target 'F103ZE'
-compiling menu.c...
-USER\EXTRA\dev_xyj\menu.c(147): warning:  #1-D: last line of file ends without a newline
-  }
-USER\EXTRA\dev_xyj\menu.c: 1 warning, 0 errors
-linking...
-Program Size: Code=71810 RO-data=10146 RW-data=368 ZI-data=53204  
-FromELF: creating hex file...
-".\Objects\BigProject.axf" - 0 Error(s), 1 Warning(s).
-Build Time Elapsed:  00:00:01
+Load "e:\\Proj_STM32\\KeilProj\\ForMCU_Class_FWLib_ASM\\BigProject\\MCU_Class\\Objects\\BigProject.axf" 
+Erase Done.Programming Done.Verify OK.Application running ...
+Flash Load finished at 00:23:32

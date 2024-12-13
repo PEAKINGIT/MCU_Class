@@ -33,7 +33,7 @@ void disp_selects(u16 index1, u16 index2) {
             LCD_DrawRectangle(LCD_XSTART + 2, LCD_YSTART + 20 * (i - index1 + 1) + 2, LCD_XEND - 2, LCD_YSTART + 20 * (i - index1 + 1) + 20 - 2);
         }
         LCD_DrawRectangle(LCD_XSTART, LCD_YSTART + 20 * (i - index1 + 1), LCD_XEND, LCD_YSTART + 20 * (i - index1 + 1) + 20);
-        LCD_ShowNum(LCD_XSTART, LCD_YSTART + 20 * (i - index1 + 1), i, 1, 12);
+        LCD_ShowNum(LCD_XSTART, LCD_YSTART + 20 * (i - index1 + 1), i, 2, 12);
         if (selects[i].text != NULL) {
             LCD_ShowString(LCD_XSTART + 12, LCD_YSTART + 20 * (i - index1 + 1), 120, 20, 12, selects[i].text);
         }
@@ -44,7 +44,7 @@ void disp_selects(u16 index1, u16 index2) {
 // 2 select 4-6
 // 3 ...
 void disp_MenuPage(uint16_t page) {
-	LCD_Fill(LCD_XSTART,LCD_YSTART,LCD_XEND,LCD_YEND,WHITE);
+	LCD_Fill(LCD_XSTART,LCD_YSTART+20,LCD_XEND,LCD_YEND,WHITE);
     disp_selects((page - 1) * PAGE_INUM + 1, page * PAGE_INUM);
 }
 
@@ -66,15 +66,8 @@ void Menu_Init(void) {
     POINT_COLOR = RED;
     LCD_DrawRectangle(LCD_XSTART - 1, LCD_YSTART - 1, LCD_XEND + 1, LCD_YEND + 1);
     POINT_COLOR = BLUE;
-    Show_Str_Mid(LCD_XSTART, LCD_YSTART + 10, menu_title, 16, 208);
+    Show_Str_Mid(LCD_XSTART, LCD_YSTART + 20, menu_title, 16, 208);
     disp_MenuPage(1);
-	// LCD_DrawRectangle(LCD_XSTART-1, LCD_YSTART-1, LCD_XEND+1, LCD_YEND+1);
-	// POINT_COLOR = BLUE;
-    // Show_Str_Mid(LCD_XSTART, LCD_YSTART + 20, menu_title, 16, 208);
-    // Show_Str_Mid(LCD_XSTART, LCD_YSTART + 40, "Press Key0 to return", 16, 208);
-    // Show_Str_Mid(LCD_XSTART, LCD_YSTART + 60, "Press Key1 to GPS", 16, 208);
-	//   Show_Str_Mid(LCD_XSTART, LCD_YSTART + 80, "Press Key_UP to T&H", 16, 208);
-	// LCD_Draw_Circle(LCD_XSTART,LCD_YSTART,50);
 }
 
 void Menu_Load(void) {
@@ -108,7 +101,7 @@ void Menu_Load(void) {
         case KEY0_LONGP:
             // 长按KEY0 翻页
             page++;
-            if (page > 3) {
+            if (page > PAGE_NUM) {
                 page = 1;
             }
             cur_index = (page - 1) * PAGE_INUM + 1;
@@ -116,6 +109,9 @@ void Menu_Load(void) {
         default:
             break;
         }
+
+		//切换界面则退出loop
+		if(break_flag) break;
     }
     /* do before exit */
     if (current_page == MENU) {

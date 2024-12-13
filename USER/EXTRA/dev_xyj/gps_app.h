@@ -16,6 +16,8 @@
 
 #define GPS_INIT_TIMEOUT (200)	//timeout*10ms = realtime; 200->2s
 
+extern u8 USART1_TX_BUF[USART2_MAX_RECV_LEN];
+
 u8 Gps_Init(void);
 void Gps_Receive_Handle(void);
 void Gps_Msg_Print(void);

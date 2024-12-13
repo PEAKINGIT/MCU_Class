@@ -35,8 +35,9 @@ typedef struct _select_opt{
 #define INTERF_S (0x01)	//页面切换
 #define FUNC (0x02)		//菜单界面小功能
 
-#define SELECT_NUM (9)	//
-#define PAGE_INUM	(3)	//页面项目数
+#define PAGE_INUM	(6)	//页面项目数
+#define PAGE_NUM	(2)	//page数
+#define SELECT_NUM (12)	// 
 #define M_PAGE1 (1)
 #define M_PAGE2 (2)
 #define M_PAGE3 (3)

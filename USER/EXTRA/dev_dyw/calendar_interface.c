@@ -147,6 +147,6 @@ void Load_calendarInterface(void) {
         }
         delay_ms(100);
     }
-    current_page = EMPTY_INTREFACE; // 主界面退出回到menu
+    current_page = MAIN_INTERFACE; // 主界面退出回到menu
 	LCD_Clear(WHITE);
 }

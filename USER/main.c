@@ -2,17 +2,17 @@
 
 #include "delay.h"
 #include "dht11.h"
+#include "gps_app.h"
 #include "key.h"
 #include "led.h"
 #include "main_interface.h"
 #include "menu.h"
 #include "picture_app.h"
-#include "gps_app.h"
 #include "wifi_app.h"
 
-#include "exfuns.h"      //extra Funcs for Fatfs
-#include "ff.h"          //Fatfs
-#include "lcd.h"         //LCD TFT Screen Drive
+#include "exfuns.h" //extra Funcs for Fatfs
+#include "ff.h"     //Fatfs
+#include "lcd.h"    //LCD TFT Screen Drive
 #include "lcd_defines.h"
 #include "malloc.h"      //hand-made malloc
 #include "piclib.h"      //lib for picture display
@@ -37,10 +37,10 @@ void Delay(u32 count);
  * @brief main Function
  */
 int main(void) {
-    //u8 res; // 临时返回值
-    //u8 key;              // 键值
-    // u8 pause = 0;        // 暂停标记
-	u8 wifi_state;
+    // u8 res; // 临时返回值
+    // u8 key;              // 键值
+    //  u8 pause = 0;        // 暂停标记
+    u8 wifi_state;
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); // 设置中断优先级分组为组2：2位抢占优先级，2位响应优先级
 
     delay_init();         // 延时函数初始化
@@ -63,31 +63,29 @@ int main(void) {
     PicDebug_ListPics();  // 串口打印出图片列表
     Draw_Picture_Init();  // 图片绘制初始化
 
-	// Gps_Init();          // GPS Initialize
-	//wifi_state = WIFI_App_Init();	//WIFI初始化有点slow 调试可以先关掉
-	wifi_state = 0x01;
-	if((wifi_state|0x01)!=0){
-		printf("wifi_state:%02x\r\n",wifi_state);
-	}
+    Gps_Init();          // GPS Initialize
+    wifi_state = WIFI_App_Init(); // WIFI初始化有点slow 调试可以先关掉
+    wifi_state = 0x01;
+    if ((wifi_state | 0x01) != 0) {
+        printf("wifi_state:%02x\r\n", wifi_state);
+    }
 
-	current_page = MENU;
-	//RTC_Force_Init(2024, 12, 11, 16, 41, 0);
-	/**
-	 * @brief 主循环在这里!!!
-	 */
+    current_page = MAIN_INTERFACE;
+    // RTC_Force_Init(2024, 12, 11, 16, 41, 0);	强制初始化RTC
+    /**
+     * @brief 主循环在这里!!!
+     */
     while (1) {
-
-		//界面显示 正常是在函数里面进行循环
-		interface_functions[current_page]();
-
-		// 非界面循环里任意键返回主界面
-		if(KEY_Scan(0)!=0){
-			current_page = MAIN_INTERFACE;
-		}
-		LED1_Toggle;
-		delay_ms(500);
-
-	}
+        // 界面显示 正常是在函数里面进行循环
+        interface_functions[current_page]();
+       
+        // 非界面循环里任意键返回主界面
+        if (KEY_Scan(0) != 0) {
+            current_page = MAIN_INTERFACE;
+        }
+        LED1_Toggle;
+        delay_ms(500);
+    }
 }
 
 /**
@@ -98,3 +96,5 @@ void Delay(u32 count) {
     for (; i < count; i++)
         ;
 }
+
+/* END OF FILE */
