@@ -8,6 +8,8 @@
 // 2010/6/6
 
 _calendar_obj calendar; // 时钟结构体
+u8 alarm_cnt = 0;
+u8 alarm_flag = 0;
 
 static void RTC_NVIC_Config(void) {
     NVIC_InitTypeDef NVIC_InitStructure;
@@ -48,7 +50,7 @@ u8 RTC_Init(void) {
         RTC_EnterConfigMode();                    /// 允许配置
         RTC_SetPrescaler(32767);                  // 设置RTC预分频的值
         RTC_WaitForLastTask();                    // 等待最近一次对RTC寄存器的写操作完成
-        RTC_Set(2024, 12, 11, 10, 0, 0);           // 设置时间
+        RTC_Set(2024, 12, 11, 10, 0, 0);          // 设置时间
         RTC_ExitConfigMode();                     // 退出配置模式
         BKP_WriteBackupRegister(BKP_DR1, 0X5050); // 向指定的后备寄存器中写入用户程序数据
     } else {
@@ -63,7 +65,7 @@ u8 RTC_Init(void) {
 }
 
 u8 RTC_Force_Init(u16 syear, u8 smon, u8 sday, u8 hour, u8 min, u8 sec) {
-	// 换电池后调用
+    // 换电池后调用
     // 强制初始化 手动校正时间
     // 写到主程序里调用一次 之后注释掉不用
     u8 temp = 0;
@@ -88,9 +90,9 @@ u8 RTC_Force_Init(u16 syear, u8 smon, u8 sday, u8 hour, u8 min, u8 sec) {
     RTC_ExitConfigMode();                       // 退出配置模式
     BKP_WriteBackupRegister(BKP_DR1, 0X5050);   // 向指定的后备寄存器中写入用户程序数据
 
-    RTC_NVIC_Config();                          // RCT中断分组设置
-    RTC_Get();                                  // 更新时间
-    return 0;                                   // ok
+    RTC_NVIC_Config(); // RCT中断分组设置
+    RTC_Get();         // 更新时间
+    return 0;          // ok
 }
 // RTC时钟中断
 // 每秒触发一次
@@ -98,13 +100,28 @@ u8 RTC_Force_Init(u16 syear, u8 smon, u8 sday, u8 hour, u8 min, u8 sec) {
 void RTC_IRQHandler(void) {
     if (RTC_GetITStatus(RTC_IT_SEC) != RESET) // 秒钟中断
     {
+        if (alarm_cnt != 0) {
+            alarm_cnt--;
+            if (alarm_cnt == 0) {
+                alarm_flag = 2;
+            }
+        }
+        if (alarm_flag == 2) {
+            BEEP = 1;
+            alarm_flag = 1;
+        } else if (alarm_flag == 1) {
+            BEEP = 0;
+            alarm_flag = 0;
+        }
+
         RTC_Get(); // 更新时间
     }
     if (RTC_GetITStatus(RTC_IT_ALR) != RESET) // 闹钟中断
     {
-        RTC_ClearITPendingBit(RTC_IT_ALR);                                                                                                       // 清闹钟中断
-        RTC_Get();                                                                                                                               // 更新时间
+        RTC_ClearITPendingBit(RTC_IT_ALR);
+        // 清闹钟中断
         printf("Alarm Time:%d-%d-%d %d:%d:%d\n", calendar.w_year, calendar.w_month, calendar.w_date, calendar.hour, calendar.min, calendar.sec); // 输出闹铃时间
+        RTC_Get();                                                                                                                               // 更新时间
     }
     RTC_ClearITPendingBit(RTC_IT_SEC | RTC_IT_OW); // 清闹钟中断
     RTC_WaitForLastTask();

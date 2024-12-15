@@ -8,7 +8,7 @@ u8 WIFI_state = 0;
 /**
  * @brief 自定义通讯协议关键字
  */
-u8 *cmd_head = "GP9++:";
+const u8 *cmd_head = "GP9++:";
 
 /**
  * @endparblock

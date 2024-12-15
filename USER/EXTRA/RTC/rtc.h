@@ -5,6 +5,7 @@
 //正点原子@ALIENTEK
 //2010/6/6
 #include "stm32f10x.h"
+#include "beep.h"
 
 //时间结构体
 typedef struct 
@@ -19,6 +20,7 @@ typedef struct
 	vu8  week;		 
 }_calendar_obj;					 
 extern _calendar_obj calendar;	//日历结构体
+extern u8 alarm_cnt;
 
 extern u8 const mon_table[12];	//月份日期数据表
 void Disp_Time(u8 x,u8 y,u8 size);//在制定位置开始显示时间

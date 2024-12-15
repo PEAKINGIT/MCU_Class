@@ -9,6 +9,7 @@
 #include "menu.h"
 #include "picture_app.h"
 #include "wifi_app.h"
+#include "beep.h"
 
 #include "exfuns.h" //extra Funcs for Fatfs
 #include "ff.h"     //Fatfs
@@ -48,6 +49,7 @@ int main(void) {
     my_mem_init(SRAMIN);  // 初始化内部内存池
     led_init();           // LED端口初始化
     KEY_Init();           // 按键初始化
+	BEEP_Init();
     LCD_Init();           // 初始化LCD
     RTC_Init();           // RTC初始化
     DHT11_Init_Wrapper(); // DHT11初始化
@@ -64,6 +66,7 @@ int main(void) {
     Draw_Picture_Init();  // 图片绘制初始化
 
     Gps_Init();          // GPS Initialize
+	GPS_DebugIO_Init();
     wifi_state = WIFI_App_Init(); // WIFI初始化有点slow 调试可以先关掉
     wifi_state = 0x01;
     if ((wifi_state | 0x01) != 0) {
@@ -79,7 +82,8 @@ int main(void) {
      */
     while (1) {
         // 界面显示 正常是在函数里面进行循环
-        interface_functions[current_page]();
+        // interface_functions[current_page]();
+		interface_functions[current_page]();
 
         // 非界面循环里任意键返回主界面
         if (KEY_Scan(0) != 0) {

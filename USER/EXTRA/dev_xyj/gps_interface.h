@@ -11,10 +11,10 @@
 #include "key.h"
 #include "menu.h"
 
-#define SCALING (20) // 0.00001degree/(SCALING):1 Pixel
+#define SCALING (10) // 0.00001degree(SCALING):1 Pixel
 #define PI_S (3.14) // short pi
 
-#define G_RAD 80 //´óÔ²°ë¾¶
+#define G_RAD 70 //´óÔ²°ë¾¶
 #define G_WIDTH 240
 #define G_HEIGHT 320
 
@@ -34,4 +34,7 @@ uint32_t draw_Direct(uint16_t x1, uint16_t y1,
                      uint8_t r);
 
 void DrawArrow(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t arrow_size);
+
+void GPS_DebugIO_Init(void);
+
 #endif
