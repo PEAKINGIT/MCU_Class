@@ -40,6 +40,8 @@ void location_Get(void) {
 }
 
 void gpsGui_Init(void) {
+	ai_load_picfile("0:/PICTURE/4-location.jpg", 16, 56, 208, 208, 1);
+	delay_ms(800);
     page_tick = globalTick_Get();
     t_last1 = page_tick;
     t_last2 = page_tick;

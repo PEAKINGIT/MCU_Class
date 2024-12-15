@@ -54,25 +54,32 @@ void earse_clock(uint16_t hour, uint16_t minute) {
 }
 
 void draw_mainInterface(void) {
-    u16 x_base = 10 + LCD_XSTART;
-    u16 y_base = 10 + LCD_YSTART;
+    u16 x_base = 4 + LCD_XSTART;
+    u16 y_base = 6 + LCD_YSTART;
     uint8_t str_temp[20];
     if (t != calendar.sec) {
         t = calendar.sec;
         // 显示时间
         POINT_COLOR = BLUE; // 设置字体为蓝色
         strcpy((char *)str_temp, (char *)week_days[calendar.week]);
-        LCD_ShowString(10 + LCD_XSTART, 10 + LCD_YSTART, 100, 16, 16, str_temp); // 星期
-        LCD_ShowString(10 + LCD_XSTART, 30 + LCD_YSTART, 200, 16, 16, "    -  -  ");
+        LCD_ShowString(x_base, y_base, 100, 16, 16, str_temp); // 星期
+        LCD_ShowString(x_base, y_base+20, 200, 16, 16, "    -  -  ");
         // // LCD_ShowxNum(u16 x,u16 y,u32 num,u8 len,u8 size,u8 mode)
-        LCD_ShowxNum(10 + LCD_XSTART, 30 + LCD_YSTART, calendar.w_year, 4, 16, 0x80);
-        LCD_ShowxNum(50 + LCD_XSTART, 30 + LCD_YSTART, calendar.w_month, 2, 16, 0x80);
-        LCD_ShowxNum(74 + LCD_XSTART, 30 + LCD_YSTART, calendar.w_date, 2, 16, 0x80);
-        LCD_ShowString(x_base, 46 + y_base, 200, 16, 16, "  :  :  ");
-        LCD_ShowxNum(x_base, 46 + y_base, calendar.hour, 2, 16, 0x80);
-        LCD_ShowxNum(x_base + 24, 46 + y_base, calendar.min, 2, 16, 0x80);
-        LCD_ShowxNum(x_base + 48, 46 + y_base, calendar.sec, 2, 16, 0x80);
+        LCD_ShowxNum(x_base,  y_base+20, calendar.w_year, 4, 16, 0x80);
+        LCD_ShowxNum(x_base+40,  y_base+20, calendar.w_month, 2, 16, 0x80);
+        LCD_ShowxNum(x_base+64,  y_base+20, calendar.w_date, 2, 16, 0x80);
+        LCD_ShowString(x_base,  y_base+40, 200, 16, 16, "  :  :  ");
+        LCD_ShowxNum(x_base, 40 + y_base, calendar.hour, 2, 16, 0x80);
+        LCD_ShowxNum(x_base + 24, 40 + y_base, calendar.min, 2, 16, 0x80);
+        LCD_ShowxNum(x_base + 48, 40 + y_base, calendar.sec, 2, 16, 0x80);
         // LED0_Toggle;
+		LCD_DrawRectangle(LCD_XSTART,LCD_YSTART,LCD_XSTART+86,LCD_YSTART+64);
+
+		//center point
+		POINT_COLOR = BLUE;
+		LCD_Draw_Circle(120,160,5);
+		POINT_COLOR = RED;
+		LCD_Draw_Circle(120,160,3);
     }
     if (calendar.hour != former_hour || calendar.min != former_minute) {
         earse_clock(former_hour, former_minute);

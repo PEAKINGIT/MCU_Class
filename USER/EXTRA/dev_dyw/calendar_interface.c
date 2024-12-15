@@ -130,6 +130,8 @@ void draw_calendarInterface(){
 }
 
 void Load_calendarInterface(void) {
+	ai_load_picfile("0:/PICTURE/5-calendar.jpg", 16, 56, 208, 208, 1);
+	delay_ms(800);
 	u8 key;
 	
 	LCD_Clear(WHITE);
