@@ -155,10 +155,10 @@ void WIFI_StateDisp(void) {
 }
 
 // 数据接收处理 在主函数循环中调用
-//
-void WIFI_RcvHandle(u8 wifi_isok) {
+// param: wifi_isok:当前wifi状况;cmdExec:特定页面的指令执行函数指针
+void WIFI_RcvHandle(u8 wifi_isok, void (*cmdExec)(u8 *)) {
     u16 rlen = 0;
-	u8 *sptr;
+	u8 *sptr;	//string ptr
 	if(wifi_isok==WIFI_ERR){
 		printf("WIFI CONNECTION NEED RESET!!!\r\n");
 		return;
@@ -168,10 +168,13 @@ void WIFI_RcvHandle(u8 wifi_isok) {
         rlen = USART3_RX_STA & 0X7FFF; // 得到本次接收到的数据长度
         USART3_RX_BUF[rlen] = 0;       // 添加结束符
 
+		//服务器命令处理
 		sptr = strstr((const char *)USART3_RX_BUF,(const char *)cmd_head);
 		sptr += 6;	//跳过cmd_head
-		if(sptr!=NULL){
+		if(sptr!=NULL&&strlen(sptr) > 0){
+			//判断是否有正常的指令可以执行
 			printf("sptr:%s\r\n",sptr);
+			cmdExec(sptr);	//使用传入的函数指针接口来为特定页面实现专门的指令解析处理
 		}
         printf("%s\r\n", USART3_RX_BUF);   // 发送到串口
 		for(uint16_t i =0;i<rlen;i++){
@@ -179,9 +182,4 @@ void WIFI_RcvHandle(u8 wifi_isok) {
 		}
 		USART3_RX_STA = 0;             // 清空接收状态
     }
-}
-
-// 解析从上位机获取的命令并设置响应位
-void cmd_Analysis(u8 *cmd){
-
 }

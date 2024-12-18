@@ -1,5 +1,6 @@
 #include "stm32f10x.h"
 
+#include "beep.h"
 #include "delay.h"
 #include "dht11.h"
 #include "gps_app.h"
@@ -9,7 +10,6 @@
 #include "menu.h"
 #include "picture_app.h"
 #include "wifi_app.h"
-#include "beep.h"
 
 #include "exfuns.h" //extra Funcs for Fatfs
 #include "ff.h"     //Fatfs
@@ -21,6 +21,7 @@
 #include "sdio_sdcard.h" //as its name told
 #include "sys.h"
 #include "text.h" //CN text display
+#include "touch.h"
 #include "usart.h"
 #include "w25qxx.h" //Flash on board drive
 
@@ -44,12 +45,13 @@ int main(void) {
     u8 wifi_state;
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); // 设置中断优先级分组为组2：2位抢占优先级，2位响应优先级
 
-    delay_init();         // 延时函数初始化
-    uart_init(115200);    // 串口初始化为115200
-    my_mem_init(SRAMIN);  // 初始化内部内存池
-    led_init();           // LED端口初始化
-    KEY_Init();           // 按键初始化
-	BEEP_Init();
+    delay_init();        // 延时函数初始化
+    uart_init(115200);   // 串口初始化为115200
+    my_mem_init(SRAMIN); // 初始化内部内存池
+    led_init();          // LED端口初始化
+    KEY_Init();          // 按键初始化
+    tp_dev.init();
+    BEEP_Init();
     LCD_Init();           // 初始化LCD
     RTC_Init();           // RTC初始化
     DHT11_Init_Wrapper(); // DHT11初始化
@@ -65,8 +67,8 @@ int main(void) {
     PicDebug_ListPics();  // 串口打印出图片列表
     Draw_Picture_Init();  // 图片绘制初始化
 
-    Gps_Init();          // GPS Initialize
-	GPS_DebugIO_Init();
+    Gps_Init(); // GPS Initialize
+    GPS_DebugIO_Init();
     wifi_state = WIFI_App_Init(); // WIFI初始化有点slow 调试可以先关掉
     wifi_state = 0x01;
     if ((wifi_state | 0x01) != 0) {
@@ -74,8 +76,8 @@ int main(void) {
     }
 
     current_page = MAIN_INTERFACE;
-	LED0(1);
-	LED1(1);
+    LED0(1);
+    LED1(1);
     // RTC_Force_Init(2024, 12, 11, 16, 41, 0);	强制初始化RTC
     /**
      * @brief 主循环在这里!!!
@@ -83,15 +85,19 @@ int main(void) {
     while (1) {
         // 界面显示 正常是在函数里面进行循环
         // interface_functions[current_page]();
-		interface_functions[current_page]();
+        interface_functions[current_page]();
 
         // 非界面循环里任意键返回主界面
-        if (KEY_Scan(0) != 0) {
-            current_page = MAIN_INTERFACE;
+        if (current_page == EMPTY_INTREFACE) {
+            delay_ms(800);
+            tp_dev.scan(0);
+            if (KEY_Scan(0) != 0 || (tp_dev.sta & TP_PRES_DOWN)) {
+                current_page = MAIN_INTERFACE;
+            }
+            LED0_Toggle;
+            LED1_Toggle;
+            delay_ms(200);
         }
-		LED0_Toggle;
-        LED1_Toggle;
-        delay_ms(500);
     }
 }
 

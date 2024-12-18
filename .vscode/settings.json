@@ -42,7 +42,9 @@
 		"stdlib.h": "c",
 		"beep.h": "c",
 		"stm32f10x_rcc.h": "c",
-		"stm32f10x_gpio.h": "c"
+		"stm32f10x_gpio.h": "c",
+		"text.h": "c",
+		"fontupd.h": "c"
 	},
 	"C_Cpp.clang_format_style": "{ BasedOnStyle: LLVM, UseTab: Never, IndentWidth: 4, TabWidth: 4, BreakBeforeBraces: Attach, AllowShortIfStatementsOnASingleLine: true, IndentCaseLabels: false, ColumnLimit: 0, AccessModifierOffset: -4, NamespaceIndentation: All, FixNamespaceComments: false, AlignTrailingComments: true }"
 }

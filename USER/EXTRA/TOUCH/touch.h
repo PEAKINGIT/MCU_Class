@@ -14,8 +14,8 @@
 //All rights reserved						 
 //////////////////////////////////////////////////////////////////////////////////
 
-#define TP_PRES_DOWN 0x80  		//触屏被按下	  
-#define TP_CATH_PRES 0x40  		//有按键按下了 
+#define TP_PRES_DOWN 0x80  		//触屏被按下 (当前状态)	  
+#define TP_CATH_PRES 0x40  		//有按键按下了 (曾经状态)
 #define CT_MAX_TOUCH  5    		//电容屏支持的点数,固定为5点
 
 //触摸屏控制器

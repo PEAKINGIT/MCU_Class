@@ -7,8 +7,6 @@ static uint16_t effect_index_num = 0;
 
 const uint16_t funcx = 2 + LCD_XSTART; // 功能区相对起始坐标
 const uint16_t funcy = (PAGE_INUM + 1) * (SELECT_H) + 2 + LCD_YSTART;
-
-const uint8_t *empty_str = "Nothing Here~"; // 空界面字符串显示
 InterfaceState current_page = MENU;         // 当前界面状态
 // 界面函数指针数组
 // 顺序注意和界面枚举保持相同
@@ -19,6 +17,7 @@ void (*interface_functions[MAX_INTERFACE])(void) = {
     gpsGui_Load,            // GPS界面
     Load_calendarInterface, // 日历
     Menu_Load,              // 菜单
+	WIFI_Gui_Load,			//WIFI界面
 };
 
 // 为select的特定下标项设置功能
@@ -72,6 +71,8 @@ void Menu_Init(void) {
     effect_index_num++;
 	add_Select(8, "Back Count", setBackCount, FUNC);
     effect_index_num++;
+	add_Select(9, "WIFI Communicate", s2WIFI, INTERF_S);
+    effect_index_num++;
 
     cur_index = 1;
 
@@ -92,6 +93,10 @@ void Menu_Load(void) {
     while (1) {
         key = KEY_Scan(0);
         switch (key) {
+		case WKUP_LONGP:
+			current_page = MAIN_INTERFACE;
+			break_flag = 1;
+			break;
         case WKUP_PRES:
             // confirm select
             if (selects[cur_index].type != EMPTY) {
@@ -134,11 +139,6 @@ void Menu_Load(void) {
     LCD_Clear(WHITE);
 }
 
-// 空界面 显示完一句话直接退出
-void display_empty(void) {
-    LCD_ShowString(60, 160, 120, 20, 12, (u8 *)empty_str);
-}
-
 /**
  * @brief 选项函数
  */
@@ -158,6 +158,10 @@ void s2GPS(void) {
 
 void s2Calendar(void) {
     current_page = CALENDAR;
+}
+
+void s2WIFI(void) {
+    current_page = WIFI_GUI;
 }
 
 // FUNC
@@ -335,4 +339,17 @@ void setBackCount(void) {
         }
         if (breakflag) break;
     }
+}
+
+// 空界面 显示完一句话直接退出
+void display_empty(void) {
+    POINT_COLOR = RED;
+    LCD_DrawRectangle(LCD_XSTART - 1, LCD_YSTART - 1, LCD_XEND + 1, LCD_YEND + 1);
+	POINT_COLOR=(globalTick_Get())%(0xFFFF);
+    Show_Str_Mid(LCD_XSTART, LCD_YSTART+20, (u8 *)"微控制器第9小组", 16,208);
+	POINT_COLOR = BLUE;
+	Show_Str_Mid(LCD_XSTART, LCD_YSTART+40, (u8 *)"蓝星谷雨", 16,208);
+	Show_Str_Mid(LCD_XSTART, LCD_YSTART+56, (u8 *)"面向远洋探索的多模组穿戴式终端", 12,208);
+	POINT_COLOR=BLACK;
+    Show_Str_Mid(LCD_XSTART, LCD_YSTART+80, (u8 *)"任意按键或触摸返回主界面", 16,208);
 }

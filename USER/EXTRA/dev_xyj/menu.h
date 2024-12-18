@@ -12,6 +12,7 @@
 #include "gps_interface.h"
 #include "dht11_interface.h"
 #include "calendar_interface.h"
+#include "wifi_interf.h"
 #include "rtc.h"
 #include "wifi_app.h"
 #include "beep.h"
@@ -26,6 +27,7 @@ typedef enum {
     GPS_GUI, // 分界面2
 	CALENDAR,
 	MENU,
+	WIFI_GUI,
     MAX_INTERFACE,    // 界面数量
 } InterfaceState;
 
@@ -65,6 +67,8 @@ void s2Main(void);
 void s2DHT(void);
 void s2GPS(void);
 void s2Calendar(void);
+void s2WIFI(void);
+
 void rstWIFI(void);
 void adjTime(void);
 void FuncClear(void);
