@@ -69,11 +69,11 @@ int main(void) {
 
     Gps_Init(); // GPS Initialize
     GPS_DebugIO_Init();
-    wifi_state = WIFI_App_Init(); // WIFI初始化有点slow 调试可以先关掉
-    wifi_state = 0x01;
-    if ((wifi_state | 0x01) != 0) {
-        printf("wifi_state:%02x\r\n", wifi_state);
-    }
+//    wifi_state = WIFI_App_Init(); // WIFI初始化有点slow 调试可以先关掉
+//    wifi_state = 0x01;
+//    if ((wifi_state | 0x01) != 0) {
+//        printf("wifi_state:%02x\r\n", wifi_state);
+//    }
 
     current_page = MAIN_INTERFACE;
     LED0(1);

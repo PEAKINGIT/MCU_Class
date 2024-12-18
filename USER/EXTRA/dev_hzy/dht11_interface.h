@@ -16,6 +16,6 @@
 
 void DHT_interface(void);
 void display_sub_interface_1_init(void); //分界面1初始化函数
-int linear_predict(int x0, int y0, int x1, int y1, int x);
+extern int linear_predict(int x0, int y0, int x1, int y1, int x);
 
 #endif

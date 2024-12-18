@@ -8,12 +8,12 @@ static uint32_t time_data[MAX_DATA_POINTS];       // 存储数据采集时间戳（单位：m
 
 static uint8_t data_index = 0; // 当前数据点索引
 // 简单的线性拟合函数，返回预测值
-int linear_predict(int x0, int y0, int x1, int y1, int x) {
-    // 计算斜率
-    int slope = (y1 - y0) / (x1 - x0);
-    // 预测y值
-    return y0 + slope * (x - x0);
-}
+//int linear_predict(int x0, int y0, int x1, int y1, int x) {
+//    // 计算斜率
+//    int slope = (y1 - y0) / (x1 - x0);
+//    // 预测y值
+//    return y0 + slope * (x - x0);
+//}
 
 // 分界面1初始化函数
 void display_sub_interface_1_init(void) {
