@@ -6,6 +6,7 @@
 #include "usart3.h"
 #include "string.h"
 #include "lcd_defines.h"
+#include "menu.h"
 
 //WIFI×´Ì¬Î»Á¿
 // u8 WIFI_state
@@ -35,8 +36,7 @@ extern u8 *default_ip;
 
 u8 WIFI_App_Init(void);
 u8 WIFI_STA_Set(void);
-void WIFI_RcvHandle(u8 wifi_isok);
-void cmd_Analysis(u8 *cmd);
+void WIFI_RcvHandle(u8 wifi_isok, void (*cmdExec)(u8 *));
 
 void WIFI_StartSendtoSever(void);
 uint8_t WIFI_ConnectCheck(void);
