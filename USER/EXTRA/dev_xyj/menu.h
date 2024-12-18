@@ -12,6 +12,10 @@
 #include "gps_interface.h"
 #include "dht11_interface.h"
 #include "calendar_interface.h"
+#include "rtc.h"
+#include "wifi_app.h"
+#include "beep.h"
+#include "key.h"
 
 //interfaces
 // 界面状态枚举
@@ -42,10 +46,10 @@ typedef struct _select_opt{
 #define M_PAGE2 (2)
 #define M_PAGE3 (3)
 
+#define SELECT_H (22)
+
 extern InterfaceState current_page; // 当前界面状态
 extern void (*interface_functions[MAX_INTERFACE])(void); // 声明界面函数指针数组
-
-
 
 void Menu_Init(void);
 void Menu_Load(void);
@@ -61,5 +65,10 @@ void s2Main(void);
 void s2DHT(void);
 void s2GPS(void);
 void s2Calendar(void);
+void rstWIFI(void);
+void adjTime(void);
+void FuncClear(void);
+void CallingHelp(void);
+void setBackCount(void);
 
 #endif

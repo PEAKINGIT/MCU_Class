@@ -15,6 +15,7 @@ uint32_t test_lat = DFT_LAT, test_lon = DFT_LON, test_i = 0;
 int x_last = 30, y_last = 30;
 uint32_t cur_lat, cur_lon;
 static uint8_t *title = (uint8_t *)"GPS Locating Map";
+uint8_t str_p[40] = {0};
 
 // 复位当前位置
 void location_Rst(void) {
@@ -39,6 +40,8 @@ void location_Get(void) {
 }
 
 void gpsGui_Init(void) {
+	ai_load_picfile("0:/PICTURE/4-location.jpg", 16, 56, 208, 208, 1);
+	delay_ms(800);
     page_tick = globalTick_Get();
     t_last1 = page_tick;
     t_last2 = page_tick;
@@ -48,7 +51,10 @@ void gpsGui_Init(void) {
     POINT_COLOR = RED;
     LCD_DrawRectangle(LCD_XSTART - 1, LCD_YSTART - 1, LCD_XEND + 1, LCD_YEND + 1);
     POINT_COLOR = BLACK;
-    LCD_ShowString(LCD_XSTART, LCD_YSTART + 12, 150, 20, 12, title);
+    LCD_ShowString(LCD_XSTART, LCD_YSTART + 12, 120, 20, 12, title);
+	LCD_ShowString(LCD_XSTART+120, LCD_YSTART + 1, 100, 20, 12, "0.005deg");
+	LCD_DrawLine(LCD_XSTART+120,LCD_YSTART + 14,LCD_XSTART+170,LCD_YSTART + 14);
+
     DrawArrow(LCD_XSTART, LCD_YSTART + 24, LCD_XSTART + 20, LCD_YSTART + 24, 5); // 向东箭头
     LCD_ShowChar(LCD_XSTART + 20, LCD_YSTART + 24, 'E', 12, 0);
     DrawArrow(LCD_XSTART, LCD_YSTART + 24, LCD_XSTART, LCD_YSTART + 44, 5);
@@ -64,15 +70,19 @@ void gpsGui_Load(void) {
     gpsGui_Init();
     while (1) {
         /* use t_last2 as time cnt*/
-		Gps_Receive_Handle();
-        location_Get();
-		dlat = cur_lat - lat_cen;
+        if (!GPIO_ReadInputDataBit(GPIOF, GPIO_Pin_0)) {
+            // debug io 低电平 默认
+            Gps_Receive_Handle();
+            location_Get();
+        } else {
+            cur_lat = test_lat;
+            cur_lon = test_lon;
+            /* use t_last1 as time cnt*/
+            GPS_Test(&t_last1);
+        }
+        dlat = cur_lat - lat_cen;
         dlon = cur_lon - lon_cen;
-		printf("dlat:%d dlon:%d \r\n",dlat,dlon);
-        // dlat = test_lat - lat_cen;
-        // dlon = test_lon - lon_cen;
-		/* use t_last1 as time cnt*/
-        // GPS_Test(&t_last1);
+        printf("dlat:%d dlon:%d \r\n", dlat, dlon);
 
         key = KEY_Scan(0);
         if (key == KEY0_PRES) break;
@@ -91,7 +101,10 @@ void gpsGui_Load(void) {
 
             t_last2 = globalTick_Get();
         }
-        
+        sprintf(str_p, "current:%.5f%c,%.5f%c", cur_lat / (100000.0), ns_set, cur_lon / (100000.0), ew_set);
+        LCD_ShowString(LCD_XSTART + 2, LCD_YEND - 14, 200, 16, 12, str_p);
+        sprintf(str_p, "center:%.5f%c,%.5f%c", lat_cen / (100000.0), ns_set, lon_cen / (100000.0), ew_set);
+        LCD_ShowString(LCD_XSTART + 2, LCD_YEND - 26, 200, 16, 12, str_p);
         // delay_ms(100);
     }
     current_page = MENU;
@@ -207,4 +220,17 @@ void DrawArrow(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t arro
     // 画箭头两侧的线
     LCD_DrawLine(x2, y2, x_left, y_left);
     LCD_DrawLine(x2, y2, x_right, y_right);
+}
+
+// debug io PF0
+void GPS_DebugIO_Init(void) {
+    GPIO_InitTypeDef GPIO_Initure;
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF, ENABLE);
+
+    GPIO_Initure.GPIO_Pin = GPIO_Pin_0;
+    GPIO_Initure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Initure.GPIO_Mode = GPIO_Mode_IPD;
+    // 下拉 默认低电平
+
+    GPIO_Init(GPIOF, &GPIO_Initure);
 }
