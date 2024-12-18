@@ -343,13 +343,14 @@ void setBackCount(void) {
 
 // 空界面 显示完一句话直接退出
 void display_empty(void) {
-    POINT_COLOR = RED;
-    LCD_DrawRectangle(LCD_XSTART - 1, LCD_YSTART - 1, LCD_XEND + 1, LCD_YEND + 1);
-	POINT_COLOR=(globalTick_Get())%(0xFFFF);
-    Show_Str_Mid(LCD_XSTART, LCD_YSTART+20, (u8 *)"微控制器第9小组", 16,208);
-	POINT_COLOR = BLUE;
-	Show_Str_Mid(LCD_XSTART, LCD_YSTART+40, (u8 *)"蓝星谷雨", 16,208);
-	Show_Str_Mid(LCD_XSTART, LCD_YSTART+56, (u8 *)"面向远洋探索的多模组穿戴式终端", 12,208);
-	POINT_COLOR=BLACK;
-    Show_Str_Mid(LCD_XSTART, LCD_YSTART+80, (u8 *)"任意按键或触摸返回主界面", 16,208);
+//    POINT_COLOR = RED;
+//    LCD_DrawRectangle(LCD_XSTART - 1, LCD_YSTART - 1, LCD_XEND + 1, LCD_YEND + 1);
+//	POINT_COLOR=(globalTick_Get())%(0xFFFF);
+//    Show_Str_Mid(LCD_XSTART, LCD_YSTART+20, (u8 *)"微控制器第9小组", 16,208);
+//	POINT_COLOR = BLUE;
+//	Show_Str_Mid(LCD_XSTART, LCD_YSTART+40, (u8 *)"蓝星谷雨", 16,208);
+//	Show_Str_Mid(LCD_XSTART, LCD_YSTART+56, (u8 *)"面向远洋探索的多模组穿戴式终端", 12,208);
+//	POINT_COLOR=BLACK;
+//    Show_Str_Mid(LCD_XSTART, LCD_YSTART+80, (u8 *)"任意按键或触摸返回主界面", 16,208);
+	ai_load_picfile("0:/PICTURE/6-about.jpg", 16, 56, 208, 208, 1);
 }

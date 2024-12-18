@@ -10,14 +10,27 @@ const SolarTerm solarTerms[24] = {
     {"立冬", 11, 7}, {"小雪", 11, 22}, {"大雪", 12, 6}, {"冬至", 12, 21}
 };
 
-u32 isBetween(u32 month, u32 day, u32 startMonth, u32 startDay, u32 endMonth, u32 endDay) {
-    if (startMonth == endMonth) return (month == startMonth && day >= startDay && day < endDay);
-    if (month == startMonth && day >= startDay) return 1;
-    if (month == endMonth && day < endDay) return 1;
-    if (month > startMonth && month < endMonth) return 1;
+//u32 isBetween(u32 month, u32 day, u32 startMonth, u32 startDay, u32 endMonth, u32 endDay) {
+//    if (startMonth == endMonth) return (month == startMonth && day >= startDay && day < endDay);
+//    if (month == startMonth && day >= startDay) return 1;
+//    if (month == endMonth && day < endDay) return 1;
+//    if (month > startMonth && month < endMonth) return 1;
 
-    return 0;
-}
+//    return 0;
+//}
+
+//int calculate_days(int year) {
+//    int day = 0;
+//    for (int i = 1900; i < year; i++) {
+//        if ((i % 4 == 0 && i % 100 != 0) || (i % 400 == 0)) {
+//            day += 366; // 闰年
+//        } else {
+//            day += 365; // 平年
+//        }
+//    }
+//    return day;
+//}
+
 
 u32 getSolarTerm(u32 year, u32 month, u32 day) {
     for (u32 i = 0; i < sizeof(solarTerms) / sizeof(SolarTerm); i++) {
@@ -90,11 +103,12 @@ void draw_calendarInterface(){
 	LCD_ShowString(197, 83, 200, 16, 16, "SUN");
 	
 	//判断年月
-	day = 0;
-	for (i = 1900; i < year; i++){	//将输入年之前的年份天数求和
-		if ((i % 4 == 0 && i % 100 != 0) || (i % 400 == 0))	day += 366;
-		else day += 365;
-	}
+//	day = 0;
+//	for (i = 1900; i < year; i++){	//将输入年之前的年份天数求和
+//		if ((i % 4 == 0 && i % 100 != 0) || (i % 400 == 0))	day += 366;
+//		else day += 365;
+//	}
+	day = calculate_days(year);
 	day1 = 0;
 	for (j = 1;j <= month; j++){ 	//将输入年中的每月统计到总天数中
 		switch (j) {

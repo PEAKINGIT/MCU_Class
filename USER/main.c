@@ -78,7 +78,7 @@ int main(void) {
     current_page = MAIN_INTERFACE;
     LED0(1);
     LED1(1);
-    // RTC_Force_Init(2024, 12, 11, 16, 41, 0);	强制初始化RTC
+//  RTC_Force_Init(2024, 12, 18, 21, 2, 0);	//强制初始化RTC
     /**
      * @brief 主循环在这里!!!
      */
