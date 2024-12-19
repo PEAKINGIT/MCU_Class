@@ -1,4 +1,4 @@
-	AREA |.text|, CODE, READONLY
+	AREA LinearPredict, CODE, READONLY
 	EXPORT linear_predict
 
 ; Function: linear_predict

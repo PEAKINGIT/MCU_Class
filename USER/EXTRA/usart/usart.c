@@ -47,6 +47,10 @@ int fputc(int ch, FILE *f) {
         ; // 循环发送,直到发送完毕
     USART1->DR = (u8)ch;
     return ch;
+
+	// 使用汇编函数实现
+	// usart_send((u8)ch);
+	// return ch;
 }
 #endif
 
