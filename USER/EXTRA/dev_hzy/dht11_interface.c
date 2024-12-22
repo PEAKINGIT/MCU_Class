@@ -100,10 +100,12 @@ void DHT_interface(void) {
                 }
 
                 // 缩放时间索引到屏幕宽度范围 (0 ~ 180)
-                int x0 = (time_data[prev_idx] * 180) / MAX_DATA_POINTS + 30;
+                //int x0 = (time_data[prev_idx] * 180) / MAX_DATA_POINTS + 30;
+								int x0=location_caculate(time_data[prev_idx]);
                 int y0 = 240 - (temperature_data[prev_idx] * 170) / Y_AXIS_MAX;
                 int x1 = (time_data[curr_idx] * 180) / MAX_DATA_POINTS + 30;
                 int y1 = 240 - (temperature_data[curr_idx] * 170) / Y_AXIS_MAX;
+								
 
                 // 绘制折线
                 POINT_COLOR = BLUE;
@@ -179,3 +181,6 @@ void DHT_interface(void) {
                          /*清空显示*/
     LCD_Clear(WHITE);
 }
+//int location_caculate(int time_data_value) {
+//    return (time_data_value * 180) / 50 + 30;
+//}

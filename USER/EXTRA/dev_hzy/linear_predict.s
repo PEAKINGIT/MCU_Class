@@ -25,4 +25,3 @@ linear_predict
 	MOVS r0,r0
 	
 	END
-
