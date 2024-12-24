@@ -21,6 +21,9 @@
 #define DFT_LAT (3026434) 	//default latitude
 #define DFT_LON (12011965)	//default lontitude
 
+extern uint32_t lat_cen; // 中心点经纬度 默认设在教学楼
+extern uint32_t lon_cen;
+
 void center_Rst(void);
 void center_Cur(void);
 

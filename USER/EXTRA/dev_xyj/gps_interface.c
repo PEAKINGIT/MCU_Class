@@ -17,16 +17,16 @@ uint32_t cur_lat, cur_lon;
 static uint8_t *title = (uint8_t *)"GPS Locating Map";
 uint8_t str_p[40] = {0};
 
-//中心位置复位
-void center_Rst(void){
-	lat_cen = DFT_LAT; // 中心点经纬度 默认设在教学楼
-	lon_cen = DFT_LON;
+// 中心位置复位
+void center_Rst(void) {
+    lat_cen = DFT_LAT; // 中心点经纬度 默认设在教学楼
+    lon_cen = DFT_LON;
 }
 
-//设当前位置为中心位置
-void center_Cur(void){
-	lat_cen = cur_lat;
-	lon_cen = cur_lon;
+// 设当前位置为中心位置
+void center_Cur(void) {
+    lat_cen = cur_lat;
+    lon_cen = cur_lon;
 }
 
 // 复位当前位置
@@ -52,8 +52,8 @@ void location_Get(void) {
 }
 
 void gpsGui_Init(void) {
-	ai_load_picfile("0:/PICTURE/4-location.jpg", 16, 56, 208, 208, 1);
-	delay_ms(800);
+    ai_load_picfile("0:/PICTURE/4-location.jpg", 16, 56, 208, 208, 1);
+    delay_ms(800);
     page_tick = globalTick_Get();
     t_last1 = page_tick;
     t_last2 = page_tick;
@@ -64,8 +64,8 @@ void gpsGui_Init(void) {
     LCD_DrawRectangle(LCD_XSTART - 1, LCD_YSTART - 1, LCD_XEND + 1, LCD_YEND + 1);
     POINT_COLOR = BLACK;
     LCD_ShowString(LCD_XSTART, LCD_YSTART + 12, 120, 20, 12, title);
-	LCD_ShowString(LCD_XSTART+120, LCD_YSTART + 1, 100, 20, 12, "0.005deg");
-	LCD_DrawLine(LCD_XSTART+120,LCD_YSTART + 14,LCD_XSTART+170,LCD_YSTART + 14);
+    LCD_ShowString(LCD_XSTART + 120, LCD_YSTART + 1, 100, 20, 12, "0.005deg");
+    LCD_DrawLine(LCD_XSTART + 120, LCD_YSTART + 14, LCD_XSTART + 170, LCD_YSTART + 14);
 
     DrawArrow(LCD_XSTART, LCD_YSTART + 24, LCD_XSTART + 20, LCD_YSTART + 24, 5); // 向东箭头
     LCD_ShowChar(LCD_XSTART + 20, LCD_YSTART + 24, 'E', 12, 0);
@@ -77,7 +77,7 @@ void gpsGui_Init(void) {
 
 void gpsGui_Load(void) {
     int32_t dlat, dlon;
-    //uint32_t cxy; // cross xy
+    // uint32_t cxy; // cross xy
     u8 key;
     gpsGui_Init();
     while (1) {
@@ -94,22 +94,22 @@ void gpsGui_Load(void) {
         }
         dlat = cur_lat - lat_cen;
         dlon = cur_lon - lon_cen;
-        //printf("dlat:%d dlon:%d \r\n", dlat, dlon);
+        // printf("dlat:%d dlon:%d \r\n", dlat, dlon);
 
         key = KEY_Scan(0);
         if (key == KEY0_PRES) break;
-		if(key == KEY1_LONGP) {
-			//设当前位置为中心
-			center_Cur();
-			Show_Str_Mid(LCD_XSTART+10,LCD_YSTART+80,"Set Center to Cur Done!",12,168);
-			delay_ms(800);
-		}
-		if(key == KEY1_PRES){
-			//中心复位
-			center_Rst();
-			Show_Str_Mid(LCD_XSTART+10,LCD_YSTART+80,"Reset Center Done!",12,168);
-			delay_ms(800);
-		}  
+        if (key == KEY1_LONGP) {
+            // 设当前位置为中心
+            center_Cur();
+            Show_Str_Mid(LCD_XSTART + 10, LCD_YSTART + 80, "Center to Cur Done!", 12, 168);
+            delay_ms(800);
+        }
+        if (key == KEY1_PRES) {
+            // 中心复位
+            center_Rst();
+            Show_Str_Mid(LCD_XSTART + 10, LCD_YSTART + 80, "Reset Center Done!", 12, 168);
+            delay_ms(800);
+        }
         if ((globalTick_Get() - t_last2) > 20) {
             // LCD_Clear(WHITE);
             LCD_Fill(G_WIDTH / 2 - G_RAD, G_HEIGHT / 2 - G_RAD, G_WIDTH / 2 + G_RAD, G_HEIGHT / 2 + G_RAD, WHITE); // 局部清空
@@ -120,8 +120,8 @@ void gpsGui_Load(void) {
             POINT_COLOR = (RED);
 
             draw_Direct(G_WIDTH / 2, G_HEIGHT / 2,
-                              G_WIDTH / 2 + dlon / (SCALING),
-                              G_HEIGHT / 2 + dlat / (SCALING), G_RAD);
+                        G_WIDTH / 2 + dlon / (SCALING),
+                        G_HEIGHT / 2 + dlat / (SCALING), G_RAD);
 
             t_last2 = globalTick_Get();
         }

@@ -69,16 +69,16 @@ int main(void) {
 
     Gps_Init(); // GPS Initialize
     GPS_DebugIO_Init();
-   wifi_state = WIFI_App_Init(); // WIFI初始化有点slow 调试可以先关掉
-   wifi_state = 0x01;
-   if ((wifi_state | 0x01) != 0) {
-       printf("wifi_state:%02x\r\n", wifi_state);
-   }
+    wifi_state = WIFI_App_Init(); // WIFI初始化有点slow 调试可以先关掉
+    wifi_state = 0x01;
+    if ((wifi_state | 0x01) != 0) {
+        printf("wifi_state:%02x\r\n", wifi_state);
+    }
 
     current_page = MAIN_INTERFACE;
     LED0(1);
     LED1(1);
-	//RTC_Force_Init(2024, 12, 18, 21, 2, 0);	//强制初始化RTC
+    // RTC_Force_Init(2024, 12, 18, 21, 2, 0);	//强制初始化RTC
     /**
      * @brief 主循环在这里!!!
      */
@@ -86,7 +86,6 @@ int main(void) {
         // 界面显示 正常是在函数里面进行循环
         interface_functions[current_page]();
 
-		
         // 非界面循环里任意键返回主界面
         if (current_page == EMPTY_INTREFACE) {
             delay_ms(800);
@@ -98,13 +97,13 @@ int main(void) {
             LED1_Toggle;
             delay_ms(200);
         }
-		if(USART_RX_STA & 0x8000){
-			printf("recv:%s\r\n",USART_RX_BUF);
-			if((u8 *)strstr((char *)USART_RX_BUF,"RTC")!= NULL){
-				RTC_Force_Init(2024, 12, 23, 21, 56, 0);
-			}
-			USART_RX_STA = 0;
-		}
+        if (USART_RX_STA & 0x8000) {
+            printf("recv:%s\r\n", USART_RX_BUF);
+            if ((u8 *)strstr((char *)USART_RX_BUF, "RTC") != NULL) {
+                RTC_Force_Init(2024, 12, 23, 21, 56, 0);
+            }
+            USART_RX_STA = 0;
+        }
     }
 }
 

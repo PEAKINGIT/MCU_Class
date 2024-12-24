@@ -11,6 +11,7 @@ void WIFI_Gui_Load(void){
     LCD_DrawRectangle(LCD_XSTART - 1, LCD_YSTART - 1, LCD_XEND + 1, LCD_YEND + 1);
 	POINT_COLOR = BLACK;
 	Show_Str_Mid(LCD_XSTART,LCD_YSTART+20,"WIFI TCP通信",16,208);
+	Show_Str_Mid(LCD_XSTART,LCD_YSTART+40,"当前下发指令",12,208);
 	LCD_DrawRectangle(LCD_XSTART+2, LCD_YSTART+38, LCD_XEND -2, LCD_YEND -2);
 	while(1){
 		key = KEY_Scan(0);
@@ -36,5 +37,6 @@ void WIFI_Gui_Load(void){
 //执行WIFI gui下的服务器指令执行
 void WIFI_GUI_Cmd(u8 *cmd){
 	printf("%s\r\n",cmd);
-	LCD_ShowString(LCD_XSTART+6,LCD_YSTART+40,120,20,12,cmd);
+	POINT_COLOR = BLACK;
+	LCD_ShowString(LCD_XSTART+6,LCD_YSTART+60,120,20,12,cmd);
 }

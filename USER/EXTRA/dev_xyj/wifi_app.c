@@ -27,7 +27,7 @@ u8 WIFI_App_Init(void) {
     while (atk_8266_send_cmd("AT", "OK", 20)) // 检查WIFI模块是否在线
     {
         cnt++;
-        if (cnt >= 4) { // 超时返回
+        if (cnt >= 3) { // 超时返回
             POINT_COLOR = RED;
             Show_Str(LCD_XSTART, LCD_YSTART + 20, 200, 16, "请检查WIFI模块连接!!!", 16, 0);
             delay_ms(400);
@@ -64,7 +64,7 @@ u8 WIFI_STA_Set(void) {
     atk_8266_send_cmd("AT+RST", "OK", 20);                           // DHCP服务器关闭(仅AP模式有效)
     delay_ms(1000);                                                  // 延时3S等待重启成功
     delay_ms(1000);
-    delay_ms(1000);
+    //delay_ms(1000);
     // 设置连接到的WIFI网络名称/加密方式/密码,这几个参数需要根据您自己的路由器设置进行修改!!
     sprintf((char *)p, "AT+CWJAP=\"%s\",\"%s\"", wifista_ssid, wifista_password); // 设置无线参数:ssid,密码
     printf("cmd send:%s\r\n", p);

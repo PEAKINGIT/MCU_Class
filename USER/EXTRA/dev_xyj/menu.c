@@ -7,7 +7,7 @@ static uint16_t effect_index_num = 0;
 
 const uint16_t funcx = 2 + LCD_XSTART; // 功能区相对起始坐标
 const uint16_t funcy = (PAGE_INUM + 1) * (SELECT_H) + 2 + LCD_YSTART;
-InterfaceState current_page = MENU;         // 当前界面状态
+InterfaceState current_page = MENU; // 当前界面状态
 // 界面函数指针数组
 // 顺序注意和界面枚举保持相同
 void (*interface_functions[MAX_INTERFACE])(void) = {
@@ -17,7 +17,7 @@ void (*interface_functions[MAX_INTERFACE])(void) = {
     gpsGui_Load,            // GPS界面
     Load_calendarInterface, // 日历
     Menu_Load,              // 菜单
-	WIFI_Gui_Load,			//WIFI界面
+    WIFI_Gui_Load,          // WIFI界面
 };
 
 // 为select的特定下标项设置功能
@@ -69,9 +69,9 @@ void Menu_Init(void) {
     effect_index_num++;
     add_Select(7, "Time Adjust", adjTime, FUNC);
     effect_index_num++;
-	add_Select(8, "Back Count", setBackCount, FUNC);
+    add_Select(8, "Back Count", setBackCount, FUNC);
     effect_index_num++;
-	add_Select(9, "WIFI Communicate", s2WIFI, INTERF_S);
+    add_Select(9, "WIFI Communicate", s2WIFI, INTERF_S);
     effect_index_num++;
 
     cur_index = 1;
@@ -93,10 +93,10 @@ void Menu_Load(void) {
     while (1) {
         key = KEY_Scan(0);
         switch (key) {
-		case WKUP_LONGP:
-			current_page = MAIN_INTERFACE;
-			break_flag = 1;
-			break;
+        case WKUP_LONGP:
+            current_page = MAIN_INTERFACE;
+            break_flag = 1;
+            break;
         case WKUP_PRES:
             // confirm select
             if (selects[cur_index].type != EMPTY) {
@@ -194,8 +194,8 @@ void adjTime(void) {
             Gps_Receive_Handle();
             utc_to_local_time(&gpsData.utc, 8, &temptime);
         } else {
-			//Key0 设位
-			//key1 设数
+            // Key0 设位
+            // key1 设数
             if (key == KEY0_PRES) {
                 cur_subj++;
                 if (cur_subj > 5) cur_subj = 0;
@@ -224,10 +224,10 @@ void adjTime(void) {
                 } else if (cur_subj == 3) {
                     // day
                     temptime.date++;
-                    if(temptime.date >31) temptime.date = 1;
+                    if (temptime.date > 31) temptime.date = 1;
                 } else if (cur_subj == 4) {
                     temptime.month++;
-                    if(temptime.month > 12) temptime.month = 1;
+                    if (temptime.month > 12) temptime.month = 1;
                 } else {
                     temptime.year++;
                     if (temptime.year > 2040) {
@@ -247,7 +247,7 @@ void adjTime(void) {
                 temptime.hour = calendar.hour;
                 temptime.min = calendar.min;
                 temptime.sec = calendar.sec;
-				POINT_COLOR = BLUE;
+                POINT_COLOR = BLUE;
                 LCD_DrawLine(funcx + 48 - (cur_subj % 3) * 24,
                              funcy + 15 + (cur_subj < 3) * 19,
                              funcx + 72 - (cur_subj % 3) * 24,
@@ -289,24 +289,24 @@ void CallingHelp(void) {
     LED0(0);
     LED1(0);
     BEEP = 0;
-
+    atk_8266_quit_trans();
+    atk_8266_send_cmd("AT+CIPSEND", "OK", 20);
     for (u16 i = 0; i < 3; i++) {
         BEEP = 1;
         LED0_Toggle;
         LED1_Toggle;
-        delay_ms(100);
+        delay_ms(300);
         LED0_Toggle;
         LED1_Toggle;
-        delay_ms(100);
+        delay_ms(300);
         BEEP = 0;
-        atk_8266_quit_trans();
-        if (!atk_8266_send_cmd("AT+CIPSEND", "OK", 20)) {
-            // 返回为0 成功进入透传发送
-            u3_printf("In danger!!!");
-            u3_printf("Lat:%u,Lon:%u,", gpsData.latitude, gpsData.longitude);
-        }
-        atk_8266_quit_trans();
+
+        // 返回为0 成功进入透传发送
+        u3_printf("In danger!!!");
+        // u3_printf("Lat:%u,Lon:%u,", gpsData.latitude, gpsData.longitude);
+		u3_printf("Lat:%u,Lon:%u,", lat_cen, lon_cen);
     }
+    atk_8266_quit_trans();
     LED0(1);
     LED1(1);
     BEEP = 0;
@@ -318,11 +318,11 @@ void setBackCount(void) {
     u8 key;
     u8 breakflag = 0;
     FuncClear();
-    Show_Str(funcx, funcy + 2, 120, 16, "倒计时设置",12 ,0);
+    Show_Str(funcx, funcy + 2, 120, 16, "倒计时设置", 12, 0);
     LCD_ShowNum(funcx, funcy + 14, cnts, 4, 12);
     while (1) {
         key = KEY_Scan(0);
-		if(key == KEY0_LONGP) break;
+        if (key == KEY0_LONGP) break;
         switch (key) {
         case KEY0_PRES:
             cnts++;
@@ -345,14 +345,14 @@ void setBackCount(void) {
 
 // 空界面 显示完一句话直接退出
 void display_empty(void) {
-//    POINT_COLOR = RED;
-//    LCD_DrawRectangle(LCD_XSTART - 1, LCD_YSTART - 1, LCD_XEND + 1, LCD_YEND + 1);
-//	POINT_COLOR=(globalTick_Get())%(0xFFFF);
-//    Show_Str_Mid(LCD_XSTART, LCD_YSTART+20, (u8 *)"微控制器第9小组", 16,208);
-//	POINT_COLOR = BLUE;
-//	Show_Str_Mid(LCD_XSTART, LCD_YSTART+40, (u8 *)"蓝星谷雨", 16,208);
-//	Show_Str_Mid(LCD_XSTART, LCD_YSTART+56, (u8 *)"面向远洋探索的多模组穿戴式终端", 12,208);
-//	POINT_COLOR=BLACK;
-//    Show_Str_Mid(LCD_XSTART, LCD_YSTART+80, (u8 *)"任意按键或触摸返回主界面", 16,208);
-	ai_load_picfile("0:/PICTURE/6-about.jpg", 16, 56, 208, 208, 1);
+    //    POINT_COLOR = RED;
+    //    LCD_DrawRectangle(LCD_XSTART - 1, LCD_YSTART - 1, LCD_XEND + 1, LCD_YEND + 1);
+    //	POINT_COLOR=(globalTick_Get())%(0xFFFF);
+    //    Show_Str_Mid(LCD_XSTART, LCD_YSTART+20, (u8 *)"微控制器第9小组", 16,208);
+    //	POINT_COLOR = BLUE;
+    //	Show_Str_Mid(LCD_XSTART, LCD_YSTART+40, (u8 *)"蓝星谷雨", 16,208);
+    //	Show_Str_Mid(LCD_XSTART, LCD_YSTART+56, (u8 *)"面向远洋探索的多模组穿戴式终端", 12,208);
+    //	POINT_COLOR=BLACK;
+    //    Show_Str_Mid(LCD_XSTART, LCD_YSTART+80, (u8 *)"任意按键或触摸返回主界面", 16,208);
+    ai_load_picfile("0:/PICTURE/6-about.jpg", 16, 56, 208, 208, 1);
 }
