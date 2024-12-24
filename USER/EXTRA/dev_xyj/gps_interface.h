@@ -11,7 +11,7 @@
 #include "key.h"
 #include "menu.h"
 
-#define SCALING (10) // 0.00001degree(SCALING):1 Pixel
+#define SCALING (10) // 0.00001degree*(SCALING):1 Pixel
 #define PI_S (3.14) // short pi
 
 #define G_RAD 70 //´óÔ²°ë¾¶
@@ -20,6 +20,9 @@
 
 #define DFT_LAT (3026434) 	//default latitude
 #define DFT_LON (12011965)	//default lontitude
+
+void center_Rst(void);
+void center_Cur(void);
 
 void location_Rst(void);
 void location_Get(void);

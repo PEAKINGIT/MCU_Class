@@ -49,8 +49,8 @@ int fputc(int ch, FILE *f) {
     return ch;
 
 	// 使用汇编函数实现
-	// usart_send((u8)ch);
-	// return ch;
+//	usart_send((u8)ch);
+//	return ch;
 }
 #endif
 

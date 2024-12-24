@@ -194,6 +194,8 @@ void adjTime(void) {
             Gps_Receive_Handle();
             utc_to_local_time(&gpsData.utc, 8, &temptime);
         } else {
+			//Key0 设位
+			//key1 设数
             if (key == KEY0_PRES) {
                 cur_subj++;
                 if (cur_subj > 5) cur_subj = 0;

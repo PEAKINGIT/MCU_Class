@@ -17,6 +17,18 @@ uint32_t cur_lat, cur_lon;
 static uint8_t *title = (uint8_t *)"GPS Locating Map";
 uint8_t str_p[40] = {0};
 
+//中心位置复位
+void center_Rst(void){
+	lat_cen = DFT_LAT; // 中心点经纬度 默认设在教学楼
+	lon_cen = DFT_LON;
+}
+
+//设当前位置为中心位置
+void center_Cur(void){
+	lat_cen = cur_lat;
+	lon_cen = cur_lon;
+}
+
 // 复位当前位置
 void location_Rst(void) {
     cur_lat = lat_cen;
@@ -82,10 +94,22 @@ void gpsGui_Load(void) {
         }
         dlat = cur_lat - lat_cen;
         dlon = cur_lon - lon_cen;
-        printf("dlat:%d dlon:%d \r\n", dlat, dlon);
+        //printf("dlat:%d dlon:%d \r\n", dlat, dlon);
 
         key = KEY_Scan(0);
         if (key == KEY0_PRES) break;
+		if(key == KEY1_LONGP) {
+			//设当前位置为中心
+			center_Cur();
+			Show_Str_Mid(LCD_XSTART+10,LCD_YSTART+80,"Set Center to Cur Done!",12,168);
+			delay_ms(800);
+		}
+		if(key == KEY1_PRES){
+			//中心复位
+			center_Rst();
+			Show_Str_Mid(LCD_XSTART+10,LCD_YSTART+80,"Reset Center Done!",12,168);
+			delay_ms(800);
+		}  
         if ((globalTick_Get() - t_last2) > 20) {
             // LCD_Clear(WHITE);
             LCD_Fill(G_WIDTH / 2 - G_RAD, G_HEIGHT / 2 - G_RAD, G_WIDTH / 2 + G_RAD, G_HEIGHT / 2 + G_RAD, WHITE); // 局部清空
