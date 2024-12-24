@@ -106,10 +106,8 @@ void EXTI3_IRQHandler(void) // KEY1
             uint32_t press_duration = globalTick - press_start_time_key1;
             if (press_duration >= long_press_duration) {
                 key_state = KEY1_Long_Msk;
-				//printf("KEY1 Long Press\r\n");
             } else if (press_duration >= debounce_interval) {
                 key_state = KEY1_Msk;
-				//printf("KEY1 Short Press\r\n");
             }
         }
         EXTI_ClearITPendingBit(EXTI_Line3);

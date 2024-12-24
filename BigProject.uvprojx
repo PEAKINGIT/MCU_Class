@@ -502,6 +502,11 @@
               <FileType>2</FileType>
               <FilePath>.\USER\EXTRA\dev_hzy\linear_predict.s</FilePath>
             </File>
+            <File>
+              <FileName>location_caculate.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\USER\EXTRA\dev_hzy\location_caculate.s</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
