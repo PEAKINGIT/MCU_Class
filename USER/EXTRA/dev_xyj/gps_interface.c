@@ -77,7 +77,7 @@ void gpsGui_Init(void) {
 
 void gpsGui_Load(void) {
     int32_t dlat, dlon;
-    uint32_t cxy; // cross xy
+    //uint32_t cxy; // cross xy
     u8 key;
     gpsGui_Init();
     while (1) {
@@ -119,15 +119,15 @@ void gpsGui_Load(void) {
             LCD_Draw_Circle(G_WIDTH / 2, G_HEIGHT / 2, G_RAD / 20); // Middle of gui
             POINT_COLOR = (RED);
 
-            cxy = draw_Direct(G_WIDTH / 2, G_HEIGHT / 2,
+            draw_Direct(G_WIDTH / 2, G_HEIGHT / 2,
                               G_WIDTH / 2 + dlon / (SCALING),
                               G_HEIGHT / 2 + dlat / (SCALING), G_RAD);
 
             t_last2 = globalTick_Get();
         }
-        sprintf(str_p, "current:%.5f%c,%.5f%c", cur_lat / (100000.0), ns_set, cur_lon / (100000.0), ew_set);
+        sprintf((char *)str_p, "current:%.5f%c,%.5f%c", cur_lat / (100000.0), ns_set, cur_lon / (100000.0), ew_set);
         LCD_ShowString(LCD_XSTART + 2, LCD_YEND - 14, 200, 16, 12, str_p);
-        sprintf(str_p, "center:%.5f%c,%.5f%c", lat_cen / (100000.0), ns_set, lon_cen / (100000.0), ew_set);
+        sprintf((char *)str_p, "center:%.5f%c,%.5f%c", lat_cen / (100000.0), ns_set, lon_cen / (100000.0), ew_set);
         LCD_ShowString(LCD_XSTART + 2, LCD_YEND - 26, 200, 16, 12, str_p);
         // delay_ms(100);
     }

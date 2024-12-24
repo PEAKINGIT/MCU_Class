@@ -519,50 +519,50 @@ void atk_8266_hw_init(void) {
     usart3_init(115200); // 初始化串口3
 }
 // ATK-ESP8266模块测试主函数
-void atk_8266_test(void) {
-    //	u16 rlen=0;
-    u8 key;
-    u8 timex;
-    POINT_COLOR = RED;
-    Show_Str_Mid(0, 30, "ATK-ESP8266 WIFI模块测试", 16, 240);
-    while (atk_8266_send_cmd("AT", "OK", 20)) // 检查WIFI模块是否在线
-    {
-        atk_8266_quit_trans();                        // 退出透传
-        atk_8266_send_cmd("AT+CIPMODE=0", "OK", 200); // 关闭透传模式
-        Show_Str(40, 55, 200, 16, "未检测到模块!!!", 16, 0);
-        delay_ms(800);
-        LCD_Fill(40, 55, 200, 55 + 16, WHITE);
-        Show_Str(40, 55, 200, 16, "尝试连接模块...", 16, 0);
-    }
-    while (atk_8266_send_cmd("ATE0", "OK", 20))
-        ; // 关闭回显
-    atk_8266_mtest_ui(32, 30);
-    while (1) {
-        delay_ms(10);
-        atk_8266_at_response(1); // 检查ATK-ESP8266模块发送过来的数据,及时上传给电脑
-        key = KEY_Scan(0);
-        if (key) {
-            LCD_Clear(WHITE);
-            POINT_COLOR = RED;
-            switch (key) {
-            case KEY0_PRES: // KEY0
-                Show_Str_Mid(0, 30, "ATK-ESP WIFI-AP+STA 测试", 16, 240);
-                Show_Str_Mid(0, 50, "正在配置ATK-ESP8266模块, 请稍等...", 12, 240);
-                atk_8266_apsta_test(); // 串口以太网测试
-                break;
-            case KEY1_PRES: // KEY1
-                Show_Str_Mid(0, 30, "ATK-ESP WIFI-STA 测试", 16, 240);
-                Show_Str_Mid(0, 50, "正在配置ATK-ESP8266模块, 请稍等...", 12, 240);
-                atk_8266_wifista_test(); // WIFI STA测试
-                break;
-            case WKUP_PRES:             // WK_UP
-                atk_8266_wifiap_test(); // WIFI AP测试
-                break;
-            }
-            atk_8266_mtest_ui(32, 30);
-            timex = 0;
-        }
-        if ((timex % 20) == 0) LED0_Toggle; // 200ms闪烁
-        timex++;
-    }
-}
+//void atk_8266_test(void) {
+//    //	u16 rlen=0;
+//    u8 key;
+//    u8 timex;
+//    POINT_COLOR = RED;
+//    Show_Str_Mid(0, 30, "ATK-ESP8266 WIFI模块测试", 16, 240);
+//    while (atk_8266_send_cmd("AT", "OK", 20)) // 检查WIFI模块是否在线
+//    {
+//        atk_8266_quit_trans();                        // 退出透传
+//        atk_8266_send_cmd("AT+CIPMODE=0", "OK", 200); // 关闭透传模式
+//        Show_Str(40, 55, 200, 16, "未检测到模块!!!", 16, 0);
+//        delay_ms(800);
+//        LCD_Fill(40, 55, 200, 55 + 16, WHITE);
+//        Show_Str(40, 55, 200, 16, "尝试连接模块...", 16, 0);
+//    }
+//    while (atk_8266_send_cmd("ATE0", "OK", 20))
+//        ; // 关闭回显
+//    atk_8266_mtest_ui(32, 30);
+//    while (1) {
+//        delay_ms(10);
+//        atk_8266_at_response(1); // 检查ATK-ESP8266模块发送过来的数据,及时上传给电脑
+//        key = KEY_Scan(0);
+//        if (key) {
+//            LCD_Clear(WHITE);
+//            POINT_COLOR = RED;
+//            switch (key) {
+//            case KEY0_PRES: // KEY0
+//                Show_Str_Mid(0, 30, "ATK-ESP WIFI-AP+STA 测试", 16, 240);
+//                Show_Str_Mid(0, 50, "正在配置ATK-ESP8266模块, 请稍等...", 12, 240);
+//                atk_8266_apsta_test(); // 串口以太网测试
+//                break;
+//            case KEY1_PRES: // KEY1
+//                Show_Str_Mid(0, 30, "ATK-ESP WIFI-STA 测试", 16, 240);
+//                Show_Str_Mid(0, 50, "正在配置ATK-ESP8266模块, 请稍等...", 12, 240);
+//                atk_8266_wifista_test(); // WIFI STA测试
+//                break;
+//            case WKUP_PRES:             // WK_UP
+//                atk_8266_wifiap_test(); // WIFI AP测试
+//                break;
+//            }
+//            atk_8266_mtest_ui(32, 30);
+//            timex = 0;
+//        }
+//        if ((timex % 20) == 0) LED0_Toggle; // 200ms闪烁
+//        timex++;
+//    }
+//}

@@ -100,7 +100,7 @@ int main(void) {
         }
 		if(USART_RX_STA & 0x8000){
 			printf("recv:%s\r\n",USART_RX_BUF);
-			if((u8 *)strstr(USART_RX_BUF,"RTC")!= NULL){
+			if((u8 *)strstr((char *)USART_RX_BUF,"RTC")!= NULL){
 				RTC_Force_Init(2024, 12, 23, 21, 56, 0);
 			}
 			USART_RX_STA = 0;

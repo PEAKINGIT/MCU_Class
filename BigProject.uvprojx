@@ -602,21 +602,6 @@
               <FileType>1</FileType>
               <FilePath>.\USER\EXTRA\WIFI\usart3.c</FilePath>
             </File>
-            <File>
-              <FileName>wifiap.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\WIFI\wifiap.c</FilePath>
-            </File>
-            <File>
-              <FileName>wifista.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\WIFI\wifista.c</FilePath>
-            </File>
-            <File>
-              <FileName>apsta.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\EXTRA\WIFI\apsta.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>

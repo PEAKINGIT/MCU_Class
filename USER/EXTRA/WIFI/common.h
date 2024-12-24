@@ -52,9 +52,9 @@ u8 atk_8266_ip_set(u8* title,u8* mode,u8* port,u8* ip);
 
 void atk_8266_test(void);
 
-u8 atk_8266_apsta_test(void);	//WIFI AP+STA模式测试
-u8 atk_8266_wifista_test(void);	//WIFI STA测试
-u8 atk_8266_wifiap_test(void);	//WIFI AP测试
+//u8 atk_8266_apsta_test(void);	//WIFI AP+STA模式测试
+//u8 atk_8266_wifista_test(void);	//WIFI STA测试
+//u8 atk_8266_wifiap_test(void);	//WIFI AP测试
 
 //用户配置参数
 extern const u8* portnum;			//连接端口

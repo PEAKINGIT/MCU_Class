@@ -169,9 +169,9 @@ void WIFI_RcvHandle(u8 wifi_isok, void (*cmdExec)(u8 *)) {
         USART3_RX_BUF[rlen] = 0;       // 添加结束符
 
 		//服务器命令处理
-		sptr = strstr((const char *)USART3_RX_BUF,(const char *)cmd_head);
+		sptr = (u8 *)strstr((const char *)USART3_RX_BUF,(const char *)cmd_head);
 		sptr += 6;	//跳过cmd_head
-		if(sptr!=NULL&&strlen(sptr) > 0){
+		if(sptr!=NULL&&strlen((char *)sptr) > 0){
 			//判断是否有正常的指令可以执行
 			printf("sptr:%s\r\n",sptr);
 			cmdExec(sptr);	//使用传入的函数指针接口来为特定页面实现专门的指令解析处理
